@@ -140,17 +140,25 @@ public class RegisterPage extends JFrame implements KeyListener{
 	public void regAccount() {
 		if(!usernameField.getText().isEmpty() && !password.getText().isEmpty()) {
 			if(password.getText().contains(confirmPassword.getText())) {
+				
 				logininfo.put(usernameField.getText(), password.getText());
 				
-				//local usarename and password saver
-				try {
-					userCredSaver.writeUsernamPass(logininfo);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				JOptionPane.showMessageDialog(null, "Register Successful");
+					//local usarename and password saver
+					try {
+						userCredSaver.writeUsernamPass(logininfo);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					JOptionPane.showMessageDialog(null, "Register Successful");
+				
 			}
+			else {
+				JOptionPane.showMessageDialog(null, "Password does not match");
+			}
+			
+		}else {
+			JOptionPane.showMessageDialog(null, "Input essential infos");
 		}
 	}
 
