@@ -27,7 +27,7 @@ public class DatabaseHandler {
 	public void Connect(){
 		 try {
 	            Class.forName("com.mysql.cj.jdbc.Driver");
-	            con = DriverManager.getConnection("jdbc:mysql://localhost:4306/posproject", "root","");
+	            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/posproject", "root","");
 	        }
 	        catch (ClassNotFoundException ex)
 	        {
