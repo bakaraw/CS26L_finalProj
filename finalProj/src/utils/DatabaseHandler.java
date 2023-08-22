@@ -6,8 +6,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.time.LocalDate;
 
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -125,18 +123,16 @@ public class DatabaseHandler {
             pst.setString(1, chosen);
             ResultSet rs = pst.executeQuery();
             
-            if(rs.next()==true)
-        	{
-          
-        	rs = pst.executeQuery();
-		    table.setModel(DbUtils.resultSetToTableModel(rs));
+            if(rs.next()==true){
+	        	rs = pst.executeQuery();
+			    table.setModel(DbUtils.resultSetToTableModel(rs));
             
         	}else if(chosen.contains("All")) {
         		table_load(dbTableName, table);
          	}
         	else
         	{
-        	JOptionPane.showMessageDialog(null, "No existing "+dbTableName+" in this type of "+colName);
+        		JOptionPane.showMessageDialog(null, "No existing "+dbTableName+" in this type of "+colName);
         	}
 		}
 		catch (SQLException ex) { 
