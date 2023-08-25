@@ -18,8 +18,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import admin.AdminLogin;
-
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import utils.DatabaseHandler;

@@ -18,8 +18,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import admin.AdminLogin;
-
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 
@@ -36,6 +34,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.awt.event.KeyAdapter;
@@ -159,7 +158,7 @@ public class Dashboard extends DatabaseHandler{
 		frame = new JFrame();
 		frame.setResizable(false);
 		frame.setTitle("Dashboard");
-		frame.setBounds(100, 100, 1229, 686);
+		frame.setBounds(100, 100, 1446, 798);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
@@ -172,36 +171,38 @@ public class Dashboard extends DatabaseHandler{
 		lblNewLabel_1.setFont(new Font("Moon", Font.PLAIN, 15));
 		lblNewLabel_1.setForeground(new Color(255, 255, 255));
 		
-		JButton btnNewButton_3 = new JButton("Admin Login");
-		btnNewButton_3.addActionListener(new ActionListener() {
+		JButton logoutBtn = new JButton("Logout");
+		logoutBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frame.setEnabled(false);
-				AdminLogin adminLogin = new AdminLogin(idAndPass.getAdminLoginInfo(), frame);
+				frame.dispose();
+				try {
+					LoginPage loginpage = new LoginPage(idAndPass.getLoginInfo());
+				} catch (ClassNotFoundException | IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
-		btnNewButton_3.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNewButton_3.setForeground(new Color(255, 255, 255));
-		btnNewButton_3.setBackground(new Color(48, 62, 71));
+		logoutBtn.setFont(new Font("Tahoma", Font.BOLD, 14));
+		logoutBtn.setForeground(new Color(255, 255, 255));
+		logoutBtn.setBackground(new Color(48, 62, 71));
 		GroupLayout gl_top = new GroupLayout(top);
 		gl_top.setHorizontalGroup(
 			gl_top.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_top.createSequentialGroup()
 					.addGap(1002)
 					.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnNewButton_3)
-					.addContainerGap(25, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED, 161, Short.MAX_VALUE)
+					.addComponent(logoutBtn, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE)
+					.addGap(77))
 		);
 		gl_top.setVerticalGroup(
-			gl_top.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_top.createSequentialGroup()
-					.addGroup(gl_top.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_top.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(btnNewButton_3))
-						.addGroup(gl_top.createSequentialGroup()
-							.addGap(12)
-							.addComponent(lblNewLabel_1, GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)))
+			gl_top.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, gl_top.createSequentialGroup()
+					.addGap(12)
+					.addGroup(gl_top.createParallelGroup(Alignment.LEADING)
+						.addComponent(logoutBtn)
+						.addComponent(lblNewLabel_1, GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		top.setLayout(gl_top);
@@ -427,7 +428,7 @@ public class Dashboard extends DatabaseHandler{
 		btnSearch.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(15, 78, 701, 501);
+		scrollPane.setBounds(15, 78, 923, 604);
 		
 		prodTable = new JTable();
 		prodTable.setModel(new DefaultTableModel(
