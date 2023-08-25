@@ -16,9 +16,9 @@ public class IDandPasswords {
 		logininfo.put("Jason", "pass1");
 		logininfo.put("Andrea", "pass2");
 		logininfo.put("Bryle", "pass3");
-		logininfo.put("Sean", "pass4");
+		logininfo.put("Sean", "pass4");	
 		
-		adminlogin.put("admin", "frondabacalso");
+		adminlogin.put("admin", "kals");
 	}
 
 	protected HashMap getLoginInfo() throws FileNotFoundException, ClassNotFoundException, IOException {
