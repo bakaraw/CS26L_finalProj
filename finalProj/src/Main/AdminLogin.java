@@ -1,4 +1,4 @@
-package admin;
+package Main;
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -22,7 +22,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import Main.Dashboard;
-import admin.AdminLogin;
 
 public class AdminLogin implements WindowListener{
 	
