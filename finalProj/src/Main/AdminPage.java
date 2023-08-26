@@ -332,8 +332,8 @@ public class AdminPage extends DatabaseHandler{
 				frame.dispose();
 				IDandPasswords idAndPass = new IDandPasswords();
 				try {
-					LoginPage loginpage = new LoginPage(idAndPass.getLoginInfo());
-				} catch (ClassNotFoundException | IOException e1) {
+					LoginPage loginpage = new LoginPage();
+				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}

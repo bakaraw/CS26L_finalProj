@@ -114,7 +114,7 @@ public class RegisterPage extends JFrame implements KeyListener{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					LoginPage loginPg = new LoginPage(logininfo);
+					LoginPage loginPg = new LoginPage();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

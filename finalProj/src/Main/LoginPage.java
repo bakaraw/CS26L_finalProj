@@ -5,10 +5,12 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -26,11 +28,8 @@ public class LoginPage implements KeyListener{
 	private JLabel messageLabel = new JLabel();
 	private JFrame frame = new JFrame();
 	private IDandPasswords idAndPass = new IDandPasswords();
-	private HashMap<String, String> logininfo = new HashMap<String, String>();
 
-	LoginPage(HashMap<String, String> loginInfoOriginal) throws IOException {
-		
-		logininfo = loginInfoOriginal;
+	LoginPage() throws IOException {
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(100, 100, 469, 399);
@@ -88,7 +87,12 @@ public class LoginPage implements KeyListener{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				loginAccount();
+				try {
+					loginAccount();
+				} catch (HeadlessException | ClassNotFoundException | IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 
 		});
@@ -105,7 +109,12 @@ public class LoginPage implements KeyListener{
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						
-						RegisterPage regPage = new RegisterPage(logininfo);
+						try {
+							RegisterPage regPage = new RegisterPage(idAndPass.getLoginInfo());
+						} catch (ClassNotFoundException | IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						frame.dispose();
 						
 					}
@@ -141,7 +150,11 @@ public class LoginPage implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		int code = e.getKeyCode();
 		if (code == KeyEvent.VK_ENTER) {
-			loginAccount();
+			try {
+				loginAccount();
+			} catch (HeadlessException | ClassNotFoundException | IOException e1) {
+				e1.printStackTrace();
+			}
 		}
 
 	}
@@ -152,12 +165,12 @@ public class LoginPage implements KeyListener{
 
 	}
 	
-	private void loginAccount() {
+	private void loginAccount() throws HeadlessException, FileNotFoundException, ClassNotFoundException, IOException {
 		String userID = usernameField.getText();
 		String password = String.valueOf(passwordField.getPassword());
 
-		if (logininfo.containsKey(userID)) {
-			if (logininfo.get(userID).equals(password)) {
+		if (idAndPass.getLoginInfo().containsKey(userID)) {
+			if (idAndPass.getLoginInfo().get(userID).equals(password)) {
 				frame.dispose();
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
