@@ -53,7 +53,7 @@ public class AdminLogin implements WindowListener{
 		frameDb.setEnabled(false);
 		
 		frame.addWindowListener(this);
-		frame.setBounds(100, 100, 467, 430);
+		frame.setBounds(100, 100, 471, 399);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -63,20 +63,20 @@ public class AdminLogin implements WindowListener{
 		JPanel header = new JPanel();
 		header.setBorder(new EmptyBorder(0, 30, 0, 0));
 		header.setBackground(new Color(43, 52, 59));
-		header.setBounds(0, 0, 441, 62);
+		header.setBounds(0, 0, 451, 62);
 		contentPane.add(header);
 		header.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Admin Login");
-		lblNewLabel.setBounds(36, 19, 193, 32);
+		lblNewLabel.setBounds(30, 17, 193, 32);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel.setForeground(Color.WHITE);
-		lblNewLabel.setFont(new Font("Gilroy ExtraBold", Font.BOLD, 26));
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 26));
 		header.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Username: ");
-		lblNewLabel_1_1.setFont(new Font("Gilroy Light", Font.PLAIN, 20));
-		lblNewLabel_1_1.setBounds(71, 120, 102, 14);
+		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblNewLabel_1_1.setBounds(71, 115, 103, 25);
 		contentPane.add(lblNewLabel_1_1);
 		
 		usernameField = new JTextField();
@@ -110,8 +110,8 @@ public class AdminLogin implements WindowListener{
 		contentPane.add(usernameField);
 		
 		JLabel lblNewLabel_1_1_1 = new JLabel("Password: ");
-		lblNewLabel_1_1_1.setFont(new Font("Gilroy Light", Font.PLAIN, 20));
-		lblNewLabel_1_1_1.setBounds(71, 184, 102, 14);
+		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblNewLabel_1_1_1.setBounds(71, 183, 102, 16);
 		contentPane.add(lblNewLabel_1_1_1);
 		
 		passwordField = new JPasswordField();
