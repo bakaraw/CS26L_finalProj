@@ -71,6 +71,7 @@ public class LoginPage implements KeyListener {
 
 		passwordField = new JPasswordField();
 		passwordField.setBounds(74, 189, 293, 25);
+		passwordField.addKeyListener(this);
 		contentPane.add(passwordField);
 
 		JButton btnLogin = new JButton("Login");
@@ -81,7 +82,7 @@ public class LoginPage implements KeyListener {
 				try {
 					loginAccount();
 				} catch (HeadlessException | ClassNotFoundException | IOException e1) {
-					// TODO Auto-generated catch block
+					
 					e1.printStackTrace();
 				}
 			}
