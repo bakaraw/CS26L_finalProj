@@ -106,20 +106,13 @@ public class LoginPage implements KeyListener{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						
-						try {
-							RegisterPage regPage = new RegisterPage(idAndPass.getLoginInfo());
-						} catch (ClassNotFoundException | IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						frame.dispose();
-						
-					}
-				});
-				
+				try {
+					RegisterPage regPage = new RegisterPage(idAndPass.getLoginInfo());
+				} catch (ClassNotFoundException | IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}	
+				frame.dispose();
 			}
 			
 		});
@@ -171,17 +164,10 @@ public class LoginPage implements KeyListener{
 
 		if (idAndPass.getLoginInfo().containsKey(userID)) {
 			if (idAndPass.getLoginInfo().get(userID).equals(password)) {
-				frame.dispose();
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							Dashboard window = new Dashboard();
-
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
+				
+				frame.dispose();;
+				Dashboard window = new Dashboard();			
+				
 			} else {
 				JOptionPane.showMessageDialog(null,"Wrong password or username");
 			}

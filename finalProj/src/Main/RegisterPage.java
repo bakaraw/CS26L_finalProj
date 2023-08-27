@@ -138,7 +138,7 @@ public class RegisterPage extends JFrame implements KeyListener{
 	}
 
 	public void regAccount() {
-		if(!usernameField.getText().isEmpty() && !password.getText().isEmpty()) {
+		if(!usernameField.getText().isEmpty() && !password.getText().isEmpty() && !confirmPassword.getText().isEmpty()) {
 			if(password.getText().contains(confirmPassword.getText())) {
 				
 				logininfo.put(usernameField.getText(), password.getText());
