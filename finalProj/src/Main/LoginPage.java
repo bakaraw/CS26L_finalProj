@@ -66,7 +66,7 @@ public class LoginPage implements KeyListener{
 		
 		JLabel lblNewLabel_1_1_1 = new JLabel("Password: ");
 		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel_1_1_1.setBounds(74, 167, 102, 23);
+		lblNewLabel_1_1_1.setBounds(74, 166, 102, 23);
 		contentPane.add(lblNewLabel_1_1_1);
 		
 		passwordField = new JPasswordField();
