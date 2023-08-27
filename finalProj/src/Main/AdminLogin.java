@@ -31,7 +31,7 @@ public class AdminLogin implements WindowListener{
 	private HashMap<String, String> adminLoginInfo = new HashMap<String, String>();
 	JFrame frame;
 	JFrame frameDb;
-	//ulok
+	
 	
 	public AdminLogin(HashMap<String, String> adminLoginInfo, JFrame jfdb){
 		EventQueue.invokeLater(new Runnable() {
