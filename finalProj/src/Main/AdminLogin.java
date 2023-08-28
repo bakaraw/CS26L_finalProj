@@ -23,21 +23,20 @@ import javax.swing.border.EmptyBorder;
 
 import Main.Dashboard;
 
-public class AdminLogin implements WindowListener{
-	
+public class AdminLogin implements WindowListener {
+
 	private JPanel contentPane;
 	private JTextField usernameField;
 	private JPasswordField passwordField;
 	private HashMap<String, String> adminLoginInfo = new HashMap<String, String>();
 	JFrame frame;
 	JFrame frameDb;
-	
-	
-	public AdminLogin(HashMap<String, String> adminLoginInfo, JFrame jfdb){
+
+	public AdminLogin(HashMap<String, String> adminLoginInfo, JFrame jfdb) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					
+
 					Initialization(adminLoginInfo, jfdb);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -45,13 +44,13 @@ public class AdminLogin implements WindowListener{
 			}
 		});
 	}
-	
+
 	void Initialization(HashMap<String, String> adminLoginInfo, JFrame jfdb) {
 		frame = new JFrame();
 		this.adminLoginInfo = adminLoginInfo;
 		this.frameDb = jfdb;
 		frameDb.setEnabled(false);
-		
+
 		frame.addWindowListener(this);
 		frame.setBounds(100, 100, 471, 399);
 		contentPane = new JPanel();
@@ -59,26 +58,26 @@ public class AdminLogin implements WindowListener{
 
 		frame.setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JPanel header = new JPanel();
 		header.setBorder(new EmptyBorder(0, 30, 0, 0));
 		header.setBackground(new Color(43, 52, 59));
 		header.setBounds(0, 0, 455, 63);
 		contentPane.add(header);
 		header.setLayout(null);
-		
+
 		JLabel lblNewLabel = new JLabel("Admin Login");
 		lblNewLabel.setBounds(35, 15, 193, 32);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 26));
 		header.add(lblNewLabel);
-		
+
 		JLabel lblNewLabel_1_1 = new JLabel("Username: ");
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblNewLabel_1_1.setBounds(71, 115, 103, 25);
 		contentPane.add(lblNewLabel_1_1);
-		
+
 		usernameField = new JTextField();
 		usernameField.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		usernameField.setColumns(10);
@@ -88,32 +87,32 @@ public class AdminLogin implements WindowListener{
 			@Override
 			public void keyTyped(KeyEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void keyPressed(KeyEvent e) {
 				int code = e.getKeyCode();
-				if(code == KeyEvent.VK_ENTER) {
+				if (code == KeyEvent.VK_ENTER) {
 					loginAccount();
 				}
-				
+
 			}
 
 			@Override
 			public void keyReleased(KeyEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 		});
 		contentPane.add(usernameField);
-		
+
 		JLabel lblNewLabel_1_1_1 = new JLabel("Password: ");
 		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblNewLabel_1_1_1.setBounds(71, 183, 102, 16);
 		contentPane.add(lblNewLabel_1_1_1);
-		
+
 		passwordField = new JPasswordField();
 		passwordField.setBounds(71, 202, 293, 25);
 		passwordField.addKeyListener(new KeyListener() {
@@ -121,27 +120,27 @@ public class AdminLogin implements WindowListener{
 			@Override
 			public void keyTyped(KeyEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void keyPressed(KeyEvent e) {
 				int code = e.getKeyCode();
-				if(code == KeyEvent.VK_ENTER) {
+				if (code == KeyEvent.VK_ENTER) {
 					loginAccount();
 				}
-				
+
 			}
 
 			@Override
 			public void keyReleased(KeyEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 		});
 		contentPane.add(passwordField);
-		
+
 		JButton btnLogin = new JButton("Login");
 		btnLogin.setBackground(new Color(201, 242, 168));
 		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -152,15 +151,15 @@ public class AdminLogin implements WindowListener{
 			public void actionPerformed(ActionEvent e) {
 				loginAccount();
 			}
-			
+
 		});
-		
+
 		contentPane.add(btnLogin);
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setVisible(true);
 	}
-	
+
 	private void loginAccount() {
 		String userID = usernameField.getText();
 		String password = String.valueOf(passwordField.getPassword());
@@ -171,18 +170,18 @@ public class AdminLogin implements WindowListener{
 				frame.dispose();
 				AdminPage adminPage = new AdminPage();
 			} else {
-				JOptionPane.showMessageDialog(null,"Wrong password or username");
+				JOptionPane.showMessageDialog(null, "Wrong password or username");
 			}
 
 		} else {
-			JOptionPane.showMessageDialog(null,"Wrong password or username");
+			JOptionPane.showMessageDialog(null, "Wrong password or username");
 		}
 	}
 
 	@Override
 	public void windowOpened(WindowEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -193,30 +192,30 @@ public class AdminLogin implements WindowListener{
 	@Override
 	public void windowClosed(WindowEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void windowIconified(WindowEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void windowDeiconified(WindowEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void windowActivated(WindowEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void windowDeactivated(WindowEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

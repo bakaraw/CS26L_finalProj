@@ -10,14 +10,14 @@ public class IDandPasswords {
 	private HashMap<String, String> logininfo = new HashMap<String, String>();
 	private HashMap<String, String> adminlogin = new HashMap<String, String>();
 	private WriteReadHandler rsh = new WriteReadHandler();
-	
+
 	protected IDandPasswords() {
 
 		logininfo.put("Jason", "pass1");
 		logininfo.put("Andrea", "pass2");
 		logininfo.put("Bryle", "pass3");
-		logininfo.put("Sean", "pass4");	
-		
+		logininfo.put("Sean", "pass4");
+
 		adminlogin.put("admin", "kals");
 	}
 
@@ -25,7 +25,7 @@ public class IDandPasswords {
 		logininfo = rsh.readUsernamePass();
 		return logininfo;
 	}
-	
+
 	protected HashMap getAdminLoginInfo() {
 		return adminlogin;
 	}

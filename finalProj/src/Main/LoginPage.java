@@ -82,7 +82,7 @@ public class LoginPage implements KeyListener {
 				try {
 					loginAccount();
 				} catch (HeadlessException | ClassNotFoundException | IOException e1) {
-					
+
 					e1.printStackTrace();
 				}
 			}
