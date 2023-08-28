@@ -63,12 +63,12 @@ public class AdminLogin implements WindowListener{
 		JPanel header = new JPanel();
 		header.setBorder(new EmptyBorder(0, 30, 0, 0));
 		header.setBackground(new Color(43, 52, 59));
-		header.setBounds(0, 0, 451, 62);
+		header.setBounds(0, 0, 455, 63);
 		contentPane.add(header);
 		header.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Admin Login");
-		lblNewLabel.setBounds(30, 17, 193, 32);
+		lblNewLabel.setBounds(35, 15, 193, 32);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 26));
@@ -144,8 +144,8 @@ public class AdminLogin implements WindowListener{
 		
 		JButton btnLogin = new JButton("Login");
 		btnLogin.setBackground(new Color(201, 242, 168));
-		btnLogin.setFont(new Font("Gilroy Light", Font.ITALIC, 13));
-		btnLogin.setBounds(71, 264, 293, 35);
+		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnLogin.setBounds(148, 264, 138, 35);
 		btnLogin.addActionListener(new ActionListener() {
 
 			@Override
