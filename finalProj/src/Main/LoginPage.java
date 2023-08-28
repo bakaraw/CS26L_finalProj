@@ -40,7 +40,7 @@ public class LoginPage implements KeyListener {
 		contentPane.setLayout(null);
 
 		JPanel header = new JPanel();
-		header.setBounds(0, 0, 453, 61);
+		header.setBounds(0, 0, 455, 63);
 		header.setBorder(new EmptyBorder(0, 30, 0, 0));
 		header.setBackground(new Color(43, 52, 59));
 		contentPane.add(header);
@@ -82,12 +82,12 @@ public class LoginPage implements KeyListener {
 				try {
 					loginAccount();
 				} catch (HeadlessException | ClassNotFoundException | IOException e1) {
-					
+
 					e1.printStackTrace();
 				}
 			}
 		});
-		btnLogin.setFont(new Font("Tahoma", Font.ITALIC, 13));
+		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnLogin.setBackground(new Color(201, 242, 168));
 		btnLogin.setBounds(74, 251, 142, 35);
 		contentPane.add(btnLogin);
@@ -104,7 +104,7 @@ public class LoginPage implements KeyListener {
 				frame.dispose();
 			}
 		});
-		btnRegister.setFont(new Font("Tahoma", Font.ITALIC, 13));
+		btnRegister.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnRegister.setBackground(new Color(187, 214, 249));
 		btnRegister.setBounds(225, 251, 142, 35);
 		contentPane.add(btnRegister);
