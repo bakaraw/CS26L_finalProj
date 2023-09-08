@@ -44,12 +44,13 @@ import java.awt.event.KeyEvent;
 import javax.swing.JTextArea;
 import java.awt.GridLayout;
 
-public class BillWindow extends DatabaseHandler {
 
+
+public class BillWindow extends DatabaseHandler{
+	
 	private JTextArea receipt;
-
 	public BillWindow() {
-
+		
 		initialize();
 	}
 
@@ -64,27 +65,29 @@ public class BillWindow extends DatabaseHandler {
 		frmAddItems.setLocationRelativeTo(null);
 		frmAddItems.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmAddItems.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
-
+		
 		JPanel body = new JPanel();
 		body.setBackground(new Color(233, 233, 233));
 		body.setBorder(new EmptyBorder(5, 5, 5, 5));
 		frmAddItems.getContentPane().add(body);
 		body.setLayout(new BorderLayout(0, 0));
-
+		
 		JPanel panel = new JPanel();
 		body.add(panel);
 		panel.setLayout(null);
-
+		
 		receipt = new JTextArea();
 		receipt.setFont(new Font("Monospaced", Font.PLAIN, 14));
 		receipt.setEditable(false);
 		receipt.setBounds(0, 0, 798, 498);
 		panel.add(receipt);
-
-		frmAddItems.setVisible(true);
-
+		
+		frmAddItems.setVisible(true);	
+		
+	
+	
 	}
-
+	
 	public JTextArea getRec() {
 		return receipt;
 	}
