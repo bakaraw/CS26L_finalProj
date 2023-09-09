@@ -375,6 +375,227 @@ public class AdminPage extends DatabaseHandler{
 		tabbedPane.setBackground(new Color(36, 49, 55));
 		tabbedPane.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
+		JPanel invPn = new JPanel();
+		tabbedPane.addTab("Inventory", null, invPn, null);
+		
+		JLabel lblNewLabel_2 = new JLabel("Inventory");
+		lblNewLabel_2.setBounds(10, 11, 123, 31);
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 25));
+		
+		inventorySF = new JTextField();
+		inventorySF.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		inventorySF.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				int code = e.getKeyCode();
+				if(code == KeyEvent.VK_ENTER) {
+					
+					skuSearch(inventorySF, descremField,  qtyremField);
+		
+				}
+			}
+		});
+		inventorySF.setBounds(10, 54, 294, 23);
+		inventorySF.setColumns(10);
+		
+		JButton btnSearch = new JButton("Search");
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				skuSearch(inventorySF, descremField, qtyremField);
+			}
+		});
+		btnSearch.setBounds(314, 54, 84, 23);
+		btnSearch.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnSearch.setBackground(new Color(187, 214, 249));
+		
+		JLabel lblNewLabel_4 = new JLabel("View by category:");
+		lblNewLabel_4.setBounds(424, 54, 123, 19);
+		lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		
+		viewCB = new JComboBox(category.getCategoryArray());
+		viewCB.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				sortView("product","Category",viewCB, inventoryTable);
+			}
+		});
+		viewCB.addItem(viewAll);
+		
+		viewCB.setFont(new Font("Tahoma", Font.PLAIN, 15));	
+		viewCB.setBounds(551, 54, 133, 22);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 88, 952, 476);
+		
+		JPanel removePn = new JPanel();
+		removePn.setBounds(987, 88, 403, 476);
+		removePn.setBackground(new Color(187, 214, 249));
+		
+		JLabel lblNewLabel_7 = new JLabel("Remove product");
+		lblNewLabel_7.setBounds(10, 11, 115, 17);
+		lblNewLabel_7.setFont(new Font("Tahoma", Font.BOLD, 14));
+		
+		JLabel lblNewLabel_8 = new JLabel("Description:");
+		lblNewLabel_8.setBounds(20, 71, 73, 17);
+		lblNewLabel_8.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		
+		descremField = new JTextField();
+		descremField.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		descremField.setBounds(112, 66, 250, 27);
+		descremField.setEditable(false);
+		descremField.setColumns(10);
+		
+		rembyField = new JTextField();
+		rembyField.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		rembyField.setBounds(112, 104, 250, 27);
+		rembyField.setColumns(10);
+		
+		JLabel lblNewLabel_8_1 = new JLabel("Removed by:");
+		lblNewLabel_8_1.setBounds(10, 109, 84, 17);
+		lblNewLabel_8_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		
+		qtyremField = new JTextField();
+		qtyremField.setEditable(false);
+		qtyremField.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		qtyremField.setBounds(112, 142, 66, 27);
+		qtyremField.setColumns(10);
+		
+		JLabel lblNewLabel_8_1_1 = new JLabel("Crurrent Qty:");
+		lblNewLabel_8_1_1.setBounds(10, 147, 85, 17);
+		lblNewLabel_8_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		
+		JLabel lblNewLabel_8_1_1_1 = new JLabel("Remarks:");
+		lblNewLabel_8_1_1_1.setBounds(36, 182, 58, 17);
+		lblNewLabel_8_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		
+		JButton btnRemoveProd = new JButton("Remove");
+		btnRemoveProd.setBackground(new Color(201, 242, 168));
+		btnRemoveProd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int result = JOptionPane.showConfirmDialog(null, "Are you sure?", "Confirm Dialog",
+			               JOptionPane.YES_NO_OPTION,
+			               JOptionPane.QUESTION_MESSAGE);
+				
+				if(result == JOptionPane.YES_OPTION) {
+					
+					if(chkRemProd.isSelected()) {
+						deleteProduct();
+					}else {
+						removeStock();
+					}
+					
+				}
+				
+			}
+		});
+		btnRemoveProd.setBounds(115, 386, 247, 33);
+		
+		JLabel lblNewLabel_9 = new JLabel("Select the product from the table");
+		lblNewLabel_9.setBounds(10, 34, 216, 14);
+		lblNewLabel_9.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		
+		inventoryTable = new JTable();
+		inventoryTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		inventoryTable.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					int row = inventoryTable.getSelectedRow();
+					String Table_click = (inventoryTable.getModel().getValueAt(row, 0).toString());
+					pst = con.prepareStatement("select * from product where SKU ='"+Table_click+"'  ");
+					rs = pst.executeQuery();
+					
+					if(rs.next()) {
+						String add1 = rs.getString("SKU");
+						inventorySF.setText(add1);
+						String add2 = rs.getString("Description");
+						descremField.setText(add2);
+						String add3 = rs.getString("Qty");
+						qtyremField.setText(add3);
+						
+						addstockSkuField.setText(add1);
+						adddescField.setText(add2);
+						currQtyField.setText(add3);
+						
+					}
+					
+				}catch(Exception f) {
+					JOptionPane.showMessageDialog(null, "Click table row");
+				}
+				
+			}
+		});
+		inventoryTable.setFillsViewportHeight(true);
+		inventoryTable.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		inventoryTable.setBackground(new Color(255, 255, 255));
+		inventoryTable.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		scrollPane.setViewportView(inventoryTable);
+		invPn.setLayout(null);
+		invPn.add(removePn);
+		removePn.setLayout(null);
+		removePn.add(lblNewLabel_7);
+		removePn.add(lblNewLabel_8);
+		removePn.add(descremField);
+		removePn.add(rembyField);
+		removePn.add(lblNewLabel_8_1);
+		removePn.add(qtyremField);
+		removePn.add(lblNewLabel_8_1_1);
+		removePn.add(lblNewLabel_8_1_1_1);
+		
+		JScrollPane scrollPane_4 = new JScrollPane();
+		scrollPane_4.setBounds(112, 180, 250, 195);
+		removePn.add(scrollPane_4);
+		
+		remarksArea = new JTextArea();
+		scrollPane_4.setViewportView(remarksArea);
+		removePn.add(btnRemoveProd);
+		removePn.add(lblNewLabel_9);
+		
+		JLabel lblNewLabel_8_1_1_2 = new JLabel("remove Qty:");
+		lblNewLabel_8_1_1_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel_8_1_1_2.setBounds(204, 147, 84, 17);
+		removePn.add(lblNewLabel_8_1_1_2);
+		
+		remQty = new JTextField();
+		remQty.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		remQty.setColumns(10);
+		remQty.setBounds(289, 142, 73, 27);
+		removePn.add(remQty);
+		
+		chkRemProd = new JCheckBox("Delete product");
+		chkRemProd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(chkRemProd.isSelected()) {
+					remQty.setEditable(false);
+					remQty.setText("");
+				}else {
+					remQty.setEditable(true);
+				}
+			}
+		});
+		chkRemProd.setBounds(239, 30, 123, 23);
+		removePn.add(chkRemProd);
+		invPn.add(scrollPane);
+		invPn.add(lblNewLabel_2);
+		invPn.add(inventorySF);
+		invPn.add(btnSearch);
+		invPn.add(lblNewLabel_4);
+		invPn.add(viewCB);
+		
+		JLabel lblNewLabel_10 = new JLabel("SKU search");
+		lblNewLabel_10.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		lblNewLabel_10.setBounds(10, 39, 64, 14);
+		invPn.add(lblNewLabel_10);
+		
+		JButton btnRefresh = new JButton("Refresh");
+		btnRefresh.setBackground(new Color(201, 242, 168));
+		btnRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				table_load("product",inventoryTable);
+			}
+		});
+		btnRefresh.setBounds(694, 54, 89, 23);
+		invPn.add(btnRefresh);
+		
 		JPanel stockinPn = new JPanel();
 		tabbedPane.addTab("Stock In", null, stockinPn, null);
 		
@@ -739,227 +960,6 @@ public class AdminPage extends DatabaseHandler{
 		btnDeleteClientRecords.setBounds(10, 54, 89, 23);
 		clientRecPn.add(btnDeleteClientRecords);
 		body.add(tabbedPane);
-		
-		JPanel invPn = new JPanel();
-		tabbedPane.addTab("Inventory", null, invPn, null);
-		
-		JLabel lblNewLabel_2 = new JLabel("Inventory");
-		lblNewLabel_2.setBounds(10, 11, 123, 31);
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 25));
-		
-		inventorySF = new JTextField();
-		inventorySF.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		inventorySF.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				int code = e.getKeyCode();
-				if(code == KeyEvent.VK_ENTER) {
-					
-					skuSearch(inventorySF, descremField,  qtyremField);
-		
-				}
-			}
-		});
-		inventorySF.setBounds(10, 54, 294, 23);
-		inventorySF.setColumns(10);
-		
-		JButton btnSearch = new JButton("Search");
-		btnSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				skuSearch(inventorySF, descremField, qtyremField);
-			}
-		});
-		btnSearch.setBounds(314, 54, 84, 23);
-		btnSearch.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnSearch.setBackground(new Color(187, 214, 249));
-		
-		JLabel lblNewLabel_4 = new JLabel("View by category:");
-		lblNewLabel_4.setBounds(424, 54, 123, 19);
-		lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		
-		viewCB = new JComboBox(category.getCategoryArray());
-		viewCB.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				sortView("product","Category",viewCB, inventoryTable);
-			}
-		});
-		viewCB.addItem(viewAll);
-		
-		viewCB.setFont(new Font("Tahoma", Font.PLAIN, 15));	
-		viewCB.setBounds(551, 54, 133, 22);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 88, 952, 476);
-		
-		JPanel removePn = new JPanel();
-		removePn.setBounds(987, 88, 403, 476);
-		removePn.setBackground(new Color(187, 214, 249));
-		
-		JLabel lblNewLabel_7 = new JLabel("Remove product");
-		lblNewLabel_7.setBounds(10, 11, 115, 17);
-		lblNewLabel_7.setFont(new Font("Tahoma", Font.BOLD, 14));
-		
-		JLabel lblNewLabel_8 = new JLabel("Description:");
-		lblNewLabel_8.setBounds(20, 71, 73, 17);
-		lblNewLabel_8.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		
-		descremField = new JTextField();
-		descremField.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		descremField.setBounds(112, 66, 250, 27);
-		descremField.setEditable(false);
-		descremField.setColumns(10);
-		
-		rembyField = new JTextField();
-		rembyField.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		rembyField.setBounds(112, 104, 250, 27);
-		rembyField.setColumns(10);
-		
-		JLabel lblNewLabel_8_1 = new JLabel("Removed by:");
-		lblNewLabel_8_1.setBounds(10, 109, 84, 17);
-		lblNewLabel_8_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		
-		qtyremField = new JTextField();
-		qtyremField.setEditable(false);
-		qtyremField.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		qtyremField.setBounds(112, 142, 66, 27);
-		qtyremField.setColumns(10);
-		
-		JLabel lblNewLabel_8_1_1 = new JLabel("Crurrent Qty:");
-		lblNewLabel_8_1_1.setBounds(10, 147, 85, 17);
-		lblNewLabel_8_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		
-		JLabel lblNewLabel_8_1_1_1 = new JLabel("Remarks:");
-		lblNewLabel_8_1_1_1.setBounds(36, 182, 58, 17);
-		lblNewLabel_8_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		
-		JButton btnRemoveProd = new JButton("Remove");
-		btnRemoveProd.setBackground(new Color(201, 242, 168));
-		btnRemoveProd.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int result = JOptionPane.showConfirmDialog(null, "Are you sure?", "Confirm Dialog",
-			               JOptionPane.YES_NO_OPTION,
-			               JOptionPane.QUESTION_MESSAGE);
-				
-				if(result == JOptionPane.YES_OPTION) {
-					
-					if(chkRemProd.isSelected()) {
-						deleteProduct();
-					}else {
-						removeStock();
-					}
-					
-				}
-				
-			}
-		});
-		btnRemoveProd.setBounds(115, 386, 247, 33);
-		
-		JLabel lblNewLabel_9 = new JLabel("Select the product from the table");
-		lblNewLabel_9.setBounds(10, 34, 216, 14);
-		lblNewLabel_9.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		
-		inventoryTable = new JTable();
-		inventoryTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		inventoryTable.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				try {
-					int row = inventoryTable.getSelectedRow();
-					String Table_click = (inventoryTable.getModel().getValueAt(row, 0).toString());
-					pst = con.prepareStatement("select * from product where SKU ='"+Table_click+"'  ");
-					rs = pst.executeQuery();
-					
-					if(rs.next()) {
-						String add1 = rs.getString("SKU");
-						inventorySF.setText(add1);
-						String add2 = rs.getString("Description");
-						descremField.setText(add2);
-						String add3 = rs.getString("Qty");
-						qtyremField.setText(add3);
-						
-						addstockSkuField.setText(add1);
-						adddescField.setText(add2);
-						currQtyField.setText(add3);
-						
-					}
-					
-				}catch(Exception f) {
-					JOptionPane.showMessageDialog(null, "Click table row");
-				}
-				
-			}
-		});
-		inventoryTable.setFillsViewportHeight(true);
-		inventoryTable.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		inventoryTable.setBackground(new Color(255, 255, 255));
-		inventoryTable.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		scrollPane.setViewportView(inventoryTable);
-		invPn.setLayout(null);
-		invPn.add(removePn);
-		removePn.setLayout(null);
-		removePn.add(lblNewLabel_7);
-		removePn.add(lblNewLabel_8);
-		removePn.add(descremField);
-		removePn.add(rembyField);
-		removePn.add(lblNewLabel_8_1);
-		removePn.add(qtyremField);
-		removePn.add(lblNewLabel_8_1_1);
-		removePn.add(lblNewLabel_8_1_1_1);
-		
-		JScrollPane scrollPane_4 = new JScrollPane();
-		scrollPane_4.setBounds(112, 180, 250, 195);
-		removePn.add(scrollPane_4);
-		
-		remarksArea = new JTextArea();
-		scrollPane_4.setViewportView(remarksArea);
-		removePn.add(btnRemoveProd);
-		removePn.add(lblNewLabel_9);
-		
-		JLabel lblNewLabel_8_1_1_2 = new JLabel("remove Qty:");
-		lblNewLabel_8_1_1_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNewLabel_8_1_1_2.setBounds(204, 147, 84, 17);
-		removePn.add(lblNewLabel_8_1_1_2);
-		
-		remQty = new JTextField();
-		remQty.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		remQty.setColumns(10);
-		remQty.setBounds(289, 142, 73, 27);
-		removePn.add(remQty);
-		
-		chkRemProd = new JCheckBox("Delete product");
-		chkRemProd.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(chkRemProd.isSelected()) {
-					remQty.setEditable(false);
-					remQty.setText("");
-				}else {
-					remQty.setEditable(true);
-				}
-			}
-		});
-		chkRemProd.setBounds(239, 30, 123, 23);
-		removePn.add(chkRemProd);
-		invPn.add(scrollPane);
-		invPn.add(lblNewLabel_2);
-		invPn.add(inventorySF);
-		invPn.add(btnSearch);
-		invPn.add(lblNewLabel_4);
-		invPn.add(viewCB);
-		
-		JLabel lblNewLabel_10 = new JLabel("SKU search");
-		lblNewLabel_10.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		lblNewLabel_10.setBounds(10, 39, 64, 14);
-		invPn.add(lblNewLabel_10);
-		
-		JButton btnRefresh = new JButton("Refresh");
-		btnRefresh.setBackground(new Color(201, 242, 168));
-		btnRefresh.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				table_load("product",inventoryTable);
-			}
-		});
-		btnRefresh.setBounds(694, 54, 89, 23);
-		invPn.add(btnRefresh);
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setVisible(true);
