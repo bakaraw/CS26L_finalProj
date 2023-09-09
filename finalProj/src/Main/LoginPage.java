@@ -12,16 +12,18 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import Main.RegisterPage;
-
+import utils.DatabaseHandler;
 import utils.WriteReadHandler;
 
-public class LoginPage implements KeyListener{
+public class LoginPage extends DatabaseHandler implements KeyListener {
 	private JPanel contentPane;
 	private JTextField usernameField;
 	private JPasswordField passwordField;
@@ -30,7 +32,7 @@ public class LoginPage implements KeyListener{
 	private IDandPasswords idAndPass = new IDandPasswords();
 
 	LoginPage() throws IOException {
-		
+		Connect();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(100, 100, 469, 399);
 		contentPane = new JPanel();
@@ -38,7 +40,7 @@ public class LoginPage implements KeyListener{
 
 		frame.setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
-		
+
 		JPanel header = new JPanel();
 		header.setBorder(new EmptyBorder(0, 30, 0, 0));
 		FlowLayout fl_header = (FlowLayout) header.getLayout();
@@ -46,39 +48,39 @@ public class LoginPage implements KeyListener{
 		fl_header.setVgap(15);
 		header.setBackground(new Color(43, 52, 59));
 		contentPane.add(header, BorderLayout.NORTH);
-		
+
 		JLabel lblNewLabel = new JLabel("Welcome!");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 26));
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		header.add(lblNewLabel);
-			
+
 		JPanel body = new JPanel();
 		contentPane.add(body, BorderLayout.CENTER);
 		body.setLayout(null);
-		
+
 		JLabel lblNewLabel_1_1 = new JLabel("Username: ");
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblNewLabel_1_1.setBounds(76, 35, 128, 25);
 		body.add(lblNewLabel_1_1);
-		
+
 		usernameField = new JTextField();
 		usernameField.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		usernameField.setColumns(10);
 		usernameField.setBounds(74, 62, 293, 25);
 		usernameField.addKeyListener(this);
 		body.add(usernameField);
-		
+
 		JLabel lblNewLabel_1_1_1 = new JLabel("Password: ");
 		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblNewLabel_1_1_1.setBounds(74, 98, 102, 23);
 		body.add(lblNewLabel_1_1_1);
-		
+
 		passwordField = new JPasswordField();
 		passwordField.setBounds(74, 125, 293, 25);
 		passwordField.addKeyListener(this);
 		body.add(passwordField);
-		
+
 		JButton btnLogin = new JButton("Login");
 		btnLogin.setBackground(new Color(201, 242, 168));
 		btnLogin.setFont(new Font("Tahoma", Font.ITALIC, 13));
@@ -97,7 +99,7 @@ public class LoginPage implements KeyListener{
 
 		});
 		body.add(btnLogin);
-		
+
 		JButton btnRegister = new JButton("Register");
 		btnRegister.setBackground(new Color(187, 214, 249));
 		btnRegister.setFont(new Font("Tahoma", Font.ITALIC, 13));
@@ -108,7 +110,7 @@ public class LoginPage implements KeyListener{
 			public void actionPerformed(ActionEvent e) {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
-						
+
 						try {
 							RegisterPage regPage = new RegisterPage(idAndPass.getLoginInfo());
 						} catch (ClassNotFoundException | IOException e) {
@@ -116,15 +118,15 @@ public class LoginPage implements KeyListener{
 							e.printStackTrace();
 						}
 						frame.dispose();
-						
+
 					}
 				});
-				
+
 			}
-			
+
 		});
 		body.add(btnRegister);
-		
+
 		JButton adminLoginBtn = new JButton("Log-in as Admin");
 		adminLoginBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -164,30 +166,47 @@ public class LoginPage implements KeyListener{
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	private void loginAccount() throws HeadlessException, FileNotFoundException, ClassNotFoundException, IOException {
 		String userID = usernameField.getText();
 		String password = String.valueOf(passwordField.getPassword());
 
-		if (idAndPass.getLoginInfo().containsKey(userID)) {
-			if (idAndPass.getLoginInfo().get(userID).equals(password)) {
-				frame.dispose();
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							Dashboard window = new Dashboard();
+		String passwordFromDatabase = "";
 
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
+		try {
+			
+			pst = con.prepareStatement("select Password from employee where Username = ?");
+			pst.setString(1, userID);
+			ResultSet rs = pst.executeQuery();
+			
+			if (rs.next() == true) {
+				
+				passwordFromDatabase = rs.getString(1);
+
 			} else {
-				JOptionPane.showMessageDialog(null,"Wrong password or username");
+				System.out.println("wrong username or password");
 			}
 
-		} else {
-			JOptionPane.showMessageDialog(null,"Wrong password or username");
+		} catch (SQLException ex) {
+			ex.printStackTrace();
 		}
+
+		if (password.equals(passwordFromDatabase)) {
+			frame.dispose();
+			EventQueue.invokeLater(new Runnable() {
+				public void run() {
+					try {
+						Dashboard window = new Dashboard();
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			});
+			
+		} else {
+			JOptionPane.showMessageDialog(null, "Wrong password or username");
+		}
+
 	}
 }
