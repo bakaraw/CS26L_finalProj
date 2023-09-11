@@ -6,16 +6,20 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.HeadlessException;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -34,57 +38,48 @@ public class LoginPage extends DatabaseHandler implements KeyListener {
 	LoginPage() throws IOException {
 		Connect();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setBounds(100, 100, 469, 399);
+		frame.setBounds(100, 100, 962, 548);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		frame.setContentPane(contentPane);
-		contentPane.setLayout(new BorderLayout(0, 0));
-
-		JPanel header = new JPanel();
-		header.setBorder(new EmptyBorder(0, 30, 0, 0));
-		FlowLayout fl_header = (FlowLayout) header.getLayout();
-		fl_header.setAlignment(FlowLayout.LEFT);
-		fl_header.setVgap(15);
-		header.setBackground(new Color(43, 52, 59));
-		contentPane.add(header, BorderLayout.NORTH);
-
-		JLabel lblNewLabel = new JLabel("Welcome!");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 26));
-		lblNewLabel.setForeground(new Color(255, 255, 255));
-		header.add(lblNewLabel);
+		contentPane.setLayout(null);
 
 		JPanel body = new JPanel();
-		contentPane.add(body, BorderLayout.CENTER);
+		body.setBackground(new Color(255, 255, 255));
+		body.setBounds(477, 0, 469, 509);
+		contentPane.add(body);
 		body.setLayout(null);
 
 		JLabel lblNewLabel_1_1 = new JLabel("Username: ");
-		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel_1_1.setBounds(76, 35, 128, 25);
+		lblNewLabel_1_1.setBackground(new Color(255, 255, 255));
+		lblNewLabel_1_1.setForeground(new Color(43, 52, 59));
+		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lblNewLabel_1_1.setBounds(94, 185, 128, 25);
 		body.add(lblNewLabel_1_1);
 
 		usernameField = new JTextField();
 		usernameField.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		usernameField.setColumns(10);
-		usernameField.setBounds(74, 62, 293, 25);
+		usernameField.setBounds(94, 215, 293, 25);
 		usernameField.addKeyListener(this);
 		body.add(usernameField);
 
 		JLabel lblNewLabel_1_1_1 = new JLabel("Password: ");
-		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel_1_1_1.setBounds(74, 98, 102, 23);
+		lblNewLabel_1_1_1.setForeground(new Color(43, 52, 59));
+		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lblNewLabel_1_1_1.setBounds(94, 251, 102, 23);
 		body.add(lblNewLabel_1_1_1);
 
 		passwordField = new JPasswordField();
-		passwordField.setBounds(74, 125, 293, 25);
+		passwordField.setBounds(94, 278, 293, 25);
 		passwordField.addKeyListener(this);
 		body.add(passwordField);
 
 		JButton btnLogin = new JButton("Login");
 		btnLogin.setBackground(new Color(201, 242, 168));
 		btnLogin.setFont(new Font("Tahoma", Font.ITALIC, 13));
-		btnLogin.setBounds(74, 187, 142, 35);
+		btnLogin.setBounds(94, 332, 142, 35);
 		btnLogin.addActionListener(new ActionListener() {
 
 			@Override
@@ -101,9 +96,9 @@ public class LoginPage extends DatabaseHandler implements KeyListener {
 		body.add(btnLogin);
 
 		JButton btnRegister = new JButton("Register");
-		btnRegister.setBackground(new Color(187, 214, 249));
+		btnRegister.setBackground(new Color(255, 255, 255));
 		btnRegister.setFont(new Font("Tahoma", Font.ITALIC, 13));
-		btnRegister.setBounds(225, 187, 142, 35);
+		btnRegister.setBounds(245, 332, 142, 35);
 		btnRegister.addActionListener(new ActionListener() {
 
 			@Override
@@ -128,15 +123,43 @@ public class LoginPage extends DatabaseHandler implements KeyListener {
 		body.add(btnRegister);
 
 		JButton adminLoginBtn = new JButton("Log-in as Admin");
+		adminLoginBtn.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		adminLoginBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setEnabled(false);
 				AdminLogin adminLogin = new AdminLogin(idAndPass.getAdminLoginInfo(), frame);
 			}
 		});
-		adminLoginBtn.setBackground(new Color(226, 252, 252));
-		adminLoginBtn.setBounds(158, 234, 128, 25);
+		adminLoginBtn.setBackground(new Color(255, 255, 255));
+		adminLoginBtn.setBounds(178, 378, 128, 25);
 		body.add(adminLoginBtn);
+		
+		JLabel lblNewLabel = new JLabel("User Login");
+		lblNewLabel.setForeground(new Color(43, 52, 59));
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 35));
+		lblNewLabel.setBounds(142, 112, 197, 44);
+		body.add(lblNewLabel);
+		
+		JPanel imgPanel = new JPanel();
+		imgPanel.setBounds(0, 0, 477, 509);
+		contentPane.add(imgPanel);
+		imgPanel.setLayout(null);
+		
+		BufferedImage img = null;
+		try {
+		    img = ImageIO.read(new File("img\\bitmonkelogo.png"));
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+		JLabel monkeImg1 = new JLabel("");
+		monkeImg1.setBounds(0, 0, 477, 509);
+		Image dimg = img.getScaledInstance(monkeImg1.getWidth(), monkeImg1.getHeight(),
+		        Image.SCALE_SMOOTH);
+		
+		monkeImg1.setIcon(new ImageIcon(dimg));
+		imgPanel.add(monkeImg1);
+		
+		
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setVisible(true);
@@ -171,7 +194,7 @@ public class LoginPage extends DatabaseHandler implements KeyListener {
 		String userID = usernameField.getText();
 		String password = String.valueOf(passwordField.getPassword());
 
-		String passwordFromDatabase = "";
+		String passwordFromDatabase = null;
 
 		try {
 			
@@ -190,23 +213,27 @@ public class LoginPage extends DatabaseHandler implements KeyListener {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
+		if(!password.isEmpty()) {
+			if (password.equals(passwordFromDatabase)) {
+				frame.dispose();
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							Dashboard window = new Dashboard();
 
-		if (password.equals(passwordFromDatabase)) {
-			frame.dispose();
-			EventQueue.invokeLater(new Runnable() {
-				public void run() {
-					try {
-						Dashboard window = new Dashboard();
-
-					} catch (Exception e) {
-						e.printStackTrace();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 					}
-				}
-			});
-			
-		} else {
-			JOptionPane.showMessageDialog(null, "Wrong password or username");
+				});
+				
+			} else {
+				JOptionPane.showMessageDialog(null, "Wrong password or username");
+			}
+		}else {
+			JOptionPane.showMessageDialog(null, "input infos");
 		}
+		
 
 	}
 }
