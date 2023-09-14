@@ -429,6 +429,12 @@ public class Dashboard2 extends javax.swing.JFrame {
 		btnRefresh.setBackground(new Color(201, 242, 168));
 		
 		scrollPane_1 = new JScrollPane();
+		
+		btnNewButton = new JButton("Add Product");
+		
+		btnNewButton_1 = new JButton("Stock in");
+		
+		btnNewButton_3 = new JButton("Remove");
 
 		javax.swing.GroupLayout InventoryPanelLayout = new javax.swing.GroupLayout(InventoryPanel);
 		InventoryPanelLayout.setHorizontalGroup(
@@ -437,6 +443,12 @@ public class Dashboard2 extends javax.swing.JFrame {
 					.addContainerGap(20, Short.MAX_VALUE)
 					.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblNewLabel_5, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 262, GroupLayout.PREFERRED_SIZE)
+						.addGroup(InventoryPanelLayout.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 938, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(removePn, GroupLayout.PREFERRED_SIZE, 403, GroupLayout.PREFERRED_SIZE))
 						.addGroup(InventoryPanelLayout.createSequentialGroup()
 							.addComponent(inventorySF, GroupLayout.PREFERRED_SIZE, 294, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
@@ -446,28 +458,32 @@ public class Dashboard2 extends javax.swing.JFrame {
 							.addGap(4)
 							.addComponent(viewCB, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)
 							.addGap(10)
-							.addComponent(btnRefresh))
-						.addGroup(InventoryPanelLayout.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 938, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(removePn, GroupLayout.PREFERRED_SIZE, 403, GroupLayout.PREFERRED_SIZE))
-						.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 262, GroupLayout.PREFERRED_SIZE))
+							.addComponent(btnRefresh)
+							.addGap(66)
+							.addComponent(btnNewButton)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(btnNewButton_1)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(btnNewButton_3)))
 					.addGap(21))
 		);
 		InventoryPanelLayout.setVerticalGroup(
-			InventoryPanelLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, InventoryPanelLayout.createSequentialGroup()
+			InventoryPanelLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(InventoryPanelLayout.createSequentialGroup()
 					.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(InventoryPanelLayout.createSequentialGroup()
-							.addContainerGap(40, Short.MAX_VALUE)
+							.addContainerGap(57, Short.MAX_VALUE)
 							.addComponent(lblNewLabel_5)
 							.addGap(1)
 							.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.LEADING)
 								.addComponent(btnSearch)
 								.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
 								.addComponent(viewCB, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnRefresh)
+								.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.BASELINE)
+									.addComponent(btnRefresh)
+									.addComponent(btnNewButton)
+									.addComponent(btnNewButton_1)
+									.addComponent(btnNewButton_3))
 								.addComponent(inventorySF, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(InventoryPanelLayout.createSequentialGroup()
 							.addGap(12)
@@ -523,7 +539,12 @@ public class Dashboard2 extends javax.swing.JFrame {
 		JLabel lblNewLabel_4_1 = new JLabel("View by activity:");
 		lblNewLabel_4_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
-		JComboBox viewByAct = new JComboBox(new Object[]{});
+		JComboBox viewByAct = new JComboBox(new ActivityLogs().getActArray());
+		viewByAct.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				databaseHandler.sortView("activitylogs","Activity",viewByAct, logsTable);
+			}
+		});
 		viewByAct.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
 		JButton btnRefreshLogs = new JButton("Refresh");
@@ -1245,4 +1266,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 	private JButton btnDeleteClientRecords;
 	private JLabel lblNewLabel_2_1_1_1;
 	private JTable clientRecordsTable;
+	private JButton btnNewButton;
+	private JButton btnNewButton_1;
+	private JButton btnNewButton_3;
 }
