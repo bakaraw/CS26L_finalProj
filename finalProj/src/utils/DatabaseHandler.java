@@ -20,9 +20,9 @@ import net.proteanit.sql.DbUtils;
 
 public class DatabaseHandler {
 
-	protected Connection con;
-	protected PreparedStatement pst;
-	protected ResultSet rs;
+	public Connection con;
+	public PreparedStatement pst;
+	public ResultSet rs;
 
 	public void Connect() {
 		try {
@@ -186,7 +186,7 @@ public class DatabaseHandler {
 		}
 	}
 
-	protected String skuSearched;
+	public String skuSearched;
 	protected String qtyResult;
 
 	// search query for the database
