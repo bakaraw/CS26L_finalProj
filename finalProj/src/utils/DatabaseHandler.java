@@ -116,7 +116,7 @@ public class DatabaseHandler {
 		}
 	}
 
-	public void saveToDatabase(Employee employee) {
+	public void saveToDatabase(Employee employee) throws SQLException {
 		String id, name, birthday, username, password;
 
 		id = employee.getID();
@@ -125,18 +125,12 @@ public class DatabaseHandler {
 		username = employee.getUsername();
 		password = employee.getPassword();
 
-		try {
-			pst = con.prepareStatement(
-					"insert into employee(`Name`, `Birthday`, `Username`, `Password`)values(?,?,?,?)");
-			pst.setString(1, name);
-			pst.setString(2, birthday);
-			pst.setString(3, username);
-			pst.setString(4, password);
-			pst.executeUpdate();
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Unexpected Error Occurred");
-		}
+		pst = con.prepareStatement("insert into employee(`Name`, `Birthday`, `Username`, `Password`)values(?,?,?,?)");
+		pst.setString(1, name);
+		pst.setString(2, birthday);
+		pst.setString(3, username);
+		pst.setString(4, password);
+		pst.executeUpdate();
 
 	}
 
@@ -248,7 +242,7 @@ public class DatabaseHandler {
 	}
 
 	public void credentialsSearch(String username) {
-		
+
 	}
 
 	public void deleteRow(String dbTablename, String columnReference, String columnVal) {
