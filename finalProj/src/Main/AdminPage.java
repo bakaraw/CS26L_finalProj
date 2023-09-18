@@ -76,6 +76,7 @@ public class AdminPage extends DatabaseHandler {
 	private JCheckBox chkRemProd;
 	private ActivityLogs actType = new ActivityLogs();
 	private JTable clientRecordsTable;
+	
 
 	public AdminPage() {
 		EventQueue.invokeLater(new Runnable() {
@@ -506,12 +507,7 @@ public class AdminPage extends DatabaseHandler {
 						adddescField.setText(add2);
 						currQtyField.setText(add3);
 						
-						PopUp frame = new PopUp();
-						frame.setVisible(true);
 						
-						frame.setSku(Table_click);
-						frame.setdesc(add2);
-						frame.setprice(add4);
 					
 						
 					}

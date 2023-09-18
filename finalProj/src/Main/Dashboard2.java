@@ -430,11 +430,36 @@ public class Dashboard2 extends javax.swing.JFrame {
 		
 		scrollPane_1 = new JScrollPane();
 		
-		btnNewButton = new JButton("Add Product");
+		btn_AddProduct = new JButton("Add Product");
+		btn_AddProduct.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				AddWindow addwindow = new AddWindow();
+				addwindow.getObj().setVisible(true);
+				
+				
+			}
+		});
 		
-		btnNewButton_1 = new JButton("Stock in");
 		
-		btnNewButton_3 = new JButton("Remove");
+		
+		btn_StockIn = new JButton("Stock in");
+		btn_StockIn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				StockInWindow stockinwindow = new StockInWindow();
+				stockinwindow.getObj().setVisible(true);
+			}
+		});
+		
+		btn_Remove = new JButton("Remove");
+		btn_Remove.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				RemoveWindow removewindow = new RemoveWindow();
+				removewindow.getObj().setVisible(true);
+			}
+		});
 
 		javax.swing.GroupLayout InventoryPanelLayout = new javax.swing.GroupLayout(InventoryPanel);
 		InventoryPanelLayout.setHorizontalGroup(
@@ -460,11 +485,11 @@ public class Dashboard2 extends javax.swing.JFrame {
 							.addGap(10)
 							.addComponent(btnRefresh)
 							.addGap(66)
-							.addComponent(btnNewButton)
+							.addComponent(btn_AddProduct)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btnNewButton_1)
+							.addComponent(btn_StockIn)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btnNewButton_3)))
+							.addComponent(btn_Remove)))
 					.addGap(21))
 		);
 		InventoryPanelLayout.setVerticalGroup(
@@ -481,9 +506,9 @@ public class Dashboard2 extends javax.swing.JFrame {
 								.addComponent(viewCB, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.BASELINE)
 									.addComponent(btnRefresh)
-									.addComponent(btnNewButton)
-									.addComponent(btnNewButton_1)
-									.addComponent(btnNewButton_3))
+									.addComponent(btn_AddProduct)
+									.addComponent(btn_StockIn)
+									.addComponent(btn_Remove))
 								.addComponent(inventorySF, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(InventoryPanelLayout.createSequentialGroup()
 							.addGap(12)
@@ -1266,7 +1291,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 	private JButton btnDeleteClientRecords;
 	private JLabel lblNewLabel_2_1_1_1;
 	private JTable clientRecordsTable;
-	private JButton btnNewButton;
-	private JButton btnNewButton_1;
-	private JButton btnNewButton_3;
+	private JButton btn_AddProduct;
+	private JButton btn_StockIn;
+	private JButton btn_Remove;
 }
