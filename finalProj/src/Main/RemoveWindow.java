@@ -26,15 +26,15 @@ import java.awt.event.MouseEvent;
 public class RemoveWindow extends JFrame {
 
 	private JPanel body;
-	private JTextField inventorySF;
-	private JTextField descremField;
-	private JTextField qtyremField;
+	private static JTextField inventorySF;
+	private static JTextField descremField;
+	private static JTextField qtyremField;
 	private JTextField remQty;
 	private JTextField rembyField;
 	private JTable inventoryTable;
 	private JTable logsTable;
 	static DatabaseHandler handler = new DatabaseHandler();
-	private static RemoveWindow obj=null;
+	private static RemoveWindow obj = null;
 
 	/**
 	 * Launch the application.
@@ -56,66 +56,67 @@ public class RemoveWindow extends JFrame {
 	 * Create the frame.
 	 */
 	public RemoveWindow() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 364, 382);
+		setLocationRelativeTo(null);
 		body = new JPanel();
 		body.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(body);
 		body.setLayout(null);
-		
+
 		JPanel top = new JPanel();
 		top.setLayout(null);
 		top.setBorder(new EmptyBorder(0, 5, 0, 83));
 		top.setBackground(new Color(48, 62, 71));
 		top.setBounds(0, 0, 434, 64);
 		body.add(top);
-		
+
 		JLabel lblNewLabel_3 = new JLabel("Remove");
 		lblNewLabel_3.setForeground(Color.WHITE);
 		lblNewLabel_3.setFont(new Font("Gilroy ExtraBold", Font.BOLD, 26));
 		lblNewLabel_3.setBackground(Color.BLACK);
 		lblNewLabel_3.setBounds(15, 11, 103, 37);
 		top.add(lblNewLabel_3);
-		
+
 		JLabel lblNewLabel = new JLabel("SKU:");
 		lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblNewLabel.setBounds(35, 86, 35, 20);
 		body.add(lblNewLabel);
-		
+
 		inventorySF = new JTextField();
 		inventorySF.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		inventorySF.setColumns(10);
 		inventorySF.setBounds(80, 87, 141, 22);
 		body.add(inventorySF);
-		
+
 		JLabel lblDescription = new JLabel("DESCRIPTION:");
 		lblDescription.setVerticalAlignment(SwingConstants.TOP);
 		lblDescription.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblDescription.setBounds(35, 117, 109, 20);
 		body.add(lblDescription);
-		
+
 		descremField = new JTextField();
 		descremField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		descremField.setEditable(false);
 		descremField.setColumns(10);
 		descremField.setBounds(154, 119, 141, 22);
 		body.add(descremField);
-		
+
 		JLabel lblCurrentQty = new JLabel("CURRENT QTY:");
 		lblCurrentQty.setVerticalAlignment(SwingConstants.TOP);
 		lblCurrentQty.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblCurrentQty.setBounds(30, 149, 114, 20);
 		body.add(lblCurrentQty);
-		
+
 		qtyremField = new JTextField();
 		qtyremField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		qtyremField.setEditable(false);
 		qtyremField.setColumns(10);
 		qtyremField.setBounds(154, 149, 141, 22);
 		body.add(qtyremField);
-		
+
 		JButton btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -125,31 +126,31 @@ public class RemoveWindow extends JFrame {
 		});
 		btnSearch.setBounds(231, 87, 89, 23);
 		body.add(btnSearch);
-		
+
 		remQty = new JTextField();
 		remQty.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		remQty.setColumns(10);
 		remQty.setBounds(154, 241, 141, 22);
 		body.add(remQty);
-		
+
 		JLabel lblStockInBy = new JLabel("CHANGED BY:");
 		lblStockInBy.setVerticalAlignment(SwingConstants.TOP);
 		lblStockInBy.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblStockInBy.setBounds(40, 207, 104, 20);
 		body.add(lblStockInBy);
-		
+
 		rembyField = new JTextField();
 		rembyField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		rembyField.setColumns(10);
 		rembyField.setBounds(154, 208, 141, 22);
 		body.add(rembyField);
-		
+
 		JLabel lblQuantity = new JLabel("QUANTITY:");
 		lblQuantity.setVerticalAlignment(SwingConstants.TOP);
 		lblQuantity.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblQuantity.setBounds(57, 239, 89, 20);
 		body.add(lblQuantity);
-		
+
 		JButton btnAddStock = new JButton("DELETE");
 		btnAddStock.addMouseListener(new MouseAdapter() {
 			@Override
@@ -159,7 +160,7 @@ public class RemoveWindow extends JFrame {
 		});
 		btnAddStock.setBounds(80, 274, 89, 23);
 		body.add(btnAddStock);
-		
+
 		JButton btnRemove = new JButton("REMOVE");
 		btnRemove.addMouseListener(new MouseAdapter() {
 			@Override
@@ -170,14 +171,13 @@ public class RemoveWindow extends JFrame {
 		btnRemove.setBounds(185, 274, 89, 23);
 		body.add(btnRemove);
 	}
-	
+
 	void deleteProduct() {
 		try {
 			String sku, desc, changeby;
 			sku = inventorySF.getText();
 			desc = descremField.getText();
 			changeby = rembyField.getText();
-			
 
 			if (sku.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Search FIRST the product");
@@ -193,7 +193,7 @@ public class RemoveWindow extends JFrame {
 			logs.setActivity("Deleted product");
 			logs.setQty(qtyremField.getText());
 			logs.setChangeBy(changeby);
-			
+
 			handler.saveToDatabase(logs);
 
 			handler.deleteRow("product", "SKU", inventorySF.getText());
@@ -203,13 +203,13 @@ public class RemoveWindow extends JFrame {
 			inventorySF.setText("");
 			descremField.setText("");
 			rembyField.setText("");
-			
+
 		} catch (Exception f) {
 			JOptionPane.showMessageDialog(null, "Please input the necessary information");
 		}
 
 	}
-	
+
 	public void removeStock() {
 		try {
 			String sku, desc, qty, changeby, remarks;
@@ -218,7 +218,6 @@ public class RemoveWindow extends JFrame {
 			desc = descremField.getText();
 			qty = qtyremField.getText();
 			changeby = rembyField.getText();
-			
 
 			String remqty = remQty.getText();
 
@@ -240,7 +239,6 @@ public class RemoveWindow extends JFrame {
 				logs.setActivity("Stock removal");
 				logs.setQty(remqty);
 				logs.setChangeBy(changeby);
-				
 
 				handler.saveToDatabase(logs);
 				handler.table_load("product", inventoryTable);
@@ -268,10 +266,23 @@ public class RemoveWindow extends JFrame {
 		}
 
 	}
-	
-	public static RemoveWindow getObj(){
-        if(obj==null){
-            obj=new RemoveWindow();
-        }return obj;
-    }
+
+	public static RemoveWindow getObj() {
+		if (obj == null) {
+			obj = new RemoveWindow();
+		}
+		return obj;
+	}
+
+	public static void setinventorySF(String var) {
+		inventorySF.setText(var);
+	}
+
+	public static void setdescremField(String var) {
+		descremField.setText(var);
+	}
+
+	public static void setcurrQtyField(String var) {
+		qtyremField.setText(var);
+	}
 }

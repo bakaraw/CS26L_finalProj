@@ -23,6 +23,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class AddWindow extends JFrame {
 
@@ -62,6 +64,7 @@ public class AddWindow extends JFrame {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 364, 414);
+		setLocationRelativeTo(null);
 		Body = new JPanel();
 		Body.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -179,10 +182,14 @@ public class AddWindow extends JFrame {
 		Body.add(qtyField);
 		
 		JButton btnNewButton = new JButton("ADD");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				handler.Connect();
+				saveToDataBase();
 			}
 		});
+		
 		btnNewButton.setBounds(140, 311, 89, 23);
 		Body.add(btnNewButton);
 	}
@@ -240,6 +247,5 @@ public class AddWindow extends JFrame {
             obj=new AddWindow();
         }return obj;
     }
-	
 	
 }

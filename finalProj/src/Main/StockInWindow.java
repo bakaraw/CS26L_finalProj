@@ -22,19 +22,20 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
 
 public class StockInWindow extends JFrame {
 
 	private JPanel body;
-	private JTextField addstockSkuField;
-	private JTextField adddescField;
+	private static JTextField addstockSkuField;
+	private static JTextField adddescField;
 	private JTextField stockInbyField;
 	private JTextField addqtyField;
-	private JTextField currQtyField;
+	private static JTextField currQtyField;
 	private JTable inventoryTable;
 	private JTable logsTable;
 	static DatabaseHandler handler = new DatabaseHandler();
-	private static StockInWindow obj=null;
+	private static StockInWindow obj = null;
 
 	/**
 	 * Launch the application.
@@ -58,59 +59,60 @@ public class StockInWindow extends JFrame {
 	public StockInWindow() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 364, 415);
+		setLocationRelativeTo(null);
 		body = new JPanel();
 		body.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(body);
 		body.setLayout(null);
-		
+
 		JPanel top = new JPanel();
 		top.setLayout(null);
 		top.setBorder(new EmptyBorder(0, 5, 0, 83));
 		top.setBackground(new Color(48, 62, 71));
 		top.setBounds(0, 0, 348, 64);
 		body.add(top);
-		
+
 		JLabel lblNewLabel_3 = new JLabel("Stock In");
 		lblNewLabel_3.setForeground(Color.WHITE);
 		lblNewLabel_3.setFont(new Font("Gilroy ExtraBold", Font.BOLD, 26));
 		lblNewLabel_3.setBackground(Color.BLACK);
 		lblNewLabel_3.setBounds(15, 11, 103, 37);
 		top.add(lblNewLabel_3);
-		
+
 		JLabel lblNewLabel = new JLabel("SKU:");
 		lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblNewLabel.setBounds(39, 92, 35, 20);
 		body.add(lblNewLabel);
-		
+
 		JLabel lblDescription = new JLabel("DESCRIPTION:");
 		lblDescription.setVerticalAlignment(SwingConstants.TOP);
 		lblDescription.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblDescription.setBounds(39, 123, 109, 20);
 		body.add(lblDescription);
-		
+
 		JLabel lblStockInBy = new JLabel("STOCK IN BY:");
 		lblStockInBy.setVerticalAlignment(SwingConstants.TOP);
 		lblStockInBy.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblStockInBy.setBounds(46, 209, 102, 20);
 		body.add(lblStockInBy);
-		
+
 		JLabel lblQuantity = new JLabel("QUANTITY:");
 		lblQuantity.setVerticalAlignment(SwingConstants.TOP);
 		lblQuantity.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblQuantity.setBounds(61, 240, 89, 20);
 		body.add(lblQuantity);
-		
+
 		addstockSkuField = new JTextField();
 		addstockSkuField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				int code = e.getKeyCode();
-				if(code == KeyEvent.VK_ENTER) {
+				if (code == KeyEvent.VK_ENTER) {
 					handler.Connect();
 					handler.skuSearch(addstockSkuField, adddescField, currQtyField);
-					
+
 				}
 			}
 		});
@@ -118,39 +120,39 @@ public class StockInWindow extends JFrame {
 		addstockSkuField.setColumns(10);
 		addstockSkuField.setBounds(84, 93, 141, 22);
 		body.add(addstockSkuField);
-		
+
 		adddescField = new JTextField();
 		adddescField.setEditable(false);
 		adddescField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		adddescField.setColumns(10);
 		adddescField.setBounds(158, 125, 141, 22);
 		body.add(adddescField);
-		
+
 		stockInbyField = new JTextField();
 		stockInbyField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		stockInbyField.setColumns(10);
 		stockInbyField.setBounds(158, 209, 141, 22);
 		body.add(stockInbyField);
-		
+
 		addqtyField = new JTextField();
 		addqtyField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		addqtyField.setColumns(10);
 		addqtyField.setBounds(158, 242, 141, 22);
 		body.add(addqtyField);
-		
+
 		JLabel lblCurrentQty = new JLabel("CURRENT QTY:");
 		lblCurrentQty.setVerticalAlignment(SwingConstants.TOP);
 		lblCurrentQty.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblCurrentQty.setBounds(34, 155, 114, 20);
 		body.add(lblCurrentQty);
-		
+
 		currQtyField = new JTextField();
 		currQtyField.setEditable(false);
 		currQtyField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		currQtyField.setColumns(10);
 		currQtyField.setBounds(158, 155, 141, 22);
 		body.add(currQtyField);
-		
+
 		JButton btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -159,7 +161,7 @@ public class StockInWindow extends JFrame {
 		});
 		btnSearch.setBounds(235, 93, 89, 23);
 		body.add(btnSearch);
-		
+
 		JButton btnAddStock = new JButton("ADD");
 		btnAddStock.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -170,7 +172,7 @@ public class StockInWindow extends JFrame {
 		btnAddStock.setBounds(123, 284, 89, 23);
 		body.add(btnAddStock);
 	}
-	
+
 	public void addStock() {
 		try {
 			handler.Connect();
@@ -197,7 +199,6 @@ public class StockInWindow extends JFrame {
 				logs.setActivity("Stock in");
 				logs.setQty(addqty);
 				logs.setChangeBy(changeby);
-				
 
 				handler.saveToDatabase(logs);
 				handler.table_load("product", inventoryTable);
@@ -208,7 +209,7 @@ public class StockInWindow extends JFrame {
 				currQtyField.setText(currQtyVal + "");
 				stockInbyField.setText("");
 				addqtyField.setText("");
-				handler.skuSearched= "";
+				handler.skuSearched = "";
 
 			} else if (addQtyVal == 0) {
 				JOptionPane.showMessageDialog(null, "You add 0 stock");
@@ -221,11 +222,24 @@ public class StockInWindow extends JFrame {
 		}
 
 	}
-	
-	public static StockInWindow getObj(){
-        if(obj==null){
-            obj=new StockInWindow();
-        }return obj;
-    }
+
+	public static StockInWindow getObj() {
+		if (obj == null) {
+			obj = new StockInWindow();
+		}
+		return obj;
+	}
+
+	public static void setadddescField(String var) {
+		adddescField.setText(var);
+	}
+
+	public static void setaddstockSkuField(String var) {
+		addstockSkuField.setText(var);
+	}
+
+	public static void setcurrQtyField(String var) {
+		currQtyField.setText(var);
+	}
 
 }
