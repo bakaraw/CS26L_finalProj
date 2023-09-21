@@ -74,7 +74,6 @@ public class Dashboard2 extends javax.swing.JFrame {
 		ClientRecordsPanel = new javax.swing.JPanel();
 		StockInPanel = new javax.swing.JPanel();
 		SalesReportPanel = new javax.swing.JPanel();
-		jLabel1 = new javax.swing.JLabel();
 		
 		databaseHandler.Connect();
 
@@ -853,27 +852,46 @@ public class Dashboard2 extends javax.swing.JFrame {
 		layeredPane.add(StockInPanel, "card6");
 
 		SalesReportPanel.setBackground(new Color(255, 255, 255));
-
-		jLabel1.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
-		jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-		jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-		jLabel1.setText("SalesReport");
+		
+		JPanel salesReportContentPanel = new JPanel();
 
 		javax.swing.GroupLayout SalesReportPanelLayout = new javax.swing.GroupLayout(SalesReportPanel);
+		SalesReportPanelLayout.setHorizontalGroup(
+			SalesReportPanelLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, SalesReportPanelLayout.createSequentialGroup()
+					.addGap(25)
+					.addComponent(salesReportContentPanel, GroupLayout.PREFERRED_SIZE, 1352, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(23, Short.MAX_VALUE))
+		);
+		SalesReportPanelLayout.setVerticalGroup(
+			SalesReportPanelLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(SalesReportPanelLayout.createSequentialGroup()
+					.addGap(19)
+					.addComponent(salesReportContentPanel, GroupLayout.PREFERRED_SIZE, 556, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(22, Short.MAX_VALUE))
+		);
+		salesReportContentPanel.setLayout(null);
+		
+		JLabel lblNewLabel_7 = new JLabel("Sales Report");
+		lblNewLabel_7.setFont(new Font("Tahoma", Font.BOLD, 28));
+		lblNewLabel_7.setBounds(34, 11, 302, 34);
+		salesReportContentPanel.add(lblNewLabel_7);
+		
+		panel_1 = new JPanel();
+		panel_1.setBackground(new Color(255, 255, 128));
+		panel_1.setBounds(34, 67, 488, 233);
+		salesReportContentPanel.add(panel_1);
+		
+		panel_2 = new JPanel();
+		panel_2.setBackground(new Color(255, 255, 128));
+		panel_2.setBounds(34, 312, 488, 233);
+		salesReportContentPanel.add(panel_2);
+		
+		panel_3 = new JPanel();
+		panel_3.setBackground(new Color(128, 255, 128));
+		panel_3.setBounds(532, 63, 810, 482);
+		salesReportContentPanel.add(panel_3);
 		SalesReportPanel.setLayout(SalesReportPanelLayout);
-		SalesReportPanelLayout.setHorizontalGroup(SalesReportPanelLayout
-				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SalesReportPanelLayout.createSequentialGroup()
-						.addContainerGap(669, Short.MAX_VALUE).addComponent(jLabel1,
-								javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-						.addGap(323, 323, 323)));
-		SalesReportPanelLayout
-				.setVerticalGroup(
-						SalesReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-								.addGroup(SalesReportPanelLayout.createSequentialGroup().addGap(115, 115, 115)
-										.addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 61,
-												javax.swing.GroupLayout.PREFERRED_SIZE)
-										.addContainerGap(404, Short.MAX_VALUE)));
 
 		layeredPane.add(SalesReportPanel, "card2");
 
@@ -1221,7 +1239,6 @@ public class Dashboard2 extends javax.swing.JFrame {
 	private javax.swing.JLabel StockIn;
 	private javax.swing.JPanel StockInPanel;
 	private javax.swing.JLabel StockSales;
-	private javax.swing.JLabel jLabel1;
 	private javax.swing.JLayeredPane layeredPane;
 	private JPanel removePn;
 	private JLabel lblNewLabel;
@@ -1269,4 +1286,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
 	private JButton btnNewButton_3;
+	private JPanel panel_1;
+	private JPanel panel_2;
+	private JPanel panel_3;
 }
