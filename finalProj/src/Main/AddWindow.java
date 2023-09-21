@@ -25,6 +25,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JTextArea;
 
 public class AddWindow extends JFrame {
 
@@ -40,6 +41,7 @@ public class AddWindow extends JFrame {
 	private JTable logsTable;
 	static DatabaseHandler handler = new DatabaseHandler();
 	private static AddWindow obj=null;
+	private static JTextArea addnewprodRemarks = new JTextArea();
 
 	/**
 	 * Launch the application.
@@ -63,7 +65,7 @@ public class AddWindow extends JFrame {
 	public AddWindow() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 364, 414);
+		setBounds(100, 100, 364, 504);
 		setLocationRelativeTo(null);
 		Body = new JPanel();
 		Body.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -182,6 +184,10 @@ public class AddWindow extends JFrame {
 		Body.add(qtyField);
 		
 		JButton btnNewButton = new JButton("ADD");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -190,8 +196,18 @@ public class AddWindow extends JFrame {
 			}
 		});
 		
-		btnNewButton.setBounds(140, 311, 89, 23);
+		btnNewButton.setBounds(114, 408, 89, 23);
 		Body.add(btnNewButton);
+		
+		
+		addnewprodRemarks.setBounds(140, 296, 165, 101);
+		Body.add(addnewprodRemarks);
+		
+		JLabel lblRemarks = new JLabel("REMARKS:");
+		lblRemarks.setVerticalAlignment(SwingConstants.TOP);
+		lblRemarks.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblRemarks.setBounds(54, 294, 76, 20);
+		Body.add(lblRemarks);
 	}
 	
 	void saveToDataBase() {
@@ -202,6 +218,7 @@ public class AddWindow extends JFrame {
 		qty = qtyField.getText();
 		price = priceField.getText();
 		stockinby = stockbyField.getText();
+		remarks = addnewprodRemarks.getText();
 	
 		try {
 			if (!sku.isEmpty() && !desc.isEmpty() && !qty.isEmpty() && !price.isEmpty()) {
@@ -219,7 +236,7 @@ public class AddWindow extends JFrame {
 				logs.setActivity("Stock in");
 				logs.setQty(qty);
 				logs.setChangeBy(stockinby);
-				
+				logs.setRemarks(remarks);
 
 				handler.saveToDatabase(prod);
 				handler.saveToDatabase(logs);
@@ -231,7 +248,7 @@ public class AddWindow extends JFrame {
 				stockbyField.setText("");
 				qtyField.setText("");
 				priceField.setText("");
-				
+				addnewprodRemarks.setText("");
 
 			} else {
 				JOptionPane.showMessageDialog(null, "Please input all the necessary information");
@@ -247,5 +264,4 @@ public class AddWindow extends JFrame {
             obj=new AddWindow();
         }return obj;
     }
-	
 }

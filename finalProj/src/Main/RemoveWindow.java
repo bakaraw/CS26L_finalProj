@@ -22,17 +22,19 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JTextArea;
 
 public class RemoveWindow extends JFrame {
 
 	private JPanel body;
 	private static JTextField inventorySF;
 	private static JTextField descremField;
-	private static JTextField qtyremField;
+	static JTextField qtyremField;
 	private JTextField remQty;
-	private JTextField rembyField;
+	static JTextField rembyField;
 	private JTable inventoryTable;
 	private JTable logsTable;
+	private static JTextArea remarksArea = new JTextArea();
 	static DatabaseHandler handler = new DatabaseHandler();
 	private static RemoveWindow obj = null;
 
@@ -57,7 +59,7 @@ public class RemoveWindow extends JFrame {
 	 */
 	public RemoveWindow() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 364, 382);
+		setBounds(100, 100, 364, 556);
 		setLocationRelativeTo(null);
 		body = new JPanel();
 		body.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -158,7 +160,7 @@ public class RemoveWindow extends JFrame {
 				deleteProduct();
 			}
 		});
-		btnAddStock.setBounds(80, 274, 89, 23);
+		btnAddStock.setBounds(80, 396, 89, 23);
 		body.add(btnAddStock);
 
 		JButton btnRemove = new JButton("REMOVE");
@@ -168,22 +170,33 @@ public class RemoveWindow extends JFrame {
 				removeStock();
 			}
 		});
-		btnRemove.setBounds(185, 274, 89, 23);
+		btnRemove.setBounds(179, 396, 89, 23);
 		body.add(btnRemove);
+		
+		JLabel lblRemarks = new JLabel("REMARKS:");
+		lblRemarks.setVerticalAlignment(SwingConstants.TOP);
+		lblRemarks.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblRemarks.setBounds(67, 270, 76, 20);
+		body.add(lblRemarks);
+		
+		JTextArea remarksArea = new JTextArea();
+		remarksArea.setBounds(154, 274, 165, 101);
+		body.add(remarksArea);
 	}
 
 	void deleteProduct() {
 		try {
-			String sku, desc, changeby;
+			String sku, desc, changeby, remarks;
 			sku = inventorySF.getText();
 			desc = descremField.getText();
 			changeby = rembyField.getText();
+			remarks = remarksArea.getText();
 
 			if (sku.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Search FIRST the product");
 			}
 
-			if (changeby.isEmpty()) {
+			if (changeby.isEmpty() || remarks.isEmpty()) {
 				throw new Exception();
 			}
 
@@ -193,7 +206,7 @@ public class RemoveWindow extends JFrame {
 			logs.setActivity("Deleted product");
 			logs.setQty(qtyremField.getText());
 			logs.setChangeBy(changeby);
-
+			logs.setRemarks(remarks);
 			handler.saveToDatabase(logs);
 
 			handler.deleteRow("product", "SKU", inventorySF.getText());
@@ -203,6 +216,7 @@ public class RemoveWindow extends JFrame {
 			inventorySF.setText("");
 			descremField.setText("");
 			rembyField.setText("");
+			remarksArea.setText("");
 
 		} catch (Exception f) {
 			JOptionPane.showMessageDialog(null, "Please input the necessary information");
@@ -218,10 +232,11 @@ public class RemoveWindow extends JFrame {
 			desc = descremField.getText();
 			qty = qtyremField.getText();
 			changeby = rembyField.getText();
+			remarks = remarksArea.getText();
 
 			String remqty = remQty.getText();
 
-			if (changeby.isEmpty()) {
+			if (changeby.isEmpty() || remarks.isEmpty()) {
 				throw new Exception();
 			}
 
@@ -239,6 +254,7 @@ public class RemoveWindow extends JFrame {
 				logs.setActivity("Stock removal");
 				logs.setQty(remqty);
 				logs.setChangeBy(changeby);
+				logs.setRemarks(remarks);
 
 				handler.saveToDatabase(logs);
 				handler.table_load("product", inventoryTable);
@@ -249,6 +265,7 @@ public class RemoveWindow extends JFrame {
 				qtyremField.setText(newQtyVal + "");
 				rembyField.setText("");
 				remQty.setText("");
+				remarksArea.setText("");
 				handler.skuSearched = "";
 			} else if (currQtyVal == 0) {
 				JOptionPane.showMessageDialog(null, "Can't remove stock anymore because current Qty = 0   :(");

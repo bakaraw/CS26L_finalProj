@@ -23,6 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
+import javax.swing.JTextArea;
 
 public class StockInWindow extends JFrame {
 
@@ -36,6 +37,7 @@ public class StockInWindow extends JFrame {
 	private JTable logsTable;
 	static DatabaseHandler handler = new DatabaseHandler();
 	private static StockInWindow obj = null;
+	private static JTextArea addStockTextArea = new JTextArea();
 
 	/**
 	 * Launch the application.
@@ -58,7 +60,7 @@ public class StockInWindow extends JFrame {
 	 */
 	public StockInWindow() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 364, 415);
+		setBounds(100, 100, 364, 475);
 		setLocationRelativeTo(null);
 		body = new JPanel();
 		body.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -169,21 +171,35 @@ public class StockInWindow extends JFrame {
 				addStock();
 			}
 		});
-		btnAddStock.setBounds(123, 284, 89, 23);
+		btnAddStock.setBounds(129, 398, 89, 23);
 		body.add(btnAddStock);
+		
+		
+		addStockTextArea.setBounds(158, 275, 165, 101);
+		body.add(addStockTextArea);
+		
+		JLabel lblRemarks = new JLabel("REMARKS:");
+		lblRemarks.setVerticalAlignment(SwingConstants.TOP);
+		lblRemarks.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblRemarks.setBounds(72, 271, 76, 20);
+		body.add(lblRemarks);
+		
 	}
 
 	public void addStock() {
 		try {
 			handler.Connect();
-			String sku, desc, qty, changeby;
+			String sku, desc, qty, changeby, remarks;
 			sku = addstockSkuField.getText();
 			desc = adddescField.getText();
 			changeby = stockInbyField.getText();
+			remarks = addStockTextArea.getText();
 			String addqty = addqtyField.getText();
-
+			System.out.println(addqty);
+			System.out.println(changeby);
 			if (addqty.isEmpty() || changeby.isEmpty()) {
-				throw new Exception();
+//				throw new Exception();
+				
 			}
 
 			int addQtyVal = Integer.parseInt(addqty);
@@ -199,6 +215,7 @@ public class StockInWindow extends JFrame {
 				logs.setActivity("Stock in");
 				logs.setQty(addqty);
 				logs.setChangeBy(changeby);
+				logs.setRemarks(remarks);
 
 				handler.saveToDatabase(logs);
 				handler.table_load("product", inventoryTable);
@@ -209,6 +226,7 @@ public class StockInWindow extends JFrame {
 				currQtyField.setText(currQtyVal + "");
 				stockInbyField.setText("");
 				addqtyField.setText("");
+				addStockTextArea.setText("");
 				handler.skuSearched = "";
 
 			} else if (addQtyVal == 0) {
@@ -241,5 +259,4 @@ public class StockInWindow extends JFrame {
 	public static void setcurrQtyField(String var) {
 		currQtyField.setText(var);
 	}
-
 }
