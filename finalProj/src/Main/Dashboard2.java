@@ -18,6 +18,15 @@ import javax.swing.JComboBox;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.data.jdbc.JDBCCategoryDataset;
+
 import utils.ActivityLogs;
 import utils.DatabaseHandler;
 import utils.Product;
@@ -28,21 +37,23 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 
 
 public class Dashboard2 extends javax.swing.JFrame {
 
 	public Dashboard2() {
+		
 		windowStart();
 		initComponents();
 		setLocationRelativeTo(null);
 	}
-
+	
 	
 	@SuppressWarnings("unchecked")
 	// <editor-fold defaultstate="collapsed" desc="Generated Code">
 	private void initComponents() {
-		databaseHandler = new DatabaseHandler();
+		
 		DashboardPanel = new JPanel();
 		SlidingMenu = new javax.swing.JPanel();
 		HideMenu = new javax.swing.JLabel();
@@ -64,7 +75,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 		StockInPanel = new javax.swing.JPanel();
 		SalesReportPanel = new javax.swing.JPanel();
 		
-		databaseHandler.Connect();
+		
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		setResizable(false);
@@ -866,29 +877,33 @@ public class Dashboard2 extends javax.swing.JFrame {
 		lblNewLabel_7.setBounds(34, 11, 302, 34);
 		salesReportContentPanel.add(lblNewLabel_7);
 		
-		panel_1 = new JPanel();
-		panel_1.setBackground(new Color(255, 255, 128));
-		panel_1.setBounds(34, 67, 488, 233);
-		salesReportContentPanel.add(panel_1);
-		
-		JLabel lblNewLabel_9 = new JLabel("sales line graph");
-		panel_1.add(lblNewLabel_9);
+		lineGraphPn = new JPanel();
+		lineGraphPn.setBackground(new Color(255, 255, 255));
+		lineGraphPn.setBounds(34, 67, 709, 430);
+		try {
+			lineGraphPn.add(createLineGraph());
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		salesReportContentPanel.add(lineGraphPn);
 		
 		panel_2 = new JPanel();
 		panel_2.setBackground(new Color(255, 255, 128));
-		panel_2.setBounds(34, 312, 488, 233);
+		panel_2.setBounds(753, 67, 560, 233);
 		salesReportContentPanel.add(panel_2);
 		
 		JLabel lblNewLabel_10 = new JLabel("pie chart");
 		panel_2.add(lblNewLabel_10);
 		
-		panel_3 = new JPanel();
-		panel_3.setBackground(new Color(128, 255, 128));
-		panel_3.setBounds(532, 63, 810, 482);
-		salesReportContentPanel.add(panel_3);
-		
-		JLabel lblNewLabel_11 = new JLabel("table");
-		panel_3.add(lblNewLabel_11);
+		JButton btnNewButton_4 = new JButton("New button");
+		btnNewButton_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tryGraph();
+			}
+		});
+		btnNewButton_4.setBounds(346, 24, 89, 23);
+		salesReportContentPanel.add(btnNewButton_4);
 		SalesReportPanel.setLayout(SalesReportPanelLayout);
 
 		layeredPane.add(SalesReportPanel, "card2");
@@ -1076,6 +1091,8 @@ public class Dashboard2 extends javax.swing.JFrame {
 	}
 	
 	public void windowStart() {
+		databaseHandler = new DatabaseHandler();
+		databaseHandler.Connect();
 		try {
 			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
 				if ("Nimbus".equals(info.getName())) {
@@ -1206,6 +1223,36 @@ public class Dashboard2 extends javax.swing.JFrame {
 		}
 		
 	}
+	
+	public ChartPanel createLineGraph() throws Exception {
+			String query ="select Date,TotalSales from clientrecords";
+			JDBCCategoryDataset dataset = new JDBCCategoryDataset(databaseHandler.con,query);
+			JFreeChart chart = ChartFactory.createLineChart("Sales Chart", "Date", "Sales (Php)", dataset, PlotOrientation.VERTICAL, false, true, true);
+			BarRenderer renderer = null;
+			CategoryPlot plot = null;
+			renderer = new BarRenderer();
+			ChartPanel chartpn = new ChartPanel(chart, true);
+			return chartpn;
+	}
+	public void tryGraph() {
+		
+		try {
+			String query ="select 'Date','Total Sales' from clientrecords";
+			JDBCCategoryDataset dataset = new JDBCCategoryDataset(databaseHandler.con,query);
+			JFreeChart chart = ChartFactory.createLineChart("title", "Date", "Sales (Php)", dataset, PlotOrientation.VERTICAL, false, true, true);
+			BarRenderer renderer = null;
+			CategoryPlot plot = null;
+			renderer = new BarRenderer();
+			ChartFrame frame = new ChartFrame("Query Chart", chart);
+			frame.setVisible(true);
+			frame.setSize(400,400);
+		} catch (SQLException e) {
+			
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	// Variables declaration - do not modify
 	private javax.swing.JLabel ActivityLogs;
 	private javax.swing.JPanel ActivityLogsPanel;
@@ -1271,7 +1318,6 @@ public class Dashboard2 extends javax.swing.JFrame {
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
 	private JButton btnNewButton_3;
-	private JPanel panel_1;
+	private JPanel lineGraphPn;
 	private JPanel panel_2;
-	private JPanel panel_3;
 }

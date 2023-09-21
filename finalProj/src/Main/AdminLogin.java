@@ -175,6 +175,7 @@ public class AdminLogin implements WindowListener{
 						new Dashboard2().setVisible(true);
 					}
 				});
+			
 			} else {
 				JOptionPane.showMessageDialog(null,"Wrong password or username");
 			}
