@@ -29,6 +29,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -389,14 +390,16 @@ public class Dashboard2 extends javax.swing.JFrame {
 		chkRemProd.setBounds(239, 30, 123, 23);
 		removePn.add(chkRemProd);
 		
-		lblNewLabel_3 = new JLabel("Inventory");
+		lblNewLabel_3 = new JLabel("   Inventory");
+		lblNewLabel_3.setIcon(new ImageIcon("C:\\Users\\User\\Downloads\\icons8-open-box-32.png"));
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 28));
 		
 		inventorySF = new JTextField();
 		inventorySF.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		inventorySF.setColumns(10);
 		
-		btnSearch = new JButton("Search");
+		btnSearch = new JButton("");
+		btnSearch.setIcon(new ImageIcon("C:\\Users\\User\\Downloads\\icons8-search-16 (1).png"));
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				databaseHandler.skuSearch(inventorySF, descremField, qtyremField);
@@ -420,7 +423,8 @@ public class Dashboard2 extends javax.swing.JFrame {
 		lblNewLabel_5 = new JLabel("SKU search");
 		lblNewLabel_5.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		
-		btnRefresh = new JButton("Refresh");
+		btnRefresh = new JButton("");
+		btnRefresh.setIcon(new ImageIcon("C:\\Users\\User\\Downloads\\icons8-refresh-16 (1).png"));
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				databaseHandler.table_load("product",inventoryTable);
@@ -431,10 +435,13 @@ public class Dashboard2 extends javax.swing.JFrame {
 		scrollPane_1 = new JScrollPane();
 		
 		btnNewButton = new JButton("Add Product");
+		btnNewButton.setIcon(new ImageIcon("C:\\Users\\User\\Downloads\\icons8-add-new-16.png"));
 		
 		btnNewButton_1 = new JButton("Stock in");
+		btnNewButton_1.setIcon(new ImageIcon("C:\\Users\\User\\Downloads\\icons8-add-to-cart-16.png"));
 		
 		btnNewButton_3 = new JButton("Remove");
+		btnNewButton_3.setIcon(new ImageIcon("C:\\Users\\User\\Downloads\\icons8-remove-16.png"));
 
 		javax.swing.GroupLayout InventoryPanelLayout = new javax.swing.GroupLayout(InventoryPanel);
 		InventoryPanelLayout.setHorizontalGroup(
@@ -442,24 +449,24 @@ public class Dashboard2 extends javax.swing.JFrame {
 				.addGroup(InventoryPanelLayout.createSequentialGroup()
 					.addContainerGap(20, Short.MAX_VALUE)
 					.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblNewLabel_5, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 262, GroupLayout.PREFERRED_SIZE)
 						.addGroup(InventoryPanelLayout.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 938, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
 							.addComponent(removePn, GroupLayout.PREFERRED_SIZE, 403, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lblNewLabel_5, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
 						.addGroup(InventoryPanelLayout.createSequentialGroup()
 							.addComponent(inventorySF, GroupLayout.PREFERRED_SIZE, 294, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
-							.addGap(26)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnSearch)
+							.addGap(65)
 							.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
 							.addGap(4)
 							.addComponent(viewCB, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)
 							.addGap(10)
 							.addComponent(btnRefresh)
-							.addGap(66)
+							.addGap(73)
 							.addComponent(btnNewButton)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(btnNewButton_1)
@@ -470,25 +477,22 @@ public class Dashboard2 extends javax.swing.JFrame {
 		InventoryPanelLayout.setVerticalGroup(
 			InventoryPanelLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(InventoryPanelLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblNewLabel_3, GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+					.addGap(18)
+					.addComponent(lblNewLabel_5)
+					.addGap(1)
 					.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(InventoryPanelLayout.createSequentialGroup()
-							.addContainerGap(57, Short.MAX_VALUE)
-							.addComponent(lblNewLabel_5)
-							.addGap(1)
-							.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(btnSearch)
-								.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
-								.addComponent(viewCB, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.BASELINE)
-									.addComponent(btnRefresh)
-									.addComponent(btnNewButton)
-									.addComponent(btnNewButton_1)
-									.addComponent(btnNewButton_3))
-								.addComponent(inventorySF, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(InventoryPanelLayout.createSequentialGroup()
-							.addGap(12)
-							.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-							.addGap(50)))
+						.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.LEADING, false)
+							.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
+							.addComponent(inventorySF, GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+							.addComponent(btnNewButton)
+							.addComponent(btnRefresh, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(viewCB, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.TRAILING, false)
+								.addComponent(btnNewButton_1, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
+								.addComponent(btnNewButton_3, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+						.addComponent(btnSearch, GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.TRAILING, false)
 						.addComponent(removePn, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -533,7 +537,8 @@ public class Dashboard2 extends javax.swing.JFrame {
 
 		ActivityLogsPanel.setBackground(new Color(255, 255, 255));
 		
-		JLabel lblNewLabel_2_1_1 = new JLabel("Admin Activity Logs");
+		JLabel lblNewLabel_2_1_1 = new JLabel("  Admin Activity Logs");
+		lblNewLabel_2_1_1.setIcon(new ImageIcon("C:\\Users\\User\\Downloads\\icons8-activity-feed-32.png"));
 		lblNewLabel_2_1_1.setFont(new Font("Tahoma", Font.BOLD, 25));
 		
 		JLabel lblNewLabel_4_1 = new JLabel("View by activity:");
@@ -548,6 +553,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 		viewByAct.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
 		JButton btnRefreshLogs = new JButton("Refresh");
+		btnRefreshLogs.setIcon(new ImageIcon("C:\\Users\\User\\Downloads\\icons8-refresh-16 (1).png"));
 		btnRefreshLogs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				databaseHandler.table_load("activitylogs", logsTable);
@@ -556,6 +562,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 		btnRefreshLogs.setBackground(new Color(201, 242, 168));
 		
 		JButton btnDeleteLogs = new JButton("Delete all");
+		btnDeleteLogs.setIcon(new ImageIcon("C:\\Users\\User\\Downloads\\icons8-remove-16 (1).png"));
 		
 		JScrollPane scrollPane_actLogs = new JScrollPane();
 
@@ -566,7 +573,6 @@ public class Dashboard2 extends javax.swing.JFrame {
 					.addGap(32)
 					.addGroup(ActivityLogsPanelLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(scrollPane_actLogs, GroupLayout.PREFERRED_SIZE, 1343, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblNewLabel_2_1_1, GroupLayout.PREFERRED_SIZE, 280, GroupLayout.PREFERRED_SIZE)
 						.addGroup(ActivityLogsPanelLayout.createSequentialGroup()
 							.addComponent(lblNewLabel_4_1, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
@@ -574,7 +580,8 @@ public class Dashboard2 extends javax.swing.JFrame {
 							.addGap(33)
 							.addComponent(btnRefreshLogs)
 							.addGap(70)
-							.addComponent(btnDeleteLogs)))
+							.addComponent(btnDeleteLogs))
+						.addComponent(lblNewLabel_2_1_1, GroupLayout.PREFERRED_SIZE, 344, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(25, Short.MAX_VALUE))
 		);
 		ActivityLogsPanelLayout.setVerticalGroup(
@@ -592,7 +599,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 							.addComponent(btnDeleteLogs)))
 					.addGap(15)
 					.addComponent(scrollPane_actLogs, GroupLayout.PREFERRED_SIZE, 466, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(21, Short.MAX_VALUE))
+					.addContainerGap(30, Short.MAX_VALUE))
 		);
 		
 		logsTable = new JTable();
@@ -607,8 +614,10 @@ public class Dashboard2 extends javax.swing.JFrame {
 		scrollPane_4 = new JScrollPane();
 		
 		btnDeleteClientRecords = new JButton("Delete all");
+		btnDeleteClientRecords.setIcon(new ImageIcon("C:\\Users\\User\\Downloads\\icons8-remove-16 (1).png"));
 		
-		lblNewLabel_2_1_1_1 = new JLabel("Client Records");
+		lblNewLabel_2_1_1_1 = new JLabel("  Client Records");
+		lblNewLabel_2_1_1_1.setIcon(new ImageIcon("C:\\Users\\User\\Downloads\\icons8-database-view-32.png"));
 		lblNewLabel_2_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 25));
 
 		javax.swing.GroupLayout ClientRecordsPanelLayout = new javax.swing.GroupLayout(ClientRecordsPanel);
@@ -819,7 +828,8 @@ public class Dashboard2 extends javax.swing.JFrame {
 		lblNewLabel_5_1_2_1_1.setBounds(95, 259, 88, 25);
 		addstockPn.add(lblNewLabel_5_1_2_1_1);
 		
-		JLabel lblNewLabel_2_1 = new JLabel("Stock In");
+		JLabel lblNewLabel_2_1 = new JLabel("  Stock In");
+		lblNewLabel_2_1.setIcon(new ImageIcon("C:\\Users\\User\\Downloads\\icons8-add-to-cart-32.png"));
 		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 28));
 
 		javax.swing.GroupLayout StockInPanelLayout = new javax.swing.GroupLayout(StockInPanel);
@@ -829,7 +839,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 					.addGap(28)
 					.addGroup(StockInPanelLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(StockInPanelLayout.createSequentialGroup()
-							.addComponent(lblNewLabel_2_1, GroupLayout.PREFERRED_SIZE, 136, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblNewLabel_2_1)
 							.addContainerGap())
 						.addGroup(StockInPanelLayout.createSequentialGroup()
 							.addComponent(newProdPn, GroupLayout.PREFERRED_SIZE, 647, GroupLayout.PREFERRED_SIZE)
@@ -846,7 +856,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 					.addGroup(StockInPanelLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(addstockPn, GroupLayout.PREFERRED_SIZE, 516, GroupLayout.PREFERRED_SIZE)
 						.addComponent(newProdPn, GroupLayout.PREFERRED_SIZE, 516, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(22, Short.MAX_VALUE))
+					.addContainerGap(41, Short.MAX_VALUE))
 		);
 		StockInPanel.setLayout(StockInPanelLayout);
 

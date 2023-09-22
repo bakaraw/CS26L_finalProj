@@ -39,6 +39,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.ImageIcon;
 
 
 
@@ -218,7 +219,8 @@ public class Dashboard extends DatabaseHandler{
 		gbl_left.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		left.setLayout(gbl_left);
 		
-		JLabel lblNewLabel_2 = new JLabel("Cart");
+		JLabel lblNewLabel_2 = new JLabel("  Cart");
+		lblNewLabel_2.setIcon(new ImageIcon("C:\\Users\\User\\Pictures\\proj\\cart-icon.png"));
 		lblNewLabel_2.setFont(new Font("Gilroy ExtraBold", Font.BOLD, 20));
 		lblNewLabel_2.setForeground(new Color(255, 255, 255));
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
@@ -417,13 +419,14 @@ public class Dashboard extends DatabaseHandler{
 		searchField.setBounds(15, 44, 313, 23);
 		searchField.setColumns(10);
 		
-		JButton btnSearch = new JButton("Search");
+		JButton btnSearch = new JButton("");
+		btnSearch.setIcon(new ImageIcon("C:\\Users\\User\\Downloads\\icons8-search-16.png"));
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				skuSearch(searchField);
 			}
 		});
-		btnSearch.setBounds(338, 43, 84, 23);
+		btnSearch.setBounds(338, 44, 25, 23);
 		btnSearch.setBackground(new Color(187, 214, 249));
 		btnSearch.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
