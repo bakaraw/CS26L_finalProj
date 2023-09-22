@@ -430,6 +430,11 @@ public class Dashboard2 extends javax.swing.JFrame {
 		scrollPane_1 = new JScrollPane();
 
 		btn_AddProduct = new JButton("Add Product");
+		btn_AddProduct.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		btn_AddProduct.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -440,21 +445,26 @@ public class Dashboard2 extends javax.swing.JFrame {
 		});
 
 		btn_StockIn = new JButton("Stock in");
-		btn_StockIn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				stockinwindow.getObj().setVisible(true);
-			}
-		});
+//		btn_StockIn.addMouseListener(new MouseAdapter() {
+//			@Override
+//			public void mouseClicked(MouseEvent e) {
+//				stockinwindow.getObj().setVisible(true);
+//			}
+//		});
 
 		btn_Remove = new JButton("Remove");
-		btn_Remove.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-
+		btn_Remove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				removewindow.getObj().setVisible(true);
 			}
 		});
+//		btn_Remove.addMouseListener(new MouseAdapter() {
+//			@Override
+//			public void mouseClicked(MouseEvent e) {
+//
+//				removewindow.getObj().setVisible(true);
+//			}
+//		});
 
 		javax.swing.GroupLayout InventoryPanelLayout = new javax.swing.GroupLayout(InventoryPanel);
 		InventoryPanelLayout.setHorizontalGroup(InventoryPanelLayout.createParallelGroup(Alignment.TRAILING)
@@ -525,20 +535,27 @@ public class Dashboard2 extends javax.swing.JFrame {
 					databaseHandler.rs = databaseHandler.pst.executeQuery();
 
 					if (databaseHandler.rs.next()) {
-						String add1 = databaseHandler.rs.getString("SKU");
-						inventorySF.setText(add1);
-						String add2 = databaseHandler.rs.getString("Description");
-						descremField.setText(add2);
-						String add3 = databaseHandler.rs.getString("Qty");
-						qtyremField.setText(add3);
+						String sku = databaseHandler.rs.getString("SKU");
+						inventorySF.setText(sku);
+						String desc = databaseHandler.rs.getString("Description");
+						descremField.setText(desc);
+						String qty = databaseHandler.rs.getString("Qty");
+						qtyremField.setText(qty);
+						
+						
 
-						StockInWindow.setaddstockSkuField(add1);
-						StockInWindow.setadddescField(add2);
-						StockInWindow.setcurrQtyField(add3);
-
-						RemoveWindow.setinventorySF(add1);
-						RemoveWindow.setdescremField(add2);
-						RemoveWindow.setcurrQtyField(add3);
+						StockInWindow.setaddstockSkuField(sku);
+						StockInWindow.setadddescField(desc);
+						StockInWindow.setcurrQtyField(qty);
+						
+//						removewindow = new RemoveWindow();
+						RemoveWindow.setInventoryTable(inventoryTable);
+						RemoveWindow.setLogsTable(clientRecordsTable);
+						RemoveWindow.setinventorySF(sku);
+						RemoveWindow.setdescremField(desc);
+						RemoveWindow.setcurrQtyField(qty);
+						
+						databaseHandler.skuSearched = Table_click;
 					}
 
 				} catch (Exception f) {

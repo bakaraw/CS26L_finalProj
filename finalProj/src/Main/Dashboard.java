@@ -242,8 +242,8 @@ public class Dashboard extends DatabaseHandler {
 		left.add(buttonPn, gbc_buttonPn);
 		buttonPn.setLayout(null);
 
-		JButton btnNewButton = new JButton("Clear");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton cleaarBtn = new JButton("Clear");
+		cleaarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel tbl = (DefaultTableModel) cartble.getModel();
 				System.out.println("test");
@@ -256,25 +256,25 @@ public class Dashboard extends DatabaseHandler {
 				amountPay.setText("");
 			}
 		});
-		btnNewButton.addMouseListener(new MouseAdapter() {
+		cleaarBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				amountPay.setText("");
 			}
 		});
 
-		btnNewButton.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		btnNewButton.setBackground(new Color(187, 214, 249));
-		btnNewButton.setBounds(69, 113, 143, 37);
-		buttonPn.add(btnNewButton);
+		cleaarBtn.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		cleaarBtn.setBackground(new Color(187, 214, 249));
+		cleaarBtn.setBounds(69, 113, 143, 37);
+		buttonPn.add(cleaarBtn);
 
-		JButton btnNewButton_1 = new JButton("Remove");
-		btnNewButton_1.addActionListener(new ActionListener() {
+		JButton removeBtn = new JButton("Remove");
+		removeBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnNewButton_1.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		btnNewButton_1.addMouseListener(new MouseAdapter() {
+		removeBtn.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		removeBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				try {
@@ -304,9 +304,9 @@ public class Dashboard extends DatabaseHandler {
 
 			}
 		});
-		btnNewButton_1.setBackground(new Color(255, 255, 255));
-		btnNewButton_1.setBounds(222, 113, 151, 37);
-		buttonPn.add(btnNewButton_1);
+		removeBtn.setBackground(new Color(255, 255, 255));
+		removeBtn.setBounds(222, 113, 151, 37);
+		buttonPn.add(removeBtn);
 
 		JButton btnNewButton_2 = new JButton("Check out");
 		btnNewButton_2.addActionListener(new ActionListener() {
