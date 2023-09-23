@@ -168,12 +168,7 @@ public class AdminLogin implements WindowListener{
 			if (adminLoginInfo.get(userID).equals(password)) {
 				frameDb.dispose();
 				frame.dispose();
-				java.awt.EventQueue.invokeLater(new Runnable() {
-					public void run() {
-
-						new Dashboard2().setVisible(true);
-					}
-				});
+				AdminPage adminPage = new AdminPage();
 			} else {
 				JOptionPane.showMessageDialog(null,"Wrong password or username");
 			}
