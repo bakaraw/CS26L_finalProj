@@ -119,25 +119,25 @@ public class RemoveWindow extends JFrame {
 		remQty = new JTextField();
 		remQty.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		remQty.setColumns(10);
-		remQty.setBounds(154, 233, 254, 27);
+		remQty.setBounds(154, 195, 254, 27);
 		body.add(remQty);
 
-		JLabel lblStockInBy = new JLabel("CHANGED BY:");
+		JLabel lblStockInBy = new JLabel("REMOVED BY:");
 		lblStockInBy.setVerticalAlignment(SwingConstants.TOP);
 		lblStockInBy.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblStockInBy.setBounds(35, 202, 104, 20);
+		lblStockInBy.setBounds(35, 240, 104, 20);
 		body.add(lblStockInBy);
 
 		rembyField = new JTextField();
 		rembyField.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		rembyField.setColumns(10);
-		rembyField.setBounds(154, 195, 254, 27);
+		rembyField.setBounds(154, 233, 254, 27);
 		body.add(rembyField);
 
 		JLabel lblQuantity = new JLabel("QUANTITY:");
 		lblQuantity.setVerticalAlignment(SwingConstants.TOP);
 		lblQuantity.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblQuantity.setBounds(35, 240, 89, 20);
+		lblQuantity.setBounds(35, 202, 89, 20);
 		body.add(lblQuantity);
 
 		JButton btnRemove = new JButton("REMOVE");
@@ -154,6 +154,7 @@ public class RemoveWindow extends JFrame {
 						removeStock();
 					}
 				}
+				dispose();
 			}
 		});
 		btnRemove.setBackground(new Color(201, 242, 168));
