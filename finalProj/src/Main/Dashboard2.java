@@ -391,7 +391,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 		removePn.add(chkRemProd);
 		
 		lblNewLabel_3 = new JLabel("   Inventory");
-		lblNewLabel_3.setIcon(new ImageIcon("C:\\Users\\User\\Downloads\\icons8-open-box-32.png"));
+		lblNewLabel_3.setIcon(new ImageIcon("img\\icons8-open-box-32.png"));
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 28));
 		
 		inventorySF = new JTextField();
@@ -399,7 +399,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 		inventorySF.setColumns(10);
 		
 		btnSearch = new JButton("");
-		btnSearch.setIcon(new ImageIcon("C:\\Users\\User\\Downloads\\icons8-search-16 (1).png"));
+		btnSearch.setIcon(new ImageIcon("img\\icons8-search-16 (1).png"));
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				databaseHandler.skuSearch(inventorySF, descremField, qtyremField);
@@ -424,7 +424,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 		lblNewLabel_5.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		
 		btnRefresh = new JButton("");
-		btnRefresh.setIcon(new ImageIcon("C:\\Users\\User\\Downloads\\icons8-refresh-16 (1).png"));
+		btnRefresh.setIcon(new ImageIcon("img\\icons8-refresh-16 (1).png"));
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				databaseHandler.table_load("product",inventoryTable);
@@ -435,13 +435,13 @@ public class Dashboard2 extends javax.swing.JFrame {
 		scrollPane_1 = new JScrollPane();
 		
 		btnNewButton = new JButton("Add Product");
-		btnNewButton.setIcon(new ImageIcon("C:\\Users\\User\\Downloads\\icons8-add-new-16.png"));
+		btnNewButton.setIcon(new ImageIcon("img\\icons8-add-new-16.png"));
 		
 		btnNewButton_1 = new JButton("Stock in");
-		btnNewButton_1.setIcon(new ImageIcon("C:\\Users\\User\\Downloads\\icons8-add-to-cart-16.png"));
+		btnNewButton_1.setIcon(new ImageIcon("img\\icons8-add-to-cart-16.png"));
 		
 		btnNewButton_3 = new JButton("Remove");
-		btnNewButton_3.setIcon(new ImageIcon("C:\\Users\\User\\Downloads\\icons8-remove-16.png"));
+		btnNewButton_3.setIcon(new ImageIcon("img\\icons8-remove-16.png"));
 
 		javax.swing.GroupLayout InventoryPanelLayout = new javax.swing.GroupLayout(InventoryPanel);
 		InventoryPanelLayout.setHorizontalGroup(
@@ -538,7 +538,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 		ActivityLogsPanel.setBackground(new Color(255, 255, 255));
 		
 		JLabel lblNewLabel_2_1_1 = new JLabel("  Admin Activity Logs");
-		lblNewLabel_2_1_1.setIcon(new ImageIcon("C:\\Users\\User\\Downloads\\icons8-activity-feed-32.png"));
+		lblNewLabel_2_1_1.setIcon(new ImageIcon("img\\icons8-activity-feed-32.png"));
 		lblNewLabel_2_1_1.setFont(new Font("Tahoma", Font.BOLD, 25));
 		
 		JLabel lblNewLabel_4_1 = new JLabel("View by activity:");
@@ -553,7 +553,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 		viewByAct.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
 		JButton btnRefreshLogs = new JButton("Refresh");
-		btnRefreshLogs.setIcon(new ImageIcon("C:\\Users\\User\\Downloads\\icons8-refresh-16 (1).png"));
+		btnRefreshLogs.setIcon(new ImageIcon("img\\icons8-refresh-16 (1).png"));
 		btnRefreshLogs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				databaseHandler.table_load("activitylogs", logsTable);
@@ -829,7 +829,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 		addstockPn.add(lblNewLabel_5_1_2_1_1);
 		
 		JLabel lblNewLabel_2_1 = new JLabel("  Stock In");
-		lblNewLabel_2_1.setIcon(new ImageIcon("C:\\Users\\User\\Downloads\\icons8-add-to-cart-32.png"));
+		lblNewLabel_2_1.setIcon(new ImageIcon("img\\icons8-add-to-cart-32.png"));
 		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 28));
 
 		javax.swing.GroupLayout StockInPanelLayout = new javax.swing.GroupLayout(StockInPanel);

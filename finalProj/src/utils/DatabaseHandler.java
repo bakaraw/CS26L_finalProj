@@ -70,7 +70,7 @@ public class DatabaseHandler {
 		change = cr.getChange();
 		try {
 			pst = con.prepareStatement(
-					"insert into `clientrecords`(`Date`, `Items`, `Total Sales`, `Amount Payed`, `Change_`)values(?,?,?,?,?)");
+					"insert into `clientrecords`(`Date`, `Items`, `TotalSales`, `Amount Payed`, `Change_`)values(?,?,?,?,?)");
 			pst.setDate(1, cr.getDate());
 			pst.setString(2, items);
 			pst.setString(3, totalSales);

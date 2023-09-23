@@ -16,8 +16,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
-
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 
@@ -64,6 +66,7 @@ public class Dashboard extends DatabaseHandler{
 	private ClientRecords clientRec;
 	
 	public Dashboard() {
+		
 		initialize();
 		Connect();
 		table_load("product",prodTable);
@@ -156,6 +159,12 @@ public class Dashboard extends DatabaseHandler{
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		try {
+			UIManager.setLookAndFeel(new NimbusLookAndFeel());
+		} catch (UnsupportedLookAndFeelException e) {
+			
+			e.printStackTrace();
+		}
 		frame = new JFrame();
 		frame.setResizable(false);
 		frame.setTitle("Dashboard");
@@ -221,7 +230,7 @@ public class Dashboard extends DatabaseHandler{
 		
 		JLabel lblNewLabel_2 = new JLabel("  Cart");
 		lblNewLabel_2.setIcon(new ImageIcon("C:\\Users\\User\\Pictures\\proj\\cart-icon.png"));
-		lblNewLabel_2.setFont(new Font("Gilroy ExtraBold", Font.BOLD, 20));
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblNewLabel_2.setForeground(new Color(255, 255, 255));
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
 		gbc_lblNewLabel_2.anchor = GridBagConstraints.NORTHWEST;
@@ -404,7 +413,7 @@ public class Dashboard extends DatabaseHandler{
 		
 		JLabel lblNewLabel_3 = new JLabel("Available Products");
 		lblNewLabel_3.setBounds(15, 0, 239, 37);
-		lblNewLabel_3.setFont(new Font("Gilroy ExtraBold", Font.BOLD, 25));
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 25));
 		
 		searchField = new JTextField();
 		searchField.addKeyListener(new KeyAdapter() {
@@ -416,17 +425,17 @@ public class Dashboard extends DatabaseHandler{
 				}
 			}
 		});
-		searchField.setBounds(15, 44, 313, 23);
+		searchField.setBounds(15, 42, 313, 25);
 		searchField.setColumns(10);
 		
 		JButton btnSearch = new JButton("");
-		btnSearch.setIcon(new ImageIcon("C:\\Users\\User\\Downloads\\icons8-search-16.png"));
+		btnSearch.setIcon(new ImageIcon("img\\icons8-search-16 (1).png"));
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				skuSearch(searchField);
 			}
 		});
-		btnSearch.setBounds(338, 44, 25, 23);
+		btnSearch.setBounds(338, 42, 33, 25);
 		btnSearch.setBackground(new Color(187, 214, 249));
 		btnSearch.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
