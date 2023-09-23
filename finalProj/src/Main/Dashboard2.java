@@ -445,6 +445,11 @@ public class Dashboard2 extends javax.swing.JFrame {
 		});
 
 		btn_StockIn = new JButton("Stock in");
+		btn_StockIn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				stockinwindow.getObj().setVisible(true);
+			}
+		});
 //		btn_StockIn.addMouseListener(new MouseAdapter() {
 //			@Override
 //			public void mouseClicked(MouseEvent e) {

@@ -33,8 +33,8 @@ public class StockInWindow extends JFrame {
 	private JTextField stockInbyField;
 	private JTextField addqtyField;
 	private static JTextField currQtyField;
-	private JTable inventoryTable;
-	private JTable logsTable;
+	private static JTable inventoryTable;
+	private static JTable logsTable;
 	static DatabaseHandler handler = new DatabaseHandler();
 	private static StockInWindow obj = null;
 	private static JTextArea addStockTextArea = new JTextArea();
@@ -42,23 +42,17 @@ public class StockInWindow extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					StockInWindow frame = new StockInWindow();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	
+	
+	void StockInWindow () {
+		handler.Connect();
+		initComponents();
 	}
 
 	/**
 	 * Create the frame.
 	 */
-	public StockInWindow() {
+	public void initComponents() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 364, 475);
 		setLocationRelativeTo(null);
@@ -167,7 +161,7 @@ public class StockInWindow extends JFrame {
 		JButton btnAddStock = new JButton("ADD");
 		btnAddStock.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				handler.Connect();
+				
 				addStock();
 			}
 		});
@@ -183,12 +177,12 @@ public class StockInWindow extends JFrame {
 		lblRemarks.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblRemarks.setBounds(72, 271, 76, 20);
 		body.add(lblRemarks);
-		
+		setVisible(true);
 	}
 
 	public void addStock() {
 		try {
-			handler.Connect();
+			
 			String sku, desc, qty, changeby, remarks;
 			sku = addstockSkuField.getText();
 			desc = adddescField.getText();
@@ -258,5 +252,13 @@ public class StockInWindow extends JFrame {
 
 	public static void setcurrQtyField(String var) {
 		currQtyField.setText(var);
+	}
+	
+	public static void setInventoryTable(JTable table) {
+		inventoryTable = table;
+	}
+	
+	public static void setLogsTable(JTable table) {
+		logsTable = table;
 	}
 }
