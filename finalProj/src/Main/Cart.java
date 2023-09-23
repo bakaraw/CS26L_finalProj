@@ -62,7 +62,7 @@ public class Cart {
 		JFrame frmAddItems = new JFrame();
 		frmAddItems.setResizable(false);
 		frmAddItems.setTitle("Add Items");
-		frmAddItems.setBounds(100, 100, 443, 374);
+		frmAddItems.setBounds(100, 100, 450, 342);
 		frmAddItems.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmAddItems.getContentPane().setLayout(new BorderLayout(0, 0));
 
@@ -93,24 +93,24 @@ public class Cart {
 
 		JLabel lblPrice = new JLabel("Price:");
 		lblPrice.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblPrice.setBounds(74, 153, 40, 14);
+		lblPrice.setBounds(74, 149, 40, 14);
 		body.add(lblPrice);
 
 		JLabel lblQuanitity = new JLabel("Quantity:");
 		lblQuanitity.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblQuanitity.setBounds(39, 223, 66, 19);
+		lblQuanitity.setBounds(48, 209, 66, 19);
 		body.add(lblQuanitity);
 
 		descField = new JTextField();
 		descField.setEditable(false);
-		descField.setBounds(124, 111, 259, 23);
+		descField.setBounds(124, 119, 259, 20);
 		body.add(descField);
 		descField.setColumns(10);
 
 		priceField = new JTextField();
 		priceField.setEditable(false);
 		priceField.setColumns(10);
-		priceField.setBounds(124, 145, 259, 23);
+		priceField.setBounds(124, 149, 259, 20);
 		body.add(priceField);
 
 		JButton btnNewButton = new JButton("Add To Cart");
@@ -148,7 +148,7 @@ public class Cart {
 			}
 
 		});
-		btnNewButton.setBounds(124, 274, 96, 23);
+		btnNewButton.setBounds(125, 257, 96, 23);
 		body.add(btnNewButton);
 
 		JButton btnClose = new JButton("Close");
@@ -159,18 +159,18 @@ public class Cart {
 				frmAddItems.dispose();
 			}
 		});
-		btnClose.setBounds(230, 274, 96, 23);
+		btnClose.setBounds(231, 257, 96, 23);
 		body.add(btnClose);
 
 		JLabel totalpriceLabel = new JLabel("Total Price:");
 		totalpriceLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		totalpriceLabel.setBounds(29, 185, 81, 14);
+		totalpriceLabel.setBounds(33, 176, 81, 14);
 		body.add(totalpriceLabel);
 
 		totpriceField = new JTextField();
 		totpriceField.setEditable(false);
 		totpriceField.setColumns(10);
-		totpriceField.setBounds(124, 183, 259, 23);
+		totpriceField.setBounds(124, 176, 259, 20);
 		body.add(totpriceField);
 
 		qtyField = new JSpinner();
@@ -186,18 +186,18 @@ public class Cart {
 			}
 		});
 		qtyField.setModel(new SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
-		qtyField.setBounds(123, 223, 120, 23);
+		qtyField.setBounds(124, 205, 120, 23);
 		body.add(qtyField);
 
 		JLabel lblSku = new JLabel("SKU:");
 		lblSku.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblSku.setBounds(74, 77, 85, 14);
+		lblSku.setBounds(79, 95, 85, 14);
 		body.add(lblSku);
 
 		skuField = new JTextField();
 		skuField.setEditable(false);
 		skuField.setColumns(10);
-		skuField.setBounds(124, 75, 259, 23);
+		skuField.setBounds(124, 88, 259, 20);
 		body.add(skuField);
 		frmAddItems.setLocationRelativeTo(null);
 		frmAddItems.setVisible(true);
