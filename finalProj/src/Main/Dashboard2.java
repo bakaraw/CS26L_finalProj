@@ -29,7 +29,6 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.ImageIcon;
 
 
 public class Dashboard2 extends javax.swing.JFrame {
@@ -279,17 +278,16 @@ public class Dashboard2 extends javax.swing.JFrame {
 
 		InventoryPanel.setBackground(new Color(255, 255, 255));
 
-		lblNewLabel_3 = new JLabel("   Inventory");
-		lblNewLabel_3.setIcon(new ImageIcon("img\\icons8-open-box-32.png"));
+		lblNewLabel_3 = new JLabel("Inventory");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 28));
 
 		inventorySF = new JTextField();
 		inventorySF.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		inventorySF.setColumns(10);
 
+		btnSearch = new JButton("Search");
 		
-		btnSearch = new JButton("");
-		btnSearch.setIcon(new ImageIcon("img\\icons8-search-16 (1).png"));
+		btnSearch.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnSearch.setBackground(new Color(187, 214, 249));
 
 		lblNewLabel_4 = new JLabel("View by category:");
@@ -307,9 +305,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 		lblNewLabel_5 = new JLabel("SKU search");
 		lblNewLabel_5.setFont(new Font("Tahoma", Font.ITALIC, 11));
 
-		btnRefresh = new JButton("");
-		btnRefresh.setIcon(new ImageIcon("img\\icons8-refresh-16 (1).png"));
-
+		btnRefresh = new JButton("Refresh");
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				databaseHandler.table_load("product", inventoryTable);
@@ -320,7 +316,6 @@ public class Dashboard2 extends javax.swing.JFrame {
 		scrollPane_1 = new JScrollPane();
 
 		btn_AddProduct = new JButton("Add Product");
-    btn_AddProduct.setIcon(new ImageIcon("img\\icons8-add-new-16.png"));
 		btn_AddProduct.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AddWindow addwindow = new AddWindow();
@@ -330,7 +325,6 @@ public class Dashboard2 extends javax.swing.JFrame {
 			}
 		});
 		
-
 		btn_StockIn = new JButton("Stock in");
 		btn_StockIn.setIcon(new ImageIcon("img\\icons8-add-to-cart-16.png"));
 		btn_StockIn.addActionListener(new ActionListener() {
@@ -340,7 +334,6 @@ public class Dashboard2 extends javax.swing.JFrame {
 		});
 
 		btn_Remove = new JButton("Remove");
-    btn_Remove.setIcon(new ImageIcon("img\\icons8-remove-16.png"));
 		btn_Remove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				removewindow.getObj().setVisible(true);
@@ -353,6 +346,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 				.addGroup(InventoryPanelLayout.createSequentialGroup()
 					.addContainerGap(20, Short.MAX_VALUE)
 					.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblNewLabel_5, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 262, GroupLayout.PREFERRED_SIZE)
 						.addGroup(InventoryPanelLayout.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.RELATED)
@@ -363,6 +357,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(btnSearch)
 							.addGap(77)
+
 							.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
 							.addGap(4)
 							.addComponent(viewCB, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)
@@ -387,6 +382,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 						.addGroup(InventoryPanelLayout.createSequentialGroup()
 							.addGap(12)
 							.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+
 							.addGap(29)))
 					.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(btnSearch, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -403,6 +399,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 									.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.BASELINE)
 										.addComponent(viewCB, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
 										.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE))))))
+
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 467, GroupLayout.PREFERRED_SIZE)
 					.addGap(20))
@@ -459,8 +456,6 @@ public class Dashboard2 extends javax.swing.JFrame {
 		ActivityLogsPanel.setBackground(new Color(255, 255, 255));
 
 		JLabel lblNewLabel_2_1_1 = new JLabel("Admin Activity Logs");
-    lblNewLabel_2_1_1.setIcon(new ImageIcon("img\\icons8-activity-feed-32.png"));
-
 		lblNewLabel_2_1_1.setFont(new Font("Tahoma", Font.BOLD, 25));
 
 		JLabel lblNewLabel_4_1 = new JLabel("View by activity:");
@@ -475,7 +470,6 @@ public class Dashboard2 extends javax.swing.JFrame {
 		viewByAct.setFont(new Font("Tahoma", Font.PLAIN, 15));
 
 		JButton btnRefreshLogs = new JButton("Refresh");
-		btnRefreshLogs.setIcon(new ImageIcon("img\\icons8-refresh-16 (1).png"));
 		btnRefreshLogs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				databaseHandler.table_load("activitylogs", logsTable);
@@ -484,7 +478,6 @@ public class Dashboard2 extends javax.swing.JFrame {
 		btnRefreshLogs.setBackground(new Color(201, 242, 168));
 
 		JButton btnDeleteLogs = new JButton("Delete all");
-		btnDeleteLogs.setIcon(new ImageIcon("C:\\Users\\User\\Downloads\\icons8-remove-16 (1).png"));
 
 		JScrollPane scrollPane_actLogs = new JScrollPane();
 
@@ -517,7 +510,6 @@ public class Dashboard2 extends javax.swing.JFrame {
 						.addComponent(scrollPane_actLogs, GroupLayout.PREFERRED_SIZE, 466, GroupLayout.PREFERRED_SIZE)
 						.addContainerGap(21, Short.MAX_VALUE)));
 
-
 		logsTable = new JTable();
 		scrollPane_actLogs.setViewportView(logsTable);
 		databaseHandler.table_load("activitylogs", logsTable);
@@ -530,11 +522,8 @@ public class Dashboard2 extends javax.swing.JFrame {
 		scrollPane_4 = new JScrollPane();
 
 		btnDeleteClientRecords = new JButton("Delete all");
-		btnDeleteClientRecords.setIcon(new ImageIcon("img\\icons8-remove-16 (1).png"));
-		
-		lblNewLabel_2_1_1_1 = new JLabel("  Client Records");
-		lblNewLabel_2_1_1_1.setIcon(new ImageIcon("img\\icons8-database-view-32.png"));
 
+		lblNewLabel_2_1_1_1 = new JLabel("Client Records");
 		lblNewLabel_2_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 25));
 
 		javax.swing.GroupLayout ClientRecordsPanelLayout = new javax.swing.GroupLayout(ClientRecordsPanel);
@@ -738,9 +727,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 		lblNewLabel_5_1_2_1_1.setBounds(95, 259, 88, 25);
 		addstockPn.add(lblNewLabel_5_1_2_1_1);
 
-		JLabel lblNewLabel_2_1 = new JLabel("  Stock In");
-		lblNewLabel_2_1.setIcon(new ImageIcon("img\\icons8-add-to-cart-32.png"));
-
+		JLabel lblNewLabel_2_1 = new JLabel("Stock In");
 		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 28));
 
 		javax.swing.GroupLayout StockInPanelLayout = new javax.swing.GroupLayout(StockInPanel);
@@ -748,7 +735,6 @@ public class Dashboard2 extends javax.swing.JFrame {
 				.addGroup(StockInPanelLayout.createSequentialGroup().addGap(28).addGroup(StockInPanelLayout
 						.createParallelGroup(Alignment.LEADING)
 						.addGroup(StockInPanelLayout.createSequentialGroup()
-
 								.addComponent(lblNewLabel_2_1, GroupLayout.PREFERRED_SIZE, 136,
 										GroupLayout.PREFERRED_SIZE)
 								.addContainerGap())
@@ -764,7 +750,6 @@ public class Dashboard2 extends javax.swing.JFrame {
 								.addComponent(addstockPn, GroupLayout.PREFERRED_SIZE, 516, GroupLayout.PREFERRED_SIZE)
 								.addComponent(newProdPn, GroupLayout.PREFERRED_SIZE, 516, GroupLayout.PREFERRED_SIZE))
 						.addContainerGap(22, Short.MAX_VALUE)));
-
 		StockInPanel.setLayout(StockInPanelLayout);
 
 		layeredPane.add(StockInPanel, "card6");
