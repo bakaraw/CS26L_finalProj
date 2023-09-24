@@ -10,6 +10,8 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Calendar;
 import java.util.HashMap;
 
@@ -46,7 +48,7 @@ public class RegisterPage extends DatabaseHandler implements KeyListener {
 	private JComboBox monthComboBox;
 	private JComboBox dayComboBox;
 	private JComboBox yearComboBox;
-	
+
 	private JFrame frame;
 
 	// numbers array maker for the date combobox
@@ -87,7 +89,7 @@ public class RegisterPage extends DatabaseHandler implements KeyListener {
 	public RegisterPage(HashMap<String, String> logininfoOriginal) {
 		logininfo = logininfoOriginal;
 		Connect();
-		
+
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(100, 100, 962, 548);
@@ -241,19 +243,18 @@ public class RegisterPage extends DatabaseHandler implements KeyListener {
 		imagePanel.setBounds(0, 0, 477, 509);
 		contentPane.add(imagePanel);
 		imagePanel.setLayout(null);
-		
+
 		BufferedImage img = null;
 		try {
-		    img = ImageIO.read(new File("img\\bitmonke.png"));
+			img = ImageIO.read(new File("img\\bitmonke.png"));
 		} catch (IOException e) {
-		    e.printStackTrace();
+			e.printStackTrace();
 		}
-		
+
 		JLabel lblNewLabel_3 = new JLabel("");
 		lblNewLabel_3.setBounds(0, 0, 477, 509);
-		Image dimg = img.getScaledInstance(lblNewLabel_3.getWidth(), lblNewLabel_3.getHeight(),
-		        Image.SCALE_SMOOTH);
-		
+		Image dimg = img.getScaledInstance(lblNewLabel_3.getWidth(), lblNewLabel_3.getHeight(), Image.SCALE_SMOOTH);
+
 		lblNewLabel_3.setIcon(new ImageIcon(dimg));
 		imagePanel.add(lblNewLabel_3);
 
@@ -275,23 +276,29 @@ public class RegisterPage extends DatabaseHandler implements KeyListener {
 
 			if (password.getText().equals(confirmPassword.getText())) {
 
-				Employee employee = new Employee();
-				employee.setName(
-						firstNameField.getText() + " " + middleNameField.getText() + " " + lastNameField.getText());
-				
-				employee.setBirthday(monthComboBox.getSelectedItem().toString() + " "
-						+ dayComboBox.getSelectedItem().toString() + ", " + yearComboBox.getSelectedItem().toString());
-				
-				employee.setUsername(usernameField.getText());
-				employee.setPassword(password.getText());
-				saveToDatabase(employee);
-				firstNameField.setText("");
-				middleNameField.setText("");
-				lastNameField.setText("");
-				usernameField.setText("");
-				password.setText("");
-				confirmPassword.setText("");
-				JOptionPane.showMessageDialog(null, "Register Successful");
+				try {
+					Employee employee = new Employee();
+					employee.setName(
+							firstNameField.getText() + " " + middleNameField.getText() + " " + lastNameField.getText());
+
+					employee.setBirthday(
+							monthComboBox.getSelectedItem().toString() + " " + dayComboBox.getSelectedItem().toString()
+									+ ", " + yearComboBox.getSelectedItem().toString());
+
+					employee.setUsername(usernameField.getText());
+					employee.setPassword(password.getText());
+					saveToDatabase(employee);
+					firstNameField.setText("");
+					middleNameField.setText("");
+					lastNameField.setText("");
+					usernameField.setText("");
+					password.setText("");
+					confirmPassword.setText("");
+					JOptionPane.showMessageDialog(null, "Register Successful");
+
+				} catch (SQLException e) {
+					JOptionPane.showMessageDialog(null, "Username already existed");
+				}
 
 			} else {
 				JOptionPane.showMessageDialog(null, "Password does not match");

@@ -19,6 +19,15 @@ import javax.swing.JComboBox;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.data.jdbc.JDBCCategoryDataset;
+
 import utils.ActivityLogs;
 import utils.DatabaseHandler;
 import utils.Product;
@@ -26,10 +35,29 @@ import utils.Product;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
+import org.jfree.ui.ApplicationFrame;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PiePlot;
+import org.jfree.chart.plot.RingPlot; // If you're creating a ring chart
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.PiePlot3D; // For 3D pie charts
+import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.general.PieDataset;
+
+import org.jfree.ui.RefineryUtilities;
+
+import org.jfree.util.Rotation;
+
+
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 
 public class Dashboard2 extends javax.swing.JFrame {
@@ -41,7 +69,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 	}
 	@SuppressWarnings("unchecked")
 	private void initComponents() {
-		databaseHandler = new DatabaseHandler();
+		
 		DashboardPanel = new JPanel();
 		SlidingMenu = new javax.swing.JPanel();
 		HideMenu = new javax.swing.JLabel();
@@ -62,9 +90,8 @@ public class Dashboard2 extends javax.swing.JFrame {
 		ClientRecordsPanel = new javax.swing.JPanel();
 		StockInPanel = new javax.swing.JPanel();
 		SalesReportPanel = new javax.swing.JPanel();
-		jLabel1 = new javax.swing.JLabel();
 
-		databaseHandler.Connect();
+		jLabel1 = new javax.swing.JLabel();
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		setResizable(false);
@@ -770,27 +797,62 @@ public class Dashboard2 extends javax.swing.JFrame {
 		layeredPane.add(StockInPanel, "card6");
 
 		SalesReportPanel.setBackground(new Color(255, 255, 255));
-
-		jLabel1.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
-		jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-		jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-		jLabel1.setText("SalesReport");
+		
+		JPanel salesReportContentPanel = new JPanel();
 
 		javax.swing.GroupLayout SalesReportPanelLayout = new javax.swing.GroupLayout(SalesReportPanel);
+		SalesReportPanelLayout.setHorizontalGroup(
+			SalesReportPanelLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, SalesReportPanelLayout.createSequentialGroup()
+					.addGap(25)
+					.addComponent(salesReportContentPanel, GroupLayout.PREFERRED_SIZE, 1352, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(23, Short.MAX_VALUE))
+		);
+		SalesReportPanelLayout.setVerticalGroup(
+			SalesReportPanelLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(SalesReportPanelLayout.createSequentialGroup()
+					.addGap(19)
+					.addComponent(salesReportContentPanel, GroupLayout.PREFERRED_SIZE, 556, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(22, Short.MAX_VALUE))
+		);
+		salesReportContentPanel.setLayout(null);
+		
+		JLabel lblNewLabel_7 = new JLabel("Sales Report");
+		lblNewLabel_7.setFont(new Font("Tahoma", Font.BOLD, 28));
+		lblNewLabel_7.setBounds(34, 11, 302, 34);
+		salesReportContentPanel.add(lblNewLabel_7);
+		
+		lineGraphPn = new JPanel();
+		lineGraphPn.setBackground(new Color(255, 255, 255));
+		lineGraphPn.setBounds(34, 67, 709, 430);
+		try {
+			lineGraphPn.add(createLineGraph());
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		salesReportContentPanel.add(lineGraphPn);
+		
+		PieChartPanel = new JPanel();
+		PieChartPanel.setBackground(new Color(255, 255, 128));
+		PieChartPanel.setBounds(753, 67, 560, 341);
+		try {
+			PieChartPanel.add( new CreatePieChart("Pie Chart Test","Stocks Comparison"));
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		salesReportContentPanel.add(PieChartPanel);
+		
+		JButton btnNewButton_4 = new JButton("New button");
+		btnNewButton_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tryGraph();
+			}
+		});
+		btnNewButton_4.setBounds(346, 24, 89, 23);
+		salesReportContentPanel.add(btnNewButton_4);
 		SalesReportPanel.setLayout(SalesReportPanelLayout);
-		SalesReportPanelLayout.setHorizontalGroup(SalesReportPanelLayout
-				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SalesReportPanelLayout.createSequentialGroup()
-						.addContainerGap(669, Short.MAX_VALUE).addComponent(jLabel1,
-								javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-						.addGap(323, 323, 323)));
-		SalesReportPanelLayout
-				.setVerticalGroup(
-						SalesReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-								.addGroup(SalesReportPanelLayout.createSequentialGroup().addGap(115, 115, 115)
-										.addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 61,
-												javax.swing.GroupLayout.PREFERRED_SIZE)
-										.addContainerGap(404, Short.MAX_VALUE)));
 
 		layeredPane.add(SalesReportPanel, "card2");
 
@@ -975,6 +1037,9 @@ public class Dashboard2 extends javax.swing.JFrame {
 	}
 	
 	public void windowStart() {
+
+		databaseHandler = new DatabaseHandler();
+		databaseHandler.Connect();
 		try {
 			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
 				if ("Nimbus".equals(info.getName())) {
@@ -995,6 +1060,71 @@ public class Dashboard2 extends javax.swing.JFrame {
 			java.util.logging.Logger.getLogger(Dashboard2.class.getName()).log(java.util.logging.Level.SEVERE, null,
 					ex);
 		}
+  }
+  
+	public ChartPanel createLineGraph() throws Exception {
+			String query ="select Date,TotalSales from clientrecords";
+			JDBCCategoryDataset dataset = new JDBCCategoryDataset(databaseHandler.con,query);
+			JFreeChart chart = ChartFactory.createLineChart("Sales Chart", "Date", "Sales (Php)", dataset, PlotOrientation.VERTICAL, false, true, true);
+			BarRenderer renderer = null;
+			CategoryPlot plot = null;
+			renderer = new BarRenderer();
+			ChartPanel chartpn = new ChartPanel(chart, true);
+			return chartpn;
+	}
+	public void tryGraph() {
+		
+		try {
+			String query ="select 'Date','Total Sales' from clientrecords";
+			JDBCCategoryDataset dataset = new JDBCCategoryDataset(databaseHandler.con,query);
+			JFreeChart chart = ChartFactory.createLineChart("title", "Date", "Sales (Php)", dataset, PlotOrientation.VERTICAL, false, true, true);
+			BarRenderer renderer = null;
+			CategoryPlot plot = null;
+			renderer = new BarRenderer();
+			ChartFrame frame = new ChartFrame("Query Chart", chart);
+			frame.setVisible(true);
+			frame.setSize(400,400);
+		} catch (SQLException e) {
+			
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	public class CreatePieChart extends JPanel {
+		
+		
+
+		public CreatePieChart (String apptitle, String chartTitle) {
+			PieDataset dataset = createDataset();
+			JFreeChart chart = createChart(dataset, chartTitle);
+			ChartPanel chartPanel = new ChartPanel(chart);
+			chartPanel.setPreferredSize(new java.awt.Dimension(500,300));
+			add(chartPanel);
+			
+		}
+		
+		private PieDataset createDataset() {
+			DefaultPieDataset result = new DefaultPieDataset();
+			result.setValue("Peripherals", 65);
+			result.setValue("CPU", 24);
+			result.setValue("GPU", 40);
+			result.setValue("Motherboard", 21);
+			result.setValue("RAM", 34);
+			result.setValue("Storage Device", 21);
+			return result;
+		}
+
+		private JFreeChart createChart(PieDataset dataset, String title) {
+			JFreeChart chart = ChartFactory.createPieChart3D(title, dataset, true, true, true);
+			PiePlot3D plot = (PiePlot3D)chart.getPlot();
+			plot.setStartAngle(90);
+			plot.setDirection(Rotation.CLOCKWISE);
+			plot.setForegroundAlpha(0.5f);
+			return chart;
+		}
+		
+
 	}
 
 	// Variables declaration - do not modify
@@ -1015,7 +1145,6 @@ public class Dashboard2 extends javax.swing.JFrame {
 	private javax.swing.JLabel StockIn;
 	private javax.swing.JPanel StockInPanel;
 	private javax.swing.JLabel StockSales;
-	private javax.swing.JLabel jLabel1;
 	private javax.swing.JLayeredPane layeredPane;
 	private JLabel lblNewLabel_3;
 	private JTextField inventorySF;
@@ -1044,6 +1173,8 @@ public class Dashboard2 extends javax.swing.JFrame {
 	private JButton btnDeleteClientRecords;
 	private JLabel lblNewLabel_2_1_1_1;
 	private JTable clientRecordsTable;
+	private JPanel lineGraphPn;
+	private JPanel PieChartPanel;
 	private JButton btn_AddProduct;
 	private JButton btn_StockIn;
 	private JButton btn_Remove;

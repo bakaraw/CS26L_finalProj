@@ -164,6 +164,7 @@ public class Dashboard extends DatabaseHandler{
 		frame.getContentPane().setBackground(new Color(255, 255, 255));
 		frame.setResizable(false);
 		frame.setTitle("Dashboard");
+
 		frame.setBounds(100, 100, 1446, 873);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -199,6 +200,7 @@ public class Dashboard extends DatabaseHandler{
 		top.add(lblNewLabel_1);
 		top.add(logoutBtn);
 		
+
 		JLabel employeeIDLabel = new JLabel("Employee ID: "+id);
 		employeeIDLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		employeeIDLabel.setForeground(new Color(255, 255, 255));
@@ -421,9 +423,8 @@ public class Dashboard extends DatabaseHandler{
 				}
 			}
 		});
-		searchField.setBounds(15, 44, 313, 23);
+		searchField.setBounds(15, 110, 313, 23);
 		searchField.setColumns(10);
-		
 		JButton btnSearch = new JButton("");
 		btnSearch.setIcon(new ImageIcon("img\\icons8-search-16 (1).png"));
 		btnSearch.addActionListener(new ActionListener() {
@@ -437,8 +438,8 @@ public class Dashboard extends DatabaseHandler{
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(15, 78, 923, 622);
-		
 		prodTable = new JTable();
+		prodTable.setForeground(new Color(34, 45, 51));
 		prodTable.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
@@ -492,11 +493,13 @@ public class Dashboard extends DatabaseHandler{
 		scrollPane.setViewportView(prodTable);
 		
 		JLabel lblNewLabel_4 = new JLabel("View by category:");
-		lblNewLabel_4.setBounds(440, 44, 117, 19);
+		lblNewLabel_4.setForeground(new Color(34, 45, 51));
+		lblNewLabel_4.setBounds(440, 110, 117, 19);
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
 		viewCB = new JComboBox(category.getCategoryArray());
-		viewCB.setBounds(575, 42, 139, 23);
+		viewCB.setForeground(new Color(34, 45, 51));
+		viewCB.setBounds(575, 108, 139, 23);
 		viewCB.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		viewCB.addItem("All");
 		viewCB.addActionListener(new ActionListener() {
@@ -509,7 +512,8 @@ public class Dashboard extends DatabaseHandler{
 		});
 		
 		JLabel lblNewLabel_5 = new JLabel("SKU search");
-		lblNewLabel_5.setBounds(15, 29, 54, 14);
+		lblNewLabel_5.setForeground(new Color(34, 45, 51));
+		lblNewLabel_5.setBounds(15, 95, 54, 14);
 		lblNewLabel_5.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_5.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		body.setLayout(null);
