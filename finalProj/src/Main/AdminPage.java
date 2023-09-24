@@ -21,7 +21,6 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
-
 import net.proteanit.sql.DbUtils;
 import utils.ActivityLogs;
 import utils.DatabaseHandler;
@@ -47,8 +46,8 @@ import java.io.IOException;
 
 import javax.swing.ListSelectionModel;
 
-public class AdminPage extends DatabaseHandler{
-	
+public class AdminPage extends DatabaseHandler {
+
 	private JPanel contentPane;
 	private JTextField inventorySF;
 	private JTable inventoryTable;
@@ -77,14 +76,14 @@ public class AdminPage extends DatabaseHandler{
 	private JCheckBox chkRemProd;
 	private ActivityLogs actType = new ActivityLogs();
 	private JTable clientRecordsTable;
-	
-	public AdminPage(){
+
+	public AdminPage() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					Initialization();
 					Connect();
-					table_load("product",inventoryTable);
+					table_load("product", inventoryTable);
 					table_load("activitylogs", logsTable);
 					table_load("clientrecords", clientRecordsTable);
 				} catch (Exception e) {
@@ -93,12 +92,10 @@ public class AdminPage extends DatabaseHandler{
 			}
 		});
 	}
-	
 
-	
 	void saveToDataBase() {
 		String sku, desc, qty, price, stockinby, remarks;
-		
+
 		sku = skuField.getText();
 		desc = descField.getText();
 		qty = qtyField.getText();
@@ -106,15 +103,15 @@ public class AdminPage extends DatabaseHandler{
 		stockinby = stockbyField.getText();
 		remarks = addnewprodRemarks.getText();
 		try {
-			if(!sku.isEmpty() && !desc.isEmpty() && !qty.isEmpty() && !price.isEmpty()) {
-				
+			if (!sku.isEmpty() && !desc.isEmpty() && !qty.isEmpty() && !price.isEmpty()) {
+
 				Product prod = new Product();
 				prod.setSku(sku);
 				prod.setDescription(desc);
 				prod.setCategory(chosenCat);
 				prod.setQty(qty);
 				prod.setPrice(price);
-				
+
 				ActivityLogs logs = new ActivityLogs();
 				logs.setSku(sku);
 				logs.setDescription(desc);
@@ -122,150 +119,142 @@ public class AdminPage extends DatabaseHandler{
 				logs.setQty(qty);
 				logs.setChangeBy(stockinby);
 				logs.setRemarks(remarks);
-				
+
 				saveToDatabase(prod);
 				saveToDatabase(logs);
-				table_load("product",inventoryTable);
+				table_load("product", inventoryTable);
 				table_load("activitylogs", logsTable);
-				
+
 				skuField.setText("");
 				descField.setText("");
 				stockbyField.setText("");
 				qtyField.setText("");
 				priceField.setText("");
 				addnewprodRemarks.setText("");
-				
-				
-			}
-			else {
+
+			} else {
 				JOptionPane.showMessageDialog(null, "Please input all the necessary information");
 			}
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	public void addStock() {
 		try {
-			
+
 			String sku, desc, qty, changeby, remarks;
 			sku = addstockSkuField.getText();
 			desc = adddescField.getText();
 			changeby = stockInbyField.getText();
 			remarks = addStockTextArea.getText();
 			String addqty = addqtyField.getText();
-			
-			if(addqty.isEmpty() || changeby.isEmpty()) {
+
+			if (addqty.isEmpty() || changeby.isEmpty()) {
 				throw new Exception();
 			}
-			
+
 			int addQtyVal = Integer.parseInt(addqty);
 			int currQtyVal = Integer.parseInt(currQtyField.getText());
-			if(addQtyVal > 0) {
-				
+			if (addQtyVal > 0) {
+
 				currQtyVal += addQtyVal;
-		        updateStockQty(currQtyVal, sku);
-		        
-		        ActivityLogs logs = new ActivityLogs();
-		        logs.setSku(sku);
-		        logs.setDescription(desc);
-		        logs.setActivity("Stock in");
-		        logs.setQty(addqty);
-		        logs.setChangeBy(changeby);
-		        logs.setRemarks(remarks);
-		        
-		        saveToDatabase(logs);
-		        table_load("product",inventoryTable);
-		        table_load("activitylogs", logsTable);
-		        
-		        JOptionPane.showMessageDialog(null, "Stock added successfully!");
-		        
-		        currQtyField.setText(currQtyVal+"");
-		        stockInbyField.setText("");
-		        addqtyField.setText("");
-		        addStockTextArea.setText("");
-		        super.skuSearched = "";
-		        
-			}
-			else if(addQtyVal == 0) {
+				updateStockQty(currQtyVal, sku);
+
+				ActivityLogs logs = new ActivityLogs();
+				logs.setSku(sku);
+				logs.setDescription(desc);
+				logs.setActivity("Stock in");
+				logs.setQty(addqty);
+				logs.setChangeBy(changeby);
+				logs.setRemarks(remarks);
+
+				saveToDatabase(logs);
+				table_load("product", inventoryTable);
+				table_load("activitylogs", logsTable);
+
+				JOptionPane.showMessageDialog(null, "Stock added successfully!");
+
+				currQtyField.setText(currQtyVal + "");
+				stockInbyField.setText("");
+				addqtyField.setText("");
+				addStockTextArea.setText("");
+				super.skuSearched = "";
+
+			} else if (addQtyVal == 0) {
 				JOptionPane.showMessageDialog(null, "You add 0 stock");
-			}
-			else {
+			} else {
 				JOptionPane.showMessageDialog(null, "Input POSITIVE integer in the ADD QTY field");
 			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null,
+					"Please SEARCH first the SKU and\nPlease FILL UP all the necessary information");
 		}
-		catch(Exception e) {
-			JOptionPane.showMessageDialog(null, "Please SEARCH first the SKU and\nPlease FILL UP all the necessary information");
-		}
-		
+
 	}
-	
+
 	public void removeStock() {
 		try {
 			String sku, desc, qty, changeby, remarks;
-			
+
 			sku = inventorySF.getText();
-			
+
 			desc = descremField.getText();
 			qty = qtyremField.getText();
 			changeby = rembyField.getText();
 			remarks = remarksArea.getText();
-			
+
 			String remqty = remQty.getText();
-			
-			if(changeby.isEmpty() || remarks.isEmpty()) {
+
+			if (changeby.isEmpty() || remarks.isEmpty()) {
 				throw new Exception();
 			}
-			
+
 			int remQtyVal = Integer.parseInt(remqty);
 			int currQtyVal = Integer.parseInt(qty);
 			int newQtyVal = currQtyVal - remQtyVal;
-			
-			if(remQtyVal > 0 && currQtyVal > 0 && newQtyVal >= 0) {
-				
-				
-		        updateStockQty(newQtyVal, sku);
-		        
-		        ActivityLogs logs = new ActivityLogs();
-		        logs.setSku(sku);
-		        logs.setDescription(desc);
-		        logs.setActivity("Stock removal");
-		        logs.setQty(remqty);
-		        logs.setChangeBy(changeby);
-		        logs.setRemarks(remarks);
-		        
-		        
-		        saveToDatabase(logs);
-		        table_load("product",inventoryTable);
-		        table_load("activitylogs", logsTable);
-		        
-		        JOptionPane.showMessageDialog(null, "Stock removed successfully!");
-		        
-		        qtyremField.setText(newQtyVal+"");
-		        rembyField.setText("");
-		        remQty.setText("");
-		        remarksArea.setText("");
-		        super.skuSearched = "";
-			}
-			else if(currQtyVal == 0) {
+
+			if (remQtyVal > 0 && currQtyVal > 0 && newQtyVal >= 0) {
+
+				updateStockQty(newQtyVal, sku);
+
+				ActivityLogs logs = new ActivityLogs();
+				logs.setSku(sku);
+				logs.setDescription(desc);
+				logs.setActivity("Stock removal");
+				logs.setQty(remqty);
+				logs.setChangeBy(changeby);
+				logs.setRemarks(remarks);
+
+				saveToDatabase(logs);
+				table_load("product", inventoryTable);
+				table_load("activitylogs", logsTable);
+
+				JOptionPane.showMessageDialog(null, "Stock removed successfully!");
+
+				qtyremField.setText(newQtyVal + "");
+				rembyField.setText("");
+				remQty.setText("");
+				remarksArea.setText("");
+				super.skuSearched = "";
+			} else if (currQtyVal == 0) {
 				JOptionPane.showMessageDialog(null, "Can't remove stock anymore because current Qty = 0   :(");
-			}
-			else if(newQtyVal < 0) {
+			} else if (newQtyVal < 0) {
 				JOptionPane.showMessageDialog(null, "**ERROR**\nYou CANNOT remove Qty more than the current Qty");
-			}
-			else {
+			} else {
 				JOptionPane.showMessageDialog(null, "**ERROR**\n{Input POSITIVE integer in the ADD QTY field}");
-				
+
 			}
-			
-		}catch(Exception e) {
-			JOptionPane.showMessageDialog(null, "Please SEARCH first the SKU and FILL UP all the necessary information");
+
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null,
+					"Please SEARCH first the SKU and FILL UP all the necessary information");
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	void deleteProduct() {
 		try {
 			String sku, desc, changeby, remarks;
@@ -273,39 +262,38 @@ public class AdminPage extends DatabaseHandler{
 			desc = descremField.getText();
 			changeby = rembyField.getText();
 			remarks = remarksArea.getText();
-			
-			
-			if(sku.isEmpty()) {
+
+			if (sku.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Search FIRST the product");
 			}
-			
-			if(changeby.isEmpty() || remarks.isEmpty()) {
+
+			if (changeby.isEmpty() || remarks.isEmpty()) {
 				throw new Exception();
 			}
-			
+
 			ActivityLogs logs = new ActivityLogs();
 			logs.setSku(sku);
-	        logs.setDescription(desc);
-	        logs.setActivity("Deleted product");
-	        logs.setQty(qtyremField.getText());
-	        logs.setChangeBy(changeby);
-	        logs.setRemarks(remarks);
-	        saveToDatabase(logs);
-	        
+			logs.setDescription(desc);
+			logs.setActivity("Deleted product");
+			logs.setQty(qtyremField.getText());
+			logs.setChangeBy(changeby);
+			logs.setRemarks(remarks);
+			saveToDatabase(logs);
+
 			deleteRow("product", "SKU", inventorySF.getText());
 			table_load("product", inventoryTable);
 			table_load("activitylogs", logsTable);
-			
+
 			inventorySF.setText("");
 			descremField.setText("");
 			rembyField.setText("");
 			remarksArea.setText("");
-		}catch(Exception f) {
+		} catch (Exception f) {
 			JOptionPane.showMessageDialog(null, "Please input the necessary information");
 		}
-		
+
 	}
-	
+
 	void Initialization(){
 		JFrame frame = new JFrame();
 		frame.setTitle("Admin");
@@ -510,11 +498,21 @@ public class AdminPage extends DatabaseHandler{
 						String add2 = rs.getString("Description");
 						descremField.setText(add2);
 						String add3 = rs.getString("Qty");
+						String add4 = rs.getString("Price");
+						String totp = rs.getString("price");
 						qtyremField.setText(add3);
 						
 						addstockSkuField.setText(add1);
 						adddescField.setText(add2);
 						currQtyField.setText(add3);
+						
+//						PopUp frame = new PopUp();
+//						frame.setVisible(true);
+//						
+//						frame.setSku(Table_click);
+//						frame.setdesc(add2);
+//						frame.setprice(add4);
+					
 						
 					}
 					
