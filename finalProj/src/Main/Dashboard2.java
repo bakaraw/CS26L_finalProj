@@ -38,7 +38,25 @@ import javax.swing.JTextArea;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
+import org.jfree.ui.ApplicationFrame;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PiePlot;
+import org.jfree.chart.plot.RingPlot; // If you're creating a ring chart
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.PiePlot3D; // For 3D pie charts
+import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.general.PieDataset;
 
+import org.jfree.ui.RefineryUtilities;
+
+import org.jfree.util.Rotation;
+
+
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class Dashboard2 extends javax.swing.JFrame {
 
@@ -888,13 +906,16 @@ public class Dashboard2 extends javax.swing.JFrame {
 		}
 		salesReportContentPanel.add(lineGraphPn);
 		
-		panel_2 = new JPanel();
-		panel_2.setBackground(new Color(255, 255, 128));
-		panel_2.setBounds(753, 67, 560, 233);
-		salesReportContentPanel.add(panel_2);
-		
-		JLabel lblNewLabel_10 = new JLabel("pie chart");
-		panel_2.add(lblNewLabel_10);
+		PieChartPanel = new JPanel();
+		PieChartPanel.setBackground(new Color(255, 255, 128));
+		PieChartPanel.setBounds(753, 67, 560, 341);
+		try {
+			PieChartPanel.add( new CreatePieChart("Pie Chart Test","Stocks Comparison"));
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		salesReportContentPanel.add(PieChartPanel);
 		
 		JButton btnNewButton_4 = new JButton("New button");
 		btnNewButton_4.addActionListener(new ActionListener() {
@@ -1253,6 +1274,41 @@ public class Dashboard2 extends javax.swing.JFrame {
 		}
 		
 	}
+	public class CreatePieChart extends JPanel {
+		
+		
+
+		public CreatePieChart (String apptitle, String chartTitle) {
+			PieDataset dataset = createDataset();
+			JFreeChart chart = createChart(dataset, chartTitle);
+			ChartPanel chartPanel = new ChartPanel(chart);
+			chartPanel.setPreferredSize(new java.awt.Dimension(500,300));
+			add(chartPanel);
+			
+		}
+		
+		private PieDataset createDataset() {
+			DefaultPieDataset result = new DefaultPieDataset();
+			result.setValue("Peripherals", 65);
+			result.setValue("CPU", 24);
+			result.setValue("GPU", 40);
+			result.setValue("Motherboard", 21);
+			result.setValue("RAM", 34);
+			result.setValue("Storage Device", 21);
+			return result;
+		}
+
+		private JFreeChart createChart(PieDataset dataset, String title) {
+			JFreeChart chart = ChartFactory.createPieChart3D(title, dataset, true, true, true);
+			PiePlot3D plot = (PiePlot3D)chart.getPlot();
+			plot.setStartAngle(90);
+			plot.setDirection(Rotation.CLOCKWISE);
+			plot.setForegroundAlpha(0.5f);
+			return chart;
+		}
+		
+
+	}
 	// Variables declaration - do not modify
 	private javax.swing.JLabel ActivityLogs;
 	private javax.swing.JPanel ActivityLogsPanel;
@@ -1319,5 +1375,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 	private JButton btnNewButton_1;
 	private JButton btnNewButton_3;
 	private JPanel lineGraphPn;
-	private JPanel panel_2;
+	private JPanel PieChartPanel;
+
+	
 }
