@@ -27,6 +27,7 @@ import utils.Product;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
@@ -61,8 +62,12 @@ public class Dashboard extends DatabaseHandler{
 	private String price1;
 	private Cart cart;
 	private ClientRecords clientRec;
+	private String username, name, id;
 	
-	public Dashboard() {
+	public Dashboard(String username,String name,String id) {
+		this.username = username;
+		this.name = name;
+		this.id = id;
 		initialize();
 		Connect();
 		table_load("product",prodTable);
@@ -156,22 +161,26 @@ public class Dashboard extends DatabaseHandler{
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.getContentPane().setBackground(new Color(255, 255, 255));
 		frame.setResizable(false);
 		frame.setTitle("Dashboard");
-		frame.setBounds(100, 100, 1446, 798);
+		frame.setBounds(100, 100, 1446, 873);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+		frame.getContentPane().setLayout(null);
 		
 		JPanel top = new JPanel();
+		top.setBounds(0, 0, 1430, 101);
 		top.setBorder(new EmptyBorder(0, 5, 0, 83));
 		top.setBackground(new Color(48, 62, 71));
-		frame.getContentPane().add(top, BorderLayout.NORTH);
+		frame.getContentPane().add(top);
 		
 		JLabel lblNewLabel_1 = new JLabel("");
+		lblNewLabel_1.setBounds(1007, 12, 63, 43);
 		lblNewLabel_1.setFont(new Font("Moon", Font.PLAIN, 15));
 		lblNewLabel_1.setForeground(new Color(255, 255, 255));
 		
 		JButton logoutBtn = new JButton("Logout");
+		logoutBtn.setBounds(1323, 12, 77, 78);
 		logoutBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
@@ -186,31 +195,27 @@ public class Dashboard extends DatabaseHandler{
 		logoutBtn.setFont(new Font("Tahoma", Font.BOLD, 14));
 		logoutBtn.setForeground(new Color(255, 255, 255));
 		logoutBtn.setBackground(new Color(48, 62, 71));
-		GroupLayout gl_top = new GroupLayout(top);
-		gl_top.setHorizontalGroup(
-			gl_top.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_top.createSequentialGroup()
-					.addGap(1002)
-					.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 161, Short.MAX_VALUE)
-					.addComponent(logoutBtn, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE)
-					.addGap(77))
-		);
-		gl_top.setVerticalGroup(
-			gl_top.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, gl_top.createSequentialGroup()
-					.addGap(12)
-					.addGroup(gl_top.createParallelGroup(Alignment.LEADING)
-						.addComponent(logoutBtn)
-						.addComponent(lblNewLabel_1, GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE))
-					.addContainerGap())
-		);
-		top.setLayout(gl_top);
+		top.setLayout(null);
+		top.add(lblNewLabel_1);
+		top.add(logoutBtn);
+		
+		JLabel employeeIDLabel = new JLabel("Employee ID: "+id);
+		employeeIDLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		employeeIDLabel.setForeground(new Color(255, 255, 255));
+		employeeIDLabel.setBounds(481, 25, 581, 30);
+		top.add(employeeIDLabel);
+		
+		JLabel employeeNameLabel = new JLabel(""+name);
+		employeeNameLabel.setFont(new Font("Tahoma", Font.BOLD, 25));
+		employeeNameLabel.setForeground(new Color(255, 255, 255));
+		employeeNameLabel.setBounds(481, 50, 776, 40);
+		top.add(employeeNameLabel);
 		
 		JPanel left = new JPanel();
+		left.setBounds(0, 97, 482, 737);
 		left.setBorder(new EmptyBorder(25, 15, 15, 15));
 		left.setBackground(new Color(48, 62, 71));
-		frame.getContentPane().add(left, BorderLayout.WEST);
+		frame.getContentPane().add(left);
 		GridBagLayout gbl_left = new GridBagLayout();
 		gbl_left.columnWidths = new int[] {408};
 		gbl_left.rowHeights = new int[]{0, 232, 232, 0};
@@ -218,8 +223,9 @@ public class Dashboard extends DatabaseHandler{
 		gbl_left.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		left.setLayout(gbl_left);
 		
-		JLabel lblNewLabel_2 = new JLabel("Cart");
-		lblNewLabel_2.setFont(new Font("Gilroy ExtraBold", Font.BOLD, 20));
+		JLabel lblNewLabel_2 = new JLabel("  Cart");
+		lblNewLabel_2.setIcon(new ImageIcon("img\\cart-icon.png"));
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblNewLabel_2.setForeground(new Color(255, 255, 255));
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
 		gbc_lblNewLabel_2.anchor = GridBagConstraints.NORTHWEST;
@@ -396,13 +402,14 @@ public class Dashboard extends DatabaseHandler{
 		buttonPn.add(changeField);
 		
 		JPanel body = new JPanel();
-		body.setBackground(new Color(233, 233, 233));
+		body.setBounds(482, 123, 948, 711);
+		body.setBackground(new Color(255, 255, 255));
 		body.setBorder(new EmptyBorder(5, 5, 5, 5));
-		frame.getContentPane().add(body, BorderLayout.CENTER);
+		frame.getContentPane().add(body);
 		
 		JLabel lblNewLabel_3 = new JLabel("Available Products");
-		lblNewLabel_3.setBounds(15, 0, 239, 37);
-		lblNewLabel_3.setFont(new Font("Gilroy ExtraBold", Font.BOLD, 25));
+		lblNewLabel_3.setBounds(15, -4, 239, 37);
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 25));
 		
 		searchField = new JTextField();
 		searchField.addKeyListener(new KeyAdapter() {
@@ -417,18 +424,19 @@ public class Dashboard extends DatabaseHandler{
 		searchField.setBounds(15, 44, 313, 23);
 		searchField.setColumns(10);
 		
-		JButton btnSearch = new JButton("Search");
+		JButton btnSearch = new JButton("");
+		btnSearch.setIcon(new ImageIcon("img\\icons8-search-16 (1).png"));
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				skuSearch(searchField);
 			}
 		});
-		btnSearch.setBounds(338, 43, 84, 23);
+		btnSearch.setBounds(338, 44, 25, 23);
 		btnSearch.setBackground(new Color(187, 214, 249));
 		btnSearch.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(15, 78, 923, 604);
+		scrollPane.setBounds(15, 78, 923, 622);
 		
 		prodTable = new JTable();
 		prodTable.setModel(new DefaultTableModel(

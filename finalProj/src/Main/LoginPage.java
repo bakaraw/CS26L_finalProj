@@ -133,33 +133,31 @@ public class LoginPage extends DatabaseHandler implements KeyListener {
 		adminLoginBtn.setBackground(new Color(255, 255, 255));
 		adminLoginBtn.setBounds(178, 378, 128, 25);
 		body.add(adminLoginBtn);
-		
+
 		JLabel lblNewLabel = new JLabel("User Login");
 		lblNewLabel.setForeground(new Color(43, 52, 59));
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 35));
 		lblNewLabel.setBounds(142, 112, 197, 44);
 		body.add(lblNewLabel);
-		
+
 		JPanel imgPanel = new JPanel();
 		imgPanel.setBounds(0, 0, 477, 509);
 		contentPane.add(imgPanel);
 		imgPanel.setLayout(null);
-		
+
 		BufferedImage img = null;
 		try {
-		    img = ImageIO.read(new File("img\\bitmonkelogo.png"));
+			img = ImageIO.read(new File("img\\bitmonkelogo.png"));
 		} catch (IOException e) {
-		    e.printStackTrace();
+			e.printStackTrace();
 		}
 		JLabel monkeImg1 = new JLabel("");
 		monkeImg1.setBounds(0, 0, 477, 509);
-		Image dimg = img.getScaledInstance(monkeImg1.getWidth(), monkeImg1.getHeight(),
-		        Image.SCALE_SMOOTH);
-		
+		Image dimg = img.getScaledInstance(monkeImg1.getWidth(), monkeImg1.getHeight(), Image.SCALE_SMOOTH);
+
 		monkeImg1.setIcon(new ImageIcon(dimg));
 		imgPanel.add(monkeImg1);
-		
-		
+
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setVisible(true);
@@ -195,16 +193,19 @@ public class LoginPage extends DatabaseHandler implements KeyListener {
 		String password = String.valueOf(passwordField.getPassword());
 
 		String passwordFromDatabase = null;
+		String name = null;
+		String id = null;
 
 		try {
-			
-			pst = con.prepareStatement("select Password from employee where Username = ?");
+
+			pst = con.prepareStatement("select ID,Name,Password from employee where Username = ?");
 			pst.setString(1, userID);
 			ResultSet rs = pst.executeQuery();
-			
+
 			if (rs.next() == true) {
-				
-				passwordFromDatabase = rs.getString(1);
+				id = Integer.toString(rs.getInt(1));
+				name = rs.getString(2);
+				passwordFromDatabase = rs.getString(3);
 
 			} else {
 				System.out.println("wrong username or password");
@@ -213,27 +214,17 @@ public class LoginPage extends DatabaseHandler implements KeyListener {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
-		if(!password.isEmpty()) {
+		if (!password.isEmpty()) {
 			if (password.equals(passwordFromDatabase)) {
 				frame.dispose();
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							Dashboard window = new Dashboard();
+				Dashboard window = new Dashboard(userID, name, id);
 
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
-				
 			} else {
 				JOptionPane.showMessageDialog(null, "Wrong password or username");
 			}
-		}else {
+		} else {
 			JOptionPane.showMessageDialog(null, "input infos");
 		}
-		
 
 	}
 }
