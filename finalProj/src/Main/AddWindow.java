@@ -44,6 +44,7 @@ public class AddWindow extends JFrame {
 	private static JTextArea addnewprodRemarks = new JTextArea();
 
 	public AddWindow() {
+		setTitle("Add Product\r\n");
 		handler.Connect();
 		initComponents();
 	}

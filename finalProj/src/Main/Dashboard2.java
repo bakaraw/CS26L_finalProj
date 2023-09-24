@@ -35,6 +35,7 @@ import java.awt.event.MouseEvent;
 public class Dashboard2 extends javax.swing.JFrame {
 
 	public Dashboard2() {
+		setTitle("Admin");
 		windowStart();
 		initComponents();
 		setLocationRelativeTo(null);
