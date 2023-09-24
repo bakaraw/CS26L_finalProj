@@ -91,7 +91,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 		StockInPanel = new javax.swing.JPanel();
 		SalesReportPanel = new javax.swing.JPanel();
 
-		jLabel1 = new javax.swing.JLabel();
+
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		setResizable(false);
