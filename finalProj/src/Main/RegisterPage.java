@@ -97,7 +97,7 @@ public class RegisterPage extends DatabaseHandler implements KeyListener {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		frmRegisterAccount.setContentPane(contentPane);
+		frame.setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JPanel body = new JPanel();
@@ -168,7 +168,7 @@ public class RegisterPage extends DatabaseHandler implements KeyListener {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				frmRegisterAccount.dispose();
+				frame.dispose();
 			}
 
 		});
@@ -259,9 +259,9 @@ public class RegisterPage extends DatabaseHandler implements KeyListener {
 		lblNewLabel_3.setIcon(new ImageIcon(dimg));
 		imagePanel.add(lblNewLabel_3);
 
-		frmRegisterAccount.setResizable(false);
-		frmRegisterAccount.setLocationRelativeTo(null);
-		frmRegisterAccount.setVisible(true);
+		frame.setResizable(false);
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
 	}
 
 	@Override
