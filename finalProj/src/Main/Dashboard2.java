@@ -18,6 +18,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.RowFilter;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
@@ -35,6 +36,12 @@ import utils.Product;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.JTextArea;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -60,9 +67,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 
+
 public class Dashboard2 extends javax.swing.JFrame {
 
 	public Dashboard2() {
+		setTitle("Admin");
 		windowStart();
 		initComponents();
 		setLocationRelativeTo(null);
@@ -311,6 +320,13 @@ public class Dashboard2 extends javax.swing.JFrame {
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 28));
 
 		inventorySF = new JTextField();
+		inventorySF.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				String searchString = inventorySF.getText();
+				search(searchString);
+			}
+		});
 		inventorySF.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		inventorySF.setColumns(10);
 
@@ -1036,6 +1052,15 @@ public class Dashboard2 extends javax.swing.JFrame {
 
 	}
 	
+	public void search (String str) {
+		model = (DefaultTableModel) inventoryTable.getModel();
+		TableRowSorter<DefaultTableModel> trs = new TableRowSorter(model);	
+		inventoryTable.setRowSorter(trs);
+		trs.setRowFilter(RowFilter.regexFilter(str));
+	}
+	
+	
+	
 	public void windowStart() {
 
 		databaseHandler = new DatabaseHandler();
@@ -1155,7 +1180,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 	private JButton btnRefresh;
 	private DatabaseHandler databaseHandler;
 	private JScrollPane scrollPane_1;
-	private JTable inventoryTable;
+	public JTable inventoryTable;
 	private Product category = new Product();
 	private String chosenCat = category.getCategoryByIndex(0);
 	private JTextField textField;
@@ -1183,4 +1208,5 @@ public class Dashboard2 extends javax.swing.JFrame {
 	public static String test3;
 	static StockInWindow stockinwindow = new StockInWindow();
 	static RemoveWindow removewindow = new RemoveWindow();
+	static DefaultTableModel model = null;
 }

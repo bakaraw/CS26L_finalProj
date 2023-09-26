@@ -181,7 +181,7 @@ public class Dashboard extends DatabaseHandler{
 		lblNewLabel_1.setForeground(new Color(255, 255, 255));
 		
 		JButton logoutBtn = new JButton("Logout");
-		logoutBtn.setBounds(1323, 12, 77, 78);
+		logoutBtn.setBounds(1297, 12, 103, 78);
 		logoutBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();

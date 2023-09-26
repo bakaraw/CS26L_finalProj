@@ -32,17 +32,18 @@ public class LoginPage extends DatabaseHandler implements KeyListener {
 	private JTextField usernameField;
 	private JPasswordField passwordField;
 	private JLabel messageLabel = new JLabel();
-	private JFrame frame = new JFrame();
+	private JFrame frmBitmonke = new JFrame();
 	private IDandPasswords idAndPass = new IDandPasswords();
 
 	LoginPage() throws IOException {
 		Connect();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setBounds(100, 100, 962, 548);
+		frmBitmonke.setTitle("Login");
+		frmBitmonke.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmBitmonke.setBounds(100, 100, 962, 548);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		frame.setContentPane(contentPane);
+		frmBitmonke.setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JPanel body = new JPanel();
@@ -112,7 +113,7 @@ public class LoginPage extends DatabaseHandler implements KeyListener {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						frame.dispose();
+						frmBitmonke.dispose();
 
 					}
 				});
@@ -126,8 +127,8 @@ public class LoginPage extends DatabaseHandler implements KeyListener {
 		adminLoginBtn.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		adminLoginBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frame.setEnabled(false);
-				AdminLogin adminLogin = new AdminLogin(idAndPass.getAdminLoginInfo(), frame);
+				frmBitmonke.setEnabled(false);
+				AdminLogin adminLogin = new AdminLogin(idAndPass.getAdminLoginInfo(), frmBitmonke);
 			}
 		});
 		adminLoginBtn.setBackground(new Color(255, 255, 255));
@@ -158,9 +159,9 @@ public class LoginPage extends DatabaseHandler implements KeyListener {
 		monkeImg1.setIcon(new ImageIcon(dimg));
 		imgPanel.add(monkeImg1);
 
-		frame.setLocationRelativeTo(null);
-		frame.setResizable(false);
-		frame.setVisible(true);
+		frmBitmonke.setLocationRelativeTo(null);
+		frmBitmonke.setResizable(false);
+		frmBitmonke.setVisible(true);
 	}
 
 	@Override

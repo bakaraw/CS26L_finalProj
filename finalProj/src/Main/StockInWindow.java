@@ -45,6 +45,8 @@ public class StockInWindow extends JFrame {
 	
 	
 	public StockInWindow() {
+		setTitle("Stock In");
+		setResizable(false);
 		handler.Connect();
 		initComponents();
 	}
@@ -66,7 +68,7 @@ public class StockInWindow extends JFrame {
 		top.setLayout(null);
 		top.setBorder(new EmptyBorder(0, 5, 0, 83));
 		top.setBackground(new Color(48, 62, 71));
-		top.setBounds(0, 0, 451, 64);
+		top.setBounds(0, 0, 460, 64);
 		body.add(top);
 
 		JLabel lblNewLabel_3 = new JLabel("Stock In");
@@ -85,19 +87,19 @@ public class StockInWindow extends JFrame {
 		JLabel lblDescription = new JLabel("DESCRIPTION:");
 		lblDescription.setVerticalAlignment(SwingConstants.TOP);
 		lblDescription.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblDescription.setBounds(35, 148, 109, 20);
+		lblDescription.setBounds(40, 140, 109, 20);
 		body.add(lblDescription);
 
 		JLabel lblStockInBy = new JLabel("STOCK IN BY:");
 		lblStockInBy.setVerticalAlignment(SwingConstants.TOP);
 		lblStockInBy.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblStockInBy.setBounds(35, 261, 102, 20);
+		lblStockInBy.setBounds(46, 261, 102, 20);
 		body.add(lblStockInBy);
 
 		JLabel lblQuantity = new JLabel("QUANTITY:");
 		lblQuantity.setVerticalAlignment(SwingConstants.TOP);
 		lblQuantity.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblQuantity.setBounds(35, 220, 89, 20);
+		lblQuantity.setBounds(62, 220, 89, 20);
 		body.add(lblQuantity);
 
 		addstockSkuField = new JTextField();
@@ -137,7 +139,7 @@ public class StockInWindow extends JFrame {
 		JLabel lblCurrentQty = new JLabel("CURRENT QTY:");
 		lblCurrentQty.setVerticalAlignment(SwingConstants.TOP);
 		lblCurrentQty.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblCurrentQty.setBounds(35, 189, 114, 20);
+		lblCurrentQty.setBounds(35, 182, 114, 20);
 		body.add(lblCurrentQty);
 
 		currQtyField = new JTextField();
@@ -176,7 +178,7 @@ public class StockInWindow extends JFrame {
 		JLabel lblRemarks = new JLabel("REMARKS:");
 		lblRemarks.setVerticalAlignment(SwingConstants.TOP);
 		lblRemarks.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblRemarks.setBounds(35, 302, 76, 20);
+		lblRemarks.setBounds(72, 302, 76, 20);
 		body.add(lblRemarks);
 	}
 

@@ -91,12 +91,13 @@ public class RegisterPage extends DatabaseHandler implements KeyListener {
 		Connect();
 
 		frame = new JFrame();
+    frame.setTitle("Register Account");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(100, 100, 962, 548);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		frame.setContentPane(contentPane);
+		frmRegisterAccount.setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JPanel body = new JPanel();
@@ -167,7 +168,7 @@ public class RegisterPage extends DatabaseHandler implements KeyListener {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				frame.dispose();
+				frmRegisterAccount.dispose();
 			}
 
 		});
@@ -258,9 +259,9 @@ public class RegisterPage extends DatabaseHandler implements KeyListener {
 		lblNewLabel_3.setIcon(new ImageIcon(dimg));
 		imagePanel.add(lblNewLabel_3);
 
-		frame.setResizable(false);
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
+		frmRegisterAccount.setResizable(false);
+		frmRegisterAccount.setLocationRelativeTo(null);
+		frmRegisterAccount.setVisible(true);
 	}
 
 	@Override
