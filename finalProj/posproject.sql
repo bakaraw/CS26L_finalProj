@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Sep 09, 2023 at 11:49 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.0.28
+-- Host: 127.0.0.1:3306
+-- Generation Time: Sep 26, 2023 at 11:41 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -37,19 +37,21 @@ CREATE TABLE `activitylogs` (
   `Remarks` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `activitylogs`
+-- Table structure for table `catcomparison`
 --
 
-INSERT INTO `activitylogs` (`Date`, `SKU`, `Description`, `Activity`, `Qty`, `Changed by`, `Remarks`) VALUES
-('2023-03-06', 1, 'Ryzen 5 4600G', 'Stock in', 50, 'Sean', ''),
-('2023-03-06', 2, 'NVIDIA GTX 1080i', 'Stock in', 50, 'Sean', ''),
-('2023-03-06', 3, 'Gigabyte a320M', 'Stock in', 50, 'Sean', ''),
-('2023-03-06', 4, 'Maxsun 4GB M2', 'Stock in', 50, 'Sean', ''),
-('2023-03-06', 5, 'Dell M4A1 Mechanical Keyboard', 'Stock in', 50, 'Laighton', ''),
-('2023-03-06', 6, 'Samsung 1TB SSD ', 'Stock in', 50, 'Laighton', ''),
-('2023-03-06', 1234, '4gb ram', 'Stock in', 10, 'Laighton', ''),
-('2023-08-17', 1, 'Ryzen 5 4600G', 'Stock in', 50, 'laighton', '');
+CREATE TABLE `catcomparison` (
+  `Date` date NOT NULL,
+  `Peripherals` int(11) NOT NULL,
+  `CPU` int(11) NOT NULL,
+  `GPU` int(11) NOT NULL,
+  `Motherboard` int(11) NOT NULL,
+  `RAM` int(11) NOT NULL,
+  `StorageDevice` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -60,7 +62,7 @@ INSERT INTO `activitylogs` (`Date`, `SKU`, `Description`, `Activity`, `Qty`, `Ch
 CREATE TABLE `clientrecords` (
   `Date` date NOT NULL,
   `Items` varchar(500) NOT NULL,
-  `Total Sales` varchar(255) NOT NULL,
+  `TotalSales` varchar(255) NOT NULL,
   `Amount Payed` varchar(255) NOT NULL,
   `Change_` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -69,11 +71,14 @@ CREATE TABLE `clientrecords` (
 -- Dumping data for table `clientrecords`
 --
 
-INSERT INTO `clientrecords` (`Date`, `Items`, `Total Sales`, `Amount Payed`, `Change_`) VALUES
-('2023-03-06', 'Ryzen 5 4600G (price: 11000.0) (qty: 1) ||NVIDIA GTX 1080i (price: 9000.0) (qty: 1) ||', '20000.0', '25000', '5000.0'),
-('2023-08-17', 'Ryzen 5 4600G (price: 11000.0) (qty: 1) ||NVIDIA GTX 1080i (price: 9000.0) (qty: 5) ||', '56000.0', '60000', '4000.0'),
-('2023-08-17', 'Ryzen 5 4600G (price: 11000.0) (qty: 48) ||', '528000.0', '528000.0', '0.0'),
-('2023-08-17', 'NVIDIA GTX 1080i (price: 9000.0) (qty: 10) ||NVIDIA GTX 1080i (price: 9000.0) (qty: 4) ||', '126000.0', '126000.0', '0.0');
+INSERT INTO `clientrecords` (`Date`, `Items`, `TotalSales`, `Amount Payed`, `Change_`) VALUES
+('2023-09-21', 'Ryzen 5 4600G (price: 11000.0) (qty: 1) ||', '11000.0', '12000', '1000.0'),
+('2023-09-21', 'damns (price: 4500.0) (qty: 3) ||', '13500.0', '13500', '0.0'),
+('2023-09-23', 'shoroy (price: 8000.0) (qty: 1) ||', '8000.0', '8000', '0.0'),
+('2023-09-23', 'shempoy (price: 5000.0) (qty: 1) ||', '5000.0', '5000', '0.0'),
+('2023-09-23', 'shempoy (price: 5000.0) (qty: 1) ||', '5000.0', '5000', '0.0'),
+('2023-09-23', 'Ryzen 5 4600G (price: 11000.0) (qty: 1) ||', '11000.0', '11000', '0.0'),
+('2023-09-23', 'shoroy (price: 8000.0) (qty: 1) ||', '8000.0', '8000', '0.0');
 
 -- --------------------------------------------------------
 
@@ -99,7 +104,8 @@ INSERT INTO `employee` (`ID`, `Name`, `Birthday`, `Username`, `Password`) VALUES
 (4, 'klint y yos', 'January 1, 2023', 'yos', '123'),
 (5, 'papapa papap papap', 'January 1, 2023', 'papa', '123'),
 (6, 'mama mama mama', 'January 1, 2023', 'mama', '123'),
-(7, 'jean jean jean', 'January 1, 2023', 'jean', '123');
+(7, 'jean jean jean', 'January 1, 2023', 'jean', '123'),
+(8, 'jan jana jan', 'January 1, 2023', 'jan', '123');
 
 -- --------------------------------------------------------
 
@@ -120,13 +126,15 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`SKU`, `Description`, `Category`, `Qty`, `Price`) VALUES
-('0001', 'Ryzen 5 4600G', 'CPU', 50, 11000),
-('0002', 'NVIDIA GTX 1080i', 'GPU', 30, 9000),
-('0003', 'Gigabyte a320M', 'Motherboard', 50, 8000),
-('0004', 'Maxsun 4GB M2', 'RAM', 50, 7000),
-('0005', 'Dell M4A1 Mechanical Keyboard', 'Peripherals', 50, 10000),
-('0006', 'Samsung 1TB SSD ', 'Storage device', 50, 5000),
-('1234', '4gb ram', 'RAM', 10, 2000);
+('1000', 'Ryzen 5 4600G', 'CPU', 80, 11000),
+('1001', 'shoroy', 'CPU', 20, 8000),
+('1002', 'shempoy', 'Peripherals', 100, 5000),
+('1234', 'kusgan nga graphics card', 'GPU', 20, 8000),
+('9102', 'Mousers', 'Peripherals', 50, 300),
+('9231', 'mouse', 'Peripherals', 20, 300),
+('9321', 'Keyboard', 'Peripherals', 10, 500),
+('9322', 'ssd', 'Storage device', 10, 4500),
+('9333', 'fan', 'Peripherals', 80, 8000);
 
 --
 -- Indexes for dumped tables
@@ -154,7 +162,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
-  MODIFY `ID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `ID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -179,6 +179,17 @@ public class DatabaseHandler {
 			e.printStackTrace();
 		}
 	}
+	
+	//loads the table specifically for employee table
+	public void table_load(JTable table) {
+		try {
+			pst = con.prepareStatement("select ID,Name,Birthday from employee");
+			rs = pst.executeQuery();
+			table.setModel(DbUtils.resultSetToTableModel(rs));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public String skuSearched;
 	protected String qtyResult;
