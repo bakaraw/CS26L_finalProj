@@ -190,17 +190,18 @@ public class LoginPage extends DatabaseHandler implements KeyListener {
 	}
 
 	private void loginAccount() throws HeadlessException, FileNotFoundException, ClassNotFoundException, IOException {
-		String userID = usernameField.getText();
+		String username = usernameField.getText();
 		String password = String.valueOf(passwordField.getPassword());
 
 		String passwordFromDatabase = null;
+
 		String name = null;
 		String id = null;
 
 		try {
 
 			pst = con.prepareStatement("select ID,Name,Password from employee where Username = ?");
-			pst.setString(1, userID);
+			pst.setString(1, username);
 			ResultSet rs = pst.executeQuery();
 
 			if (rs.next() == true) {
@@ -208,8 +209,6 @@ public class LoginPage extends DatabaseHandler implements KeyListener {
 				name = rs.getString(2);
 				passwordFromDatabase = rs.getString(3);
 
-			} else {
-				System.out.println("wrong username or password");
 			}
 
 		} catch (SQLException ex) {
@@ -217,9 +216,8 @@ public class LoginPage extends DatabaseHandler implements KeyListener {
 		}
 		if (!password.isEmpty()) {
 			if (password.equals(passwordFromDatabase)) {
-				frmBitmonke.dispose();
-				Dashboard window = new Dashboard(userID, name, id);
-
+				frame.dispose();
+				Dashboard window = new Dashboard(username, name, id);
 			} else {
 				JOptionPane.showMessageDialog(null, "Wrong password or username");
 			}
