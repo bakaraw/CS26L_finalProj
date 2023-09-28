@@ -134,12 +134,7 @@ public class Dashboard extends DatabaseHandler {
 						}
 						
 					}
-					
-				}
-				else {
-				JOptionPane.showMessageDialog(null, "Insufficient Payment");
-				table_load("product",prodTable);
-				}
+				
 			} else {
 				JOptionPane.showMessageDialog(null, "Insufficient Payment");
 				table_load("product", prodTable);
