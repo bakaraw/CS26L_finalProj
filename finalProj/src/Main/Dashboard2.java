@@ -38,6 +38,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.event.KeyAdapter;
@@ -45,6 +47,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.JTextArea;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.sql.SQLException;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.chart.ChartFactory;
@@ -330,16 +333,6 @@ public class Dashboard2 extends javax.swing.JFrame {
 		inventorySF.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		inventorySF.setColumns(10);
 
-		btnSearch = new JButton("");
-		btnSearch.setIcon(new ImageIcon("img//icons8-search-16 (1).png"));
-		btnSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		
-		btnSearch.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnSearch.setBackground(new Color(187, 214, 249));
-
 		lblNewLabel_4 = new JLabel("View by category:");
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 15));
 
@@ -351,9 +344,6 @@ public class Dashboard2 extends javax.swing.JFrame {
 		});
 		viewCB.addItem("All");
 		viewCB.setFont(new Font("Tahoma", Font.PLAIN, 15));
-
-		lblNewLabel_5 = new JLabel("SKU search");
-		lblNewLabel_5.setFont(new Font("Tahoma", Font.ITALIC, 11));
 
 		btnRefresh = new JButton("");
 		btnRefresh.setIcon(new ImageIcon("img//icons8-refresh-16 (1).png"));
@@ -392,60 +382,62 @@ public class Dashboard2 extends javax.swing.JFrame {
 				removewindow.getObj().setVisible(true);
 			}
 		});
+		
+		searchIcon = new JLabel("");
+		searchIcon.setIcon(new ImageIcon("img//icons8-search-16 (1).png"));
 
 		javax.swing.GroupLayout InventoryPanelLayout = new javax.swing.GroupLayout(InventoryPanel);
 		InventoryPanelLayout.setHorizontalGroup(
 			InventoryPanelLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(InventoryPanelLayout.createSequentialGroup()
-					.addContainerGap(20, Short.MAX_VALUE)
+					.addContainerGap(30, Short.MAX_VALUE)
 					.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 1362, GroupLayout.PREFERRED_SIZE)
 						.addGroup(InventoryPanelLayout.createSequentialGroup()
+							.addComponent(searchIcon, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 1362, GroupLayout.PREFERRED_SIZE))
-						.addGroup(InventoryPanelLayout.createSequentialGroup()
-							.addComponent(inventorySF, GroupLayout.PREFERRED_SIZE, 294, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
-							.addGap(67)
+							.addComponent(inventorySF, GroupLayout.PREFERRED_SIZE, 319, GroupLayout.PREFERRED_SIZE)
+							.addGap(106)
 							.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(viewCB, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)
 							.addGap(10)
 							.addComponent(btnRefresh, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
-							.addGap(58)
+							.addGap(59)
 							.addComponent(btn_AddProduct)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(btn_StockIn, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(btn_Remove, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
-						.addComponent(lblNewLabel_5, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 262, GroupLayout.PREFERRED_SIZE))
 					.addGap(18))
 		);
 		InventoryPanelLayout.setVerticalGroup(
 			InventoryPanelLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(InventoryPanelLayout.createSequentialGroup()
-					.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(InventoryPanelLayout.createSequentialGroup()
-							.addContainerGap(57, Short.MAX_VALUE)
-							.addComponent(lblNewLabel_5)
-							.addGap(1))
-						.addGroup(InventoryPanelLayout.createSequentialGroup()
-							.addGap(12)
-							.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-							.addGap(29)))
 					.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(btnSearch, GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
-						.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.LEADING, false)
-							.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
-							.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(btnRefresh, GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
-								.addComponent(btn_AddProduct, GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
-								.addComponent(btn_StockIn, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btn_Remove, GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE))
-							.addComponent(inventorySF, GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
-							.addComponent(viewCB, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)))
-					.addPreferredGap(ComponentPlacement.RELATED)
+						.addGroup(InventoryPanelLayout.createSequentialGroup()
+							.addContainerGap()
+							.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(btn_AddProduct, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btn_StockIn, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btn_Remove, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.TRAILING)
+							.addGroup(InventoryPanelLayout.createSequentialGroup()
+								.addContainerGap(28, Short.MAX_VALUE)
+								.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+								.addGap(23)
+								.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.LEADING, false)
+									.addComponent(inventorySF, Alignment.TRAILING)
+									.addComponent(searchIcon, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)))
+							.addGroup(InventoryPanelLayout.createSequentialGroup()
+								.addContainerGap()
+								.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.TRAILING, false)
+									.addComponent(btnRefresh, GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+									.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.BASELINE)
+										.addComponent(viewCB, GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+										.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE))))))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 467, GroupLayout.PREFERRED_SIZE)
 					.addGap(20))
 		);
@@ -712,15 +704,6 @@ public class Dashboard2 extends javax.swing.JFrame {
 			e1.printStackTrace();
 		}
 		salesReportContentPanel.add(PieChartPanel);
-		
-		JButton btnNewButton_4 = new JButton("New button");
-		btnNewButton_4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				tryGraph();
-			}
-		});
-		btnNewButton_4.setBounds(346, 24, 89, 23);
-		salesReportContentPanel.add(btnNewButton_4);
 		SalesReportPanel.setLayout(SalesReportPanelLayout);
 
 		layeredPane.add(SalesReportPanel, "card2");
@@ -890,17 +873,16 @@ public class Dashboard2 extends javax.swing.JFrame {
 	}
 
 	private void LogOutMouseReleased(java.awt.event.MouseEvent evt) {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			LoginPage loginPage = new LoginPage();
+			
+		} catch (IOException | ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		}
 		dispose();
-		// pantawag sa login page:
-		/*
-		 * try { LoginPage loginpage = new LoginPage(); } catch ( IOException e1) { //
-		 * TODO Auto-generated catch block e1.printStackTrace(); }
-		 */
 	}
 
-	/**
-	 * @param args the command line arguments
-	 */
 	public static void start() {
 
 	}
@@ -950,29 +932,8 @@ public class Dashboard2 extends javax.swing.JFrame {
 			ChartPanel chartpn = new ChartPanel(chart, true);
 			return chartpn;
 	}
-	public void tryGraph() {
-		
-		try {
-			String query ="select 'Date','Total Sales' from clientrecords";
-			JDBCCategoryDataset dataset = new JDBCCategoryDataset(databaseHandler.con,query);
-			JFreeChart chart = ChartFactory.createLineChart("title", "Date", "Sales (Php)", dataset, PlotOrientation.VERTICAL, false, true, true);
-			BarRenderer renderer = null;
-			CategoryPlot plot = null;
-			renderer = new BarRenderer();
-			ChartFrame frame = new ChartFrame("Query Chart", chart);
-			frame.setVisible(true);
-			frame.setSize(400,400);
-		} catch (SQLException e) {
-			
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
+	
 	public class CreatePieChart extends JPanel {
-		
-		
-
 		public CreatePieChart (String apptitle, String chartTitle) {
 			PieDataset dataset = createDataset();
 			JFreeChart chart = createChart(dataset, chartTitle);
@@ -1026,10 +987,8 @@ public class Dashboard2 extends javax.swing.JFrame {
 	private javax.swing.JLayeredPane layeredPane;
 	private JLabel lblNewLabel_3;
 	private JTextField inventorySF;
-	private JButton btnSearch;
 	private JLabel lblNewLabel_4;
 	private JComboBox viewCB;
-	private JLabel lblNewLabel_5;
 	private JButton btnRefresh;
 	private DatabaseHandler databaseHandler;
 	private JScrollPane scrollPane_1;
@@ -1053,4 +1012,5 @@ public class Dashboard2 extends javax.swing.JFrame {
 	static RemoveWindow removewindow = new RemoveWindow();
 	static DefaultTableModel model = null;
 	private JTable employeeTable;
+	private JLabel searchIcon;
 }
