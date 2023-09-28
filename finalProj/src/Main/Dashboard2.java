@@ -321,7 +321,6 @@ public class Dashboard2 extends javax.swing.JFrame {
 		lblNewLabel_3 = new JLabel(" Inventory");
 		lblNewLabel_3.setIcon(new ImageIcon("img\\icons8-open-box-32.png"));
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 28));
-
 		inventorySF = new JTextField();
 		inventorySF.addKeyListener(new KeyAdapter() {
 			@Override
@@ -447,37 +446,36 @@ public class Dashboard2 extends javax.swing.JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
-					int row = inventoryTable.getSelectedRow();
+					int row = inventoryTable.convertRowIndexToModel(inventoryTable.getSelectedRow());
+					DefaultTableModel model = (DefaultTableModel) inventoryTable.getModel();
 					String Table_click = (inventoryTable.getModel().getValueAt(row, 0).toString());
-					databaseHandler.pst = databaseHandler.con
-							.prepareStatement("select * from product where SKU ='" + Table_click + "'  ");
+					databaseHandler.pst = databaseHandler.con.prepareStatement("select * from product where SKU ='" + Table_click + "'  ");
 					databaseHandler.rs = databaseHandler.pst.executeQuery();
-
+					
+					
 					if (databaseHandler.rs.next()) {
-						String sku = databaseHandler.rs.getString("SKU");
+						StockInWindow.getObj().setVisible(false);
+						RemoveWindow.getObj().setVisible(false);
 						
-//						inventorySF.setText(sku);
+						String sku = databaseHandler.rs.getString("SKU");
 						String desc = databaseHandler.rs.getString("Description");
-//						descremField.setText(desc);
 						String qty = databaseHandler.rs.getString("Qty");
-//						qtyremField.setText(qty);
 						
 						StockInWindow.setaddstockSkuField(sku);
 						StockInWindow.setadddescField(desc);
 						StockInWindow.setcurrQtyField(qty);
 						StockInWindow.setInventoryTable(inventoryTable);
 						StockInWindow.setLogsTable(logsTable);
-						
-//						removewindow = new RemoveWindow();
+		
 						RemoveWindow.setInventoryTable(inventoryTable);
 						RemoveWindow.setLogsTable(logsTable);
 						RemoveWindow.setinventorySF(sku);
 						RemoveWindow.setdescremField(desc);
 						RemoveWindow.setcurrQtyField(qty);
+						System.out.println(sku);
 						
-						databaseHandler.skuSearched = Table_click;
-					}
-
+					}	
+					
 				} catch (Exception f) {
 					JOptionPane.showMessageDialog(null, "Click table row");
 					f.printStackTrace();
@@ -893,6 +891,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 		TableRowSorter<DefaultTableModel> trs = new TableRowSorter(model);	
 		inventoryTable.setRowSorter(trs);
 		trs.setRowFilter(RowFilter.regexFilter(str));
+		
 	}
 	
 	

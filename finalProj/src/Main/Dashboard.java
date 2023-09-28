@@ -105,28 +105,40 @@ public class Dashboard extends DatabaseHandler {
 			double amtpy = Double.parseDouble(amountPay.getText());
 			double totaly = Double.parseDouble(totalAmount.getText());
 
-			if (amtpy >= totaly && !amountPay.getText().isEmpty()) {
-
-				getbal();
-				makerec();
-				for (int row = 0; row < cartble.getRowCount(); row++) {
-					String desc = cartble.getValueAt(row, 0).toString();
-					String qty = cartble.getValueAt(row, 1).toString();
-					int remQty = Integer.parseInt(qty);
+			
+				if( amtpy >= totaly && !amountPay.getText().isEmpty()) {
 					
+					getbal();
+					makerec();
 					
-					pst = con.prepareStatement("SELECT `Qty` FROM `product` WHERE `Description` = '" + desc + "'");
-					ResultSet rs = pst.executeQuery();
-					if (rs.next() == true) {
-						int currQty = rs.getInt("Qty");
-						int newQty = currQty - remQty;
-
-						pst = con.prepareStatement(
-								"UPDATE `product` SET `Qty`='" + newQty + "' WHERE Description=" + "'" + desc + "'");
-						pst.execute();
-						updateCategoryData(desc, remQty);
-						table_load("product", prodTable);
+					for(int row = 0; row < cartble.getRowCount(); row++) {
+						String desc = cartble.getValueAt(row, 0).toString();
+						String qty = cartble.getValueAt(row, 1).toString();
+						int remQty = Integer.parseInt(qty);
+						
+						pst = con.prepareStatement("SELECT `Qty` FROM `product` WHERE `Description` = '"+desc+"'");
+						ResultSet rs = pst.executeQuery();
+						if(rs.next() ==true) {
+							int currQty = rs.getInt("Qty");
+							int newQty = currQty - remQty;
+							
+							pst = con.prepareStatement("UPDATE `product` SET `Qty`='"+newQty+"' WHERE Description="+"'"+desc+"'");
+					        pst.execute();
+					        table_load("product", prodTable);
+					        DefaultTableModel prodTableModel = (DefaultTableModel) cartble.getModel();
+							prodTableModel.setRowCount(0);
+							
+							totalAmount.setText("");
+							changeField.setText("");
+							amountPay.setText("");
+						}
+						
 					}
+					
+				}
+				else {
+				JOptionPane.showMessageDialog(null, "Insufficient Payment");
+				table_load("product",prodTable);
 				}
 			} else {
 				JOptionPane.showMessageDialog(null, "Insufficient Payment");
@@ -142,14 +154,7 @@ public class Dashboard extends DatabaseHandler {
 		} catch (ClassCastException f) {
 			System.out.println("mali");
 			JOptionPane.showMessageDialog(null, "Stock not enough");
-		}
-
-		DefaultTableModel prodTableModel = (DefaultTableModel) cartble.getModel();
-		prodTableModel.setRowCount(0);
-
-		totalAmount.setText("");
-		changeField.setText("");
-		amountPay.setText("");
+		}	
 	}
 
 	public void updateCategoryData(String desc, int qty) {
@@ -424,7 +429,6 @@ public class Dashboard extends DatabaseHandler {
 
 					e1.printStackTrace();
 				}
-
 			}
 		});
 		btnNewButton_1.setBackground(new Color(255, 255, 255));
