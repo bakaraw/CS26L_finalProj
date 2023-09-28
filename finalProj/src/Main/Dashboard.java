@@ -124,6 +124,7 @@ public class Dashboard extends DatabaseHandler {
 							
 							pst = con.prepareStatement("UPDATE `product` SET `Qty`='"+newQty+"' WHERE Description="+"'"+desc+"'");
 					        pst.execute();
+					        updateCategoryData(desc, remQty);
 					        table_load("product", prodTable);
 					        DefaultTableModel prodTableModel = (DefaultTableModel) cartble.getModel();
 							prodTableModel.setRowCount(0);
