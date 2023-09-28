@@ -108,9 +108,6 @@ public class Dashboard extends DatabaseHandler{
 					getbal();
 					makerec();
 					
-					
-					
-					
 					for(int row = 0; row < cartble.getRowCount(); row++) {
 						String desc = cartble.getValueAt(row, 0).toString();
 						String qty = cartble.getValueAt(row, 1).toString();
@@ -125,12 +122,15 @@ public class Dashboard extends DatabaseHandler{
 							pst = con.prepareStatement("UPDATE `product` SET `Qty`='"+newQty+"' WHERE Description="+"'"+desc+"'");
 					        pst.execute();
 					        table_load("product", prodTable);
+					        DefaultTableModel prodTableModel = (DefaultTableModel) cartble.getModel();
+							prodTableModel.setRowCount(0);
+							
+							totalAmount.setText("");
+							changeField.setText("");
+							amountPay.setText("");
 						}
 						
 					}
-					
-					
-					
 					
 				}
 				else {
@@ -149,12 +149,9 @@ public class Dashboard extends DatabaseHandler{
 				JOptionPane.showMessageDialog(null, "Stock not enough");
 			}
 		
-		DefaultTableModel prodTableModel = (DefaultTableModel) cartble.getModel();
-		prodTableModel.setRowCount(0);
+		
 
-		totalAmount.setText("");
-		changeField.setText("");
-		amountPay.setText("");
+		
 	}
 	/**
 	 * Initialize the contents of the frame.
@@ -330,7 +327,6 @@ public class Dashboard extends DatabaseHandler{
 					e1.printStackTrace();
 				}
 				
-	
 			}
 		});
 		btnNewButton_1.setBackground(new Color(255, 255, 255));
