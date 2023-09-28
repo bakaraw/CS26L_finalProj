@@ -112,6 +112,7 @@ public class RemoveWindow extends JFrame {
 		JButton btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				handler.skuSearched = inventorySF.getText();
 				handler.skuSearch(inventorySF, descremField, qtyremField);
 			}
 		});
@@ -217,18 +218,18 @@ public class RemoveWindow extends JFrame {
 			handler.saveToDatabase(logs);
 
 			handler.deleteRow("product", "SKU", inventorySF.getText());
-			handler.table_load("product", inventoryTable);
-			handler.table_load("activitylogs", logsTable);
-
 			inventorySF.setText("");
 			descremField.setText("");
 			rembyField.setText("");
 			remarksArea.setText("");
 			qtyremField.setText("");
+			handler.table_load("product", inventoryTable);
+			handler.table_load("activitylogs", logsTable);
 			
 
 		} catch (Exception f) {
 			JOptionPane.showMessageDialog(null, "Please input the necessary information");
+			System.out.println("try");
 		}
 
 	}

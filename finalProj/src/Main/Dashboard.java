@@ -36,8 +36,11 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -107,10 +110,6 @@ public class Dashboard extends DatabaseHandler{
 					
 					getbal();
 					makerec();
-					
-					
-					
-					
 					for(int row = 0; row < cartble.getRowCount(); row++) {
 						String desc = cartble.getValueAt(row, 0).toString();
 						String qty = cartble.getValueAt(row, 1).toString();
@@ -126,12 +125,7 @@ public class Dashboard extends DatabaseHandler{
 					        pst.execute();
 					        table_load("product", prodTable);
 						}
-						
 					}
-					
-					
-					
-					
 				}
 				else {
 				JOptionPane.showMessageDialog(null, "Insufficient Payment");
@@ -494,12 +488,12 @@ public class Dashboard extends DatabaseHandler{
 		
 		JLabel lblNewLabel_4 = new JLabel("View by category:");
 		lblNewLabel_4.setForeground(new Color(34, 45, 51));
-		lblNewLabel_4.setBounds(437, 46, 117, 19);
+		lblNewLabel_4.setBounds(439, 46, 117, 19);
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
 		viewCB = new JComboBox(category.getCategoryArray());
 		viewCB.setForeground(new Color(34, 45, 51));
-		viewCB.setBounds(572, 44, 139, 23);
+		viewCB.setBounds(574, 44, 139, 23);
 		viewCB.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		viewCB.addItem("All");
 		viewCB.addActionListener(new ActionListener() {
@@ -548,7 +542,7 @@ public class Dashboard extends DatabaseHandler{
 	}
 	
 	public void makerec() {
-		String total = totalAmount.getText();
+		String totalSales = totalAmount.getText();
 		String pay = amountPay.getText();
 		String change = changeField.getText();
 		
@@ -582,7 +576,7 @@ public class Dashboard extends DatabaseHandler{
 			
 			billwin.getRec().setText(billwin.getRec().getText()+"\n");
 			billwin.getRec().setText(billwin.getRec().getText()+"\n");	
-			billwin.getRec().setText(billwin.getRec().getText()+"\t\tTotal amount: "+ total+"\n"); 
+			billwin.getRec().setText(billwin.getRec().getText()+"\t\tTotal amount: "+ totalSales+"\n"); 
 			billwin.getRec().setText(billwin.getRec().getText()+"\t\tCash Received: " +pay+"\n");
 			billwin.getRec().setText(billwin.getRec().getText()+ "\t\tChange: "+ change+"\n");
 			billwin.getRec().setText(billwin.getRec().getText()+ "\n");
@@ -593,8 +587,32 @@ public class Dashboard extends DatabaseHandler{
 			
 			
 			saveToDatabase(clientRec);
+			updateSalesData(Float.parseFloat(totalSales));
+			
 		}
 		
+	}
+	
+	public void updateSalesData(float sales) {
+		Date currentDate = new Date(System.currentTimeMillis());
+		float currentSales = 0;
+		try {
+			pst = con.prepareStatement("SELECT `Sales` FROM `salesdata` WHERE `Date` = '"+currentDate+"'");
+			ResultSet rs = pst.executeQuery();
+			if(rs.next()==true) {
+				currentSales = rs.getFloat(1);
+				pst = con.prepareStatement("UPDATE `salesdata` SET `Sales`='"+(currentSales+sales)+"' WHERE `Date`='"+currentDate+"'");
+				pst.execute();
+			}else {
+				pst = con.prepareStatement("insert into salesdata(Date,Sales)values(?,?)");
+				pst.setDate(1, currentDate);
+				pst.setFloat(2, sales);
+				pst.executeUpdate();
+			}
+		}catch(SQLException e1) {
+			e1.printStackTrace();
+			System.out.println("Problem sa updatSalesData method sa dashboard");
+		}
 	}
 	
 	public static JTable getProductTable() {

@@ -660,32 +660,33 @@ public class Dashboard2 extends javax.swing.JFrame {
 		SalesReportPanel.setBackground(new Color(255, 255, 255));
 		
 		JPanel salesReportContentPanel = new JPanel();
+		salesReportContentPanel.setBackground(new Color(255, 255, 255));
 
 		javax.swing.GroupLayout SalesReportPanelLayout = new javax.swing.GroupLayout(SalesReportPanel);
 		SalesReportPanelLayout.setHorizontalGroup(
-			SalesReportPanelLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, SalesReportPanelLayout.createSequentialGroup()
-					.addGap(25)
-					.addComponent(salesReportContentPanel, GroupLayout.PREFERRED_SIZE, 1352, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(23, Short.MAX_VALUE))
+			SalesReportPanelLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(SalesReportPanelLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(salesReportContentPanel, GroupLayout.PREFERRED_SIZE, 1381, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(19, Short.MAX_VALUE))
 		);
 		SalesReportPanelLayout.setVerticalGroup(
 			SalesReportPanelLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(SalesReportPanelLayout.createSequentialGroup()
 					.addGap(19)
-					.addComponent(salesReportContentPanel, GroupLayout.PREFERRED_SIZE, 556, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(22, Short.MAX_VALUE))
+					.addComponent(salesReportContentPanel, GroupLayout.DEFAULT_SIZE, 583, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		salesReportContentPanel.setLayout(null);
 		
 		JLabel lblNewLabel_7 = new JLabel("Sales Report");
 		lblNewLabel_7.setFont(new Font("Tahoma", Font.BOLD, 28));
-		lblNewLabel_7.setBounds(34, 11, 302, 34);
+		lblNewLabel_7.setBounds(23, 11, 206, 34);
 		salesReportContentPanel.add(lblNewLabel_7);
 		
 		lineGraphPn = new JPanel();
 		lineGraphPn.setBackground(new Color(255, 255, 255));
-		lineGraphPn.setBounds(34, 67, 709, 430);
+		lineGraphPn.setBounds(23, 100, 709, 430);
 		try {
 			lineGraphPn.add(createLineGraph());
 		} catch (Exception e1) {
@@ -696,7 +697,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 		
 		PieChartPanel = new JPanel();
 		PieChartPanel.setBackground(new Color(255, 255, 128));
-		PieChartPanel.setBounds(753, 67, 560, 341);
+		PieChartPanel.setBounds(753, 109, 560, 341);
 		try {
 			PieChartPanel.add( new CreatePieChart("Pie Chart Test","Stocks Comparison"));
 		} catch (Exception e1) {
@@ -923,7 +924,7 @@ public class Dashboard2 extends javax.swing.JFrame {
   }
   
 	public ChartPanel createLineGraph() throws Exception {
-			String query ="select Date,TotalSales from clientrecords";
+			String query = "SELECT DATE_FORMAT(Date, '%b %e %Y') AS FormattedDate, Sales FROM salesdata";
 			JDBCCategoryDataset dataset = new JDBCCategoryDataset(databaseHandler.con,query);
 			JFreeChart chart = ChartFactory.createLineChart("Sales Chart", "Date", "Sales (Php)", dataset, PlotOrientation.VERTICAL, false, true, true);
 			BarRenderer renderer = null;
