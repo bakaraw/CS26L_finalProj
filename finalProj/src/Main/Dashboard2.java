@@ -454,6 +454,8 @@ public class Dashboard2 extends javax.swing.JFrame {
 					
 					
 					if (databaseHandler.rs.next()) {
+						StockInWindow.getObj().setVisible(false);
+						RemoveWindow.getObj().setVisible(false);
 						
 						String sku = databaseHandler.rs.getString("SKU");
 						String desc = databaseHandler.rs.getString("Description");
