@@ -169,12 +169,10 @@ public class AdminLogin implements WindowListener{
 			if (adminLoginInfo.get(userID).equals(password)) {
 				frameDb.dispose();
 				frmAdminLogin.dispose();
-				java.awt.EventQueue.invokeLater(new Runnable() {
-					public void run() {
-
-						new Dashboard2().setVisible(true);
-					}
-				});
+				
+				Progressbar progressbar = new Progressbar();
+				
+				
 			} else {
 				JOptionPane.showMessageDialog(null,"Wrong password or username");
 			}
