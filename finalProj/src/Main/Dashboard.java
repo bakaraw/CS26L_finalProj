@@ -84,6 +84,7 @@ public class Dashboard extends DatabaseHandler {
 				int newCartQtyVal = cart.getQtyValue();
 
 				pst = con.prepareStatement("SELECT `Qty` FROM `product` WHERE `Description` = '" + desc + "'");
+				pst.setString(1, desc);
 				int currQty = rs.getInt("Qty") - newCartQtyVal;
 				int newQty = currQty + cartQty;
 				System.out.println(currQty);
@@ -105,37 +106,37 @@ public class Dashboard extends DatabaseHandler {
 			double amtpy = Double.parseDouble(amountPay.getText());
 			double totaly = Double.parseDouble(totalAmount.getText());
 
-			
-				if( amtpy >= totaly && !amountPay.getText().isEmpty()) {
-					
-					getbal();
-					makerec();
-					
-					for(int row = 0; row < cartble.getRowCount(); row++) {
-						String desc = cartble.getValueAt(row, 0).toString();
-						String qty = cartble.getValueAt(row, 1).toString();
-						int remQty = Integer.parseInt(qty);
-						
-						pst = con.prepareStatement("SELECT `Qty` FROM `product` WHERE `Description` = '"+desc+"'");
-						ResultSet rs = pst.executeQuery();
-						if(rs.next() ==true) {
-							int currQty = rs.getInt("Qty");
-							int newQty = currQty - remQty;
-							
-							pst = con.prepareStatement("UPDATE `product` SET `Qty`='"+newQty+"' WHERE Description="+"'"+desc+"'");
-					        pst.execute();
-					        updateCategoryData(desc, remQty);
-					        table_load("product", prodTable);
-					        DefaultTableModel prodTableModel = (DefaultTableModel) cartble.getModel();
-							prodTableModel.setRowCount(0);
-							
-							totalAmount.setText("");
-							changeField.setText("");
-							amountPay.setText("");
-						}
+			if (amtpy >= totaly && !amountPay.getText().isEmpty()) {
+
+				getbal();
+				makerec();
+				
+				for (int row = 0; row < cartble.getRowCount(); row++) {
+					String desc = cartble.getValueAt(row, 0).toString();
+					String qty = cartble.getValueAt(row, 1).toString();
+					int remQty = Integer.parseInt(qty);
+					System.out.println(remQty+" ");
+					pst = con.prepareStatement("SELECT `Qty`,`Category` FROM `product` WHERE `Description` = '" + desc + "'");
+					ResultSet rs = pst.executeQuery();
+					if (rs.next() == true) {
+						String category = rs.getString(2);
+						int currQty = rs.getInt(1);
+						int newQty = currQty - remQty;
+						pst = con.prepareStatement(
+								"UPDATE `product` SET `Qty`='" + newQty + "' WHERE Description=" + "'" + desc + "'");
+						pst.execute();
+						table_load("product", prodTable);
+						updateCategoryData(category, remQty);
 						
 					}
-				
+					
+				}
+				DefaultTableModel prodTableModel = (DefaultTableModel) cartble.getModel();
+				prodTableModel.setRowCount(0);
+
+				totalAmount.setText("");
+				changeField.setText("");
+				amountPay.setText("");
 			} else {
 				JOptionPane.showMessageDialog(null, "Insufficient Payment");
 				table_load("product", prodTable);
@@ -150,39 +151,37 @@ public class Dashboard extends DatabaseHandler {
 		} catch (ClassCastException f) {
 			System.out.println("mali");
 			JOptionPane.showMessageDialog(null, "Stock not enough");
-		}	
+		}
 	}
 
-	public void updateCategoryData(String desc, int qty) {
-		String category = null;
+	public void updateCategoryData(String category, int qty) {
 		Date currentDate = new Date(System.currentTimeMillis());
 		int currentCatValue = 0;
 		try {
-			pst = con.prepareStatement("SELECT `Category` FROM `product` WHERE `Description` = '" + desc + "'");
-			ResultSet rs = pst.executeQuery();
-			if (rs.next() == true) {
-				category = rs.getString(1);
-				
-				pst = con.prepareStatement("SELECT `"+category+"` FROM `catcomparison` WHERE `Date` = '" + currentDate + "'");
-				ResultSet res = pst.executeQuery();
-				if(res.next()==true) {
-					currentCatValue = res.getInt(1);
-					pst = con.prepareStatement("UPDATE `catcomparison` SET `"+category+"`='" + (currentCatValue + qty)
-							+ "' WHERE `Date`='" + currentDate + "'");
-					pst.execute();
-				}else {
-					newCatComparisonRow(category,qty);
-				}
+
+			pst = con.prepareStatement(
+					"SELECT `" + category + "` FROM `catcomparison` WHERE `Date` = '" + currentDate + "'");
+			ResultSet res = pst.executeQuery();
+			if (res.next() == true) {
+				currentCatValue = res.getInt(1);
+				System.out.println(category+" "+currentCatValue);
+				pst = con.prepareStatement("UPDATE `catcomparison` SET `" + category + "`='" + (currentCatValue + qty)
+						+ "' WHERE `Date`='" + currentDate + "'");
+				pst.execute();
+			} else {
+				newCatComparisonRow(category, qty);
 			}
-		}catch(SQLException e1) {
+
+		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
 	}
-	
+
 	public void newCatComparisonRow(String category, int qty) {
 		try {
-			if(category.equals("Peripherals")) {
-				pst = con.prepareStatement("INSERT INTO `catcomparison`(`Date`, `Peripherals`,`CPU`,`GPU`,`Motherboard`,`RAM`,`Storage Device`)values(?,?,?,?,?,?,?)");
+			if (category.equals("Peripherals")) {
+				pst = con.prepareStatement(
+						"INSERT INTO `catcomparison`(`Date`, `Peripherals`,`CPU`,`GPU`,`Motherboard`,`RAM`,`Storage Device`)values(?,?,?,?,?,?,?)");
 				pst.setDate(1, new Date(System.currentTimeMillis()));
 				pst.setInt(2, qty);
 				pst.setInt(3, 0);
@@ -192,9 +191,10 @@ public class Dashboard extends DatabaseHandler {
 				pst.setInt(7, 0);
 				pst.executeUpdate();
 			}
-			
-			if(category.equals("CPU")) {
-				pst = con.prepareStatement("INSERT INTO `catcomparison`(`Date`, `Peripherals`,`CPU`,`GPU`,`Motherboard`,`RAM`,`Storage Device`)values(?,?,?,?,?,?,?)");
+
+			if (category.equals("CPU")) {
+				pst = con.prepareStatement(
+						"INSERT INTO `catcomparison`(`Date`, `Peripherals`,`CPU`,`GPU`,`Motherboard`,`RAM`,`Storage Device`)values(?,?,?,?,?,?,?)");
 				pst.setDate(1, new Date(System.currentTimeMillis()));
 				pst.setInt(2, 0);
 				pst.setInt(3, qty);
@@ -204,9 +204,10 @@ public class Dashboard extends DatabaseHandler {
 				pst.setInt(7, 0);
 				pst.executeUpdate();
 			}
-			
-			if(category.equals("GPU")) {
-				pst = con.prepareStatement("INSERT INTO `catcomparison`(`Date`, `Peripherals`,`CPU`,`GPU`,`Motherboard`,`RAM`,`Storage Device`)values(?,?,?,?,?,?,?)");
+
+			if (category.equals("GPU")) {
+				pst = con.prepareStatement(
+						"INSERT INTO `catcomparison`(`Date`, `Peripherals`,`CPU`,`GPU`,`Motherboard`,`RAM`,`Storage Device`)values(?,?,?,?,?,?,?)");
 				pst.setDate(1, new Date(System.currentTimeMillis()));
 				pst.setInt(2, 0);
 				pst.setInt(3, 0);
@@ -216,9 +217,10 @@ public class Dashboard extends DatabaseHandler {
 				pst.setInt(7, 0);
 				pst.executeUpdate();
 			}
-			
-			if(category.equals("Motherboard")) {
-				pst = con.prepareStatement("INSERT INTO `catcomparison`(`Date`, `Peripherals`,`CPU`,`GPU`,`Motherboard`,`RAM`,`Storage Device`)values(?,?,?,?,?,?,?)");
+
+			if (category.equals("Motherboard")) {
+				pst = con.prepareStatement(
+						"INSERT INTO `catcomparison`(`Date`, `Peripherals`,`CPU`,`GPU`,`Motherboard`,`RAM`,`Storage Device`)values(?,?,?,?,?,?,?)");
 				pst.setDate(1, new Date(System.currentTimeMillis()));
 				pst.setInt(2, 0);
 				pst.setInt(3, 0);
@@ -228,9 +230,10 @@ public class Dashboard extends DatabaseHandler {
 				pst.setInt(7, 0);
 				pst.executeUpdate();
 			}
-			
-			if(category.equals("RAM")) {
-				pst = con.prepareStatement("INSERT INTO `catcomparison`(`Date`, `Peripherals`,`CPU`,`GPU`,`Motherboard`,`RAM`,`Storage Device`)values(?,?,?,?,?,?,?)");
+
+			if (category.equals("RAM")) {
+				pst = con.prepareStatement(
+						"INSERT INTO `catcomparison`(`Date`, `Peripherals`,`CPU`,`GPU`,`Motherboard`,`RAM`,`Storage Device`)values(?,?,?,?,?,?,?)");
 				pst.setDate(1, new Date(System.currentTimeMillis()));
 				pst.setInt(2, 0);
 				pst.setInt(3, 0);
@@ -240,9 +243,10 @@ public class Dashboard extends DatabaseHandler {
 				pst.setInt(7, 0);
 				pst.executeUpdate();
 			}
-			
-			if(category.equals("Storage Device")) {
-				pst = con.prepareStatement("INSERT INTO `catcomparison`(`Date`, `Peripherals`,`CPU`,`GPU`,`Motherboard`,`RAM`,`Storage Device`)values(?,?,?,?,?,?,?)");
+
+			if (category.equals("Storage Device")) {
+				pst = con.prepareStatement(
+						"INSERT INTO `catcomparison`(`Date`, `Peripherals`,`CPU`,`GPU`,`Motherboard`,`RAM`,`Storage Device`)values(?,?,?,?,?,?,?)");
 				pst.setDate(1, new Date(System.currentTimeMillis()));
 				pst.setInt(2, 0);
 				pst.setInt(3, 0);
@@ -252,10 +256,10 @@ public class Dashboard extends DatabaseHandler {
 				pst.setInt(7, qty);
 				pst.executeUpdate();
 			}
-		}catch(SQLException e1) {
+		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-		
+
 	}
 
 	/**
@@ -455,15 +459,15 @@ public class Dashboard extends DatabaseHandler {
 		totalAmount.setHorizontalAlignment(SwingConstants.CENTER);
 		totalAmount.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
 		totalAmount.setForeground(new Color(238, 168, 82));
-		totalAmount.setBackground(Color.BLACK);
+		totalAmount.setBackground(new Color(48, 62, 71));
 		totalAmount.setBounds(222, 7, 151, 25);
 		buttonPn.add(totalAmount);
 		totalAmount.setColumns(10);
 
-		JLabel lblAmountPayed = new JLabel("Amount Payed: ");
+		JLabel lblAmountPayed = new JLabel("Amount Paid:");
 		lblAmountPayed.setForeground(Color.WHITE);
 		lblAmountPayed.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblAmountPayed.setBounds(69, 82, 143, 20);
+		lblAmountPayed.setBounds(91, 82, 132, 20);
 		buttonPn.add(lblAmountPayed);
 
 		amountPay = new JTextField();
@@ -489,7 +493,7 @@ public class Dashboard extends DatabaseHandler {
 		buttonPn.add(lblChange);
 
 		changeField = new JTextField();
-		changeField.setBackground(new Color(160, 238, 82));
+		changeField.setBackground(new Color(224, 219, 12));
 		changeField.setEditable(false);
 		changeField.setHorizontalAlignment(SwingConstants.CENTER);
 		changeField.setFont(new Font("Arial Black", Font.PLAIN, 15));
