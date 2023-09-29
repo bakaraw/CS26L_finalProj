@@ -5,18 +5,28 @@
 package Main;
 
 import java.awt.Color;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JScrollPane;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.GroupLayout;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.RowFilter;
 
@@ -25,14 +35,19 @@ import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PiePlot3D; // For 3D pie charts
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.general.PieDataset;
 import org.jfree.data.jdbc.JDBCCategoryDataset;
+import org.jfree.util.Rotation;
 
 import utils.ActivityLogs;
 import utils.DatabaseHandler;
 import utils.Product;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -79,9 +94,10 @@ public class Dashboard2 extends javax.swing.JFrame {
 		initComponents();
 		setLocationRelativeTo(null);
 	}
+
 	@SuppressWarnings("unchecked")
 	private void initComponents() {
-		
+
 		DashboardPanel = new JPanel();
 		SlidingMenu = new javax.swing.JPanel();
 		HideMenu = new javax.swing.JLabel();
@@ -329,6 +345,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 				search(searchString);
 			}
 		});
+
 		inventorySF.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		inventorySF.setColumns(10);
 
@@ -365,7 +382,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 				addwindow.getObj().setVisible(true);
 			}
 		});
-		
+
 		btn_StockIn = new JButton("Stock in");
 		btn_StockIn.setIcon(new ImageIcon("img\\icons8-add-to-cart-16.png"));
 		btn_StockIn.addActionListener(new ActionListener() {
@@ -386,60 +403,68 @@ public class Dashboard2 extends javax.swing.JFrame {
 		searchIcon.setIcon(new ImageIcon("img//icons8-search-16 (1).png"));
 
 		javax.swing.GroupLayout InventoryPanelLayout = new javax.swing.GroupLayout(InventoryPanel);
-		InventoryPanelLayout.setHorizontalGroup(
-			InventoryPanelLayout.createParallelGroup(Alignment.TRAILING)
+
+		InventoryPanelLayout.setHorizontalGroup(InventoryPanelLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(InventoryPanelLayout.createSequentialGroup().addContainerGap(20, Short.MAX_VALUE)
+						.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(InventoryPanelLayout.createSequentialGroup()
+										.addPreferredGap(ComponentPlacement.RELATED).addComponent(scrollPane_1,
+												GroupLayout.PREFERRED_SIZE, 1362, GroupLayout.PREFERRED_SIZE))
+								.addGroup(
+										InventoryPanelLayout.createSequentialGroup()
+												.addComponent(inventorySF, GroupLayout.PREFERRED_SIZE, 294,
+														GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.UNRELATED)
+												.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 43,
+														GroupLayout.PREFERRED_SIZE)
+												.addGap(67)
+												.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 123,
+														GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.RELATED)
+												.addComponent(viewCB, GroupLayout.PREFERRED_SIZE, 133,
+														GroupLayout.PREFERRED_SIZE)
+												.addGap(10)
+												.addComponent(btnRefresh, GroupLayout.PREFERRED_SIZE, 41,
+														GroupLayout.PREFERRED_SIZE)
+												.addGap(58).addComponent(btn_AddProduct)
+												.addPreferredGap(ComponentPlacement.UNRELATED)
+												.addComponent(btn_StockIn, GroupLayout.PREFERRED_SIZE, 95,
+														GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(btn_Remove,
+														GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+								.addComponent(lblNewLabel_5, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 262,
+										GroupLayout.PREFERRED_SIZE))
+						.addGap(18)));
+		InventoryPanelLayout.setVerticalGroup(InventoryPanelLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(InventoryPanelLayout.createSequentialGroup()
-					.addContainerGap(30, Short.MAX_VALUE)
-					.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 1362, GroupLayout.PREFERRED_SIZE)
-						.addGroup(InventoryPanelLayout.createSequentialGroup()
-							.addComponent(searchIcon, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(inventorySF, GroupLayout.PREFERRED_SIZE, 319, GroupLayout.PREFERRED_SIZE)
-							.addGap(106)
-							.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(viewCB, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)
-							.addGap(10)
-							.addComponent(btnRefresh, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
-							.addGap(59)
-							.addComponent(btn_AddProduct)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btn_StockIn, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btn_Remove, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
-						.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 262, GroupLayout.PREFERRED_SIZE))
-					.addGap(18))
-		);
-		InventoryPanelLayout.setVerticalGroup(
-			InventoryPanelLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(InventoryPanelLayout.createSequentialGroup()
-					.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.TRAILING)
-						.addGroup(InventoryPanelLayout.createSequentialGroup()
-							.addContainerGap()
-							.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(btn_AddProduct, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btn_StockIn, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btn_Remove, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(InventoryPanelLayout.createSequentialGroup()
+										.addContainerGap(57, Short.MAX_VALUE).addComponent(lblNewLabel_5).addGap(1))
+								.addGroup(InventoryPanelLayout.createSequentialGroup().addGap(12)
+										.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 31,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(29)))
 						.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.TRAILING)
-							.addGroup(InventoryPanelLayout.createSequentialGroup()
-								.addContainerGap(28, Short.MAX_VALUE)
-								.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-								.addGap(23)
+								.addComponent(btnSearch, GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
 								.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.LEADING, false)
-									.addComponent(inventorySF, Alignment.TRAILING)
-									.addComponent(searchIcon, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)))
-							.addGroup(InventoryPanelLayout.createSequentialGroup()
-								.addContainerGap()
-								.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.TRAILING, false)
-									.addComponent(btnRefresh, GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
-									.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.BASELINE)
-										.addComponent(viewCB, GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
-										.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE))))))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 467, GroupLayout.PREFERRED_SIZE)
-					.addGap(20))
-		);
+										.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 19,
+												GroupLayout.PREFERRED_SIZE)
+										.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.BASELINE)
+												.addComponent(btnRefresh, GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+												.addComponent(btn_AddProduct, GroupLayout.DEFAULT_SIZE, 32,
+														Short.MAX_VALUE)
+												.addComponent(btn_StockIn, GroupLayout.PREFERRED_SIZE, 31,
+														GroupLayout.PREFERRED_SIZE)
+												.addComponent(btn_Remove, GroupLayout.DEFAULT_SIZE, 32,
+														Short.MAX_VALUE))
+										.addComponent(inventorySF, GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+										.addComponent(viewCB, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 32,
+												Short.MAX_VALUE)))
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 467, GroupLayout.PREFERRED_SIZE)
+						.addGap(20)));
+
 
 		inventoryTable = new JTable();
 		inventoryTable.addMouseListener(new MouseAdapter() {
@@ -454,13 +479,14 @@ public class Dashboard2 extends javax.swing.JFrame {
 					
 					
 					if (databaseHandler.rs.next()) {
+
 						StockInWindow.getObj().setVisible(false);
 						RemoveWindow.getObj().setVisible(false);
 						
 						String sku = databaseHandler.rs.getString("SKU");
 						String desc = databaseHandler.rs.getString("Description");
 						String qty = databaseHandler.rs.getString("Qty");
-						
+
 						StockInWindow.setaddstockSkuField(sku);
 						StockInWindow.setadddescField(desc);
 						StockInWindow.setcurrQtyField(qty);
@@ -531,40 +557,33 @@ public class Dashboard2 extends javax.swing.JFrame {
 		JScrollPane scrollPane_actLogs = new JScrollPane();
 
 		javax.swing.GroupLayout ActivityLogsPanelLayout = new javax.swing.GroupLayout(ActivityLogsPanel);
-		ActivityLogsPanelLayout.setHorizontalGroup(
-			ActivityLogsPanelLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(ActivityLogsPanelLayout.createSequentialGroup()
-					.addGap(32)
-					.addGroup(ActivityLogsPanelLayout.createParallelGroup(Alignment.LEADING)
+		ActivityLogsPanelLayout.setHorizontalGroup(ActivityLogsPanelLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(ActivityLogsPanelLayout.createSequentialGroup().addGap(32).addGroup(ActivityLogsPanelLayout
+						.createParallelGroup(Alignment.LEADING)
 						.addComponent(scrollPane_actLogs, GroupLayout.PREFERRED_SIZE, 1343, GroupLayout.PREFERRED_SIZE)
 						.addGroup(ActivityLogsPanelLayout.createSequentialGroup()
-							.addComponent(lblNewLabel_4_1, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(viewByAct, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)
-							.addGap(33)
-							.addComponent(btnRefreshLogs)
-							.addGap(70)
-							.addComponent(btnDeleteLogs))
+								.addComponent(lblNewLabel_4_1, GroupLayout.PREFERRED_SIZE, 123,
+										GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(viewByAct, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)
+								.addGap(33).addComponent(btnRefreshLogs).addGap(70).addComponent(btnDeleteLogs))
 						.addComponent(lblNewLabel_2_1_1, GroupLayout.PREFERRED_SIZE, 390, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(25, Short.MAX_VALUE))
-		);
-		ActivityLogsPanelLayout.setVerticalGroup(
-			ActivityLogsPanelLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(ActivityLogsPanelLayout.createSequentialGroup()
-					.addGap(26)
-					.addComponent(lblNewLabel_2_1_1, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-					.addGap(11)
-					.addGroup(ActivityLogsPanelLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(ActivityLogsPanelLayout.createParallelGroup(Alignment.BASELINE)
-							.addComponent(lblNewLabel_4_1, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
-							.addComponent(viewByAct, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(ActivityLogsPanelLayout.createParallelGroup(Alignment.BASELINE)
-							.addComponent(btnRefreshLogs)
-							.addComponent(btnDeleteLogs)))
-					.addGap(15)
-					.addComponent(scrollPane_actLogs, GroupLayout.PREFERRED_SIZE, 466, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(23, Short.MAX_VALUE))
-		);
+						.addContainerGap(25, Short.MAX_VALUE)));
+		ActivityLogsPanelLayout.setVerticalGroup(ActivityLogsPanelLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(ActivityLogsPanelLayout.createSequentialGroup().addGap(26)
+						.addComponent(lblNewLabel_2_1_1, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+						.addGap(11)
+						.addGroup(ActivityLogsPanelLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(ActivityLogsPanelLayout.createParallelGroup(Alignment.BASELINE)
+										.addComponent(lblNewLabel_4_1, GroupLayout.PREFERRED_SIZE, 19,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(viewByAct, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+												GroupLayout.PREFERRED_SIZE))
+								.addGroup(ActivityLogsPanelLayout.createParallelGroup(Alignment.BASELINE)
+										.addComponent(btnRefreshLogs).addComponent(btnDeleteLogs)))
+						.addGap(15)
+						.addComponent(scrollPane_actLogs, GroupLayout.PREFERRED_SIZE, 466, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(23, Short.MAX_VALUE)));
 
 		logsTable = new JTable();
 		scrollPane_actLogs.setViewportView(logsTable);
@@ -656,32 +675,30 @@ public class Dashboard2 extends javax.swing.JFrame {
 		layeredPane.add(EmployeePanel, "card6");
 
 		SalesReportPanel.setBackground(new Color(255, 255, 255));
-		
+
 		JPanel salesReportContentPanel = new JPanel();
 		salesReportContentPanel.setBackground(new Color(255, 255, 255));
 
 		javax.swing.GroupLayout SalesReportPanelLayout = new javax.swing.GroupLayout(SalesReportPanel);
 		SalesReportPanelLayout.setHorizontalGroup(
-			SalesReportPanelLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(SalesReportPanelLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(salesReportContentPanel, GroupLayout.PREFERRED_SIZE, 1381, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(19, Short.MAX_VALUE))
-		);
-		SalesReportPanelLayout.setVerticalGroup(
-			SalesReportPanelLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(SalesReportPanelLayout.createSequentialGroup()
-					.addGap(19)
-					.addComponent(salesReportContentPanel, GroupLayout.DEFAULT_SIZE, 583, Short.MAX_VALUE)
-					.addContainerGap())
-		);
+				SalesReportPanelLayout.createParallelGroup(Alignment.TRAILING).addGroup(Alignment.LEADING,
+						SalesReportPanelLayout
+								.createSequentialGroup().addGap(25).addComponent(salesReportContentPanel,
+										GroupLayout.PREFERRED_SIZE, 1352, GroupLayout.PREFERRED_SIZE)
+								.addContainerGap(23, Short.MAX_VALUE)));
+		SalesReportPanelLayout.setVerticalGroup(SalesReportPanelLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(SalesReportPanelLayout
+						.createSequentialGroup().addGap(19).addComponent(salesReportContentPanel,
+								GroupLayout.PREFERRED_SIZE, 556, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(22, Short.MAX_VALUE)));
+
 		salesReportContentPanel.setLayout(null);
-		
+
 		JLabel lblNewLabel_7 = new JLabel("Sales Report");
 		lblNewLabel_7.setFont(new Font("Tahoma", Font.BOLD, 28));
 		lblNewLabel_7.setBounds(23, 11, 206, 34);
 		salesReportContentPanel.add(lblNewLabel_7);
-		
+
 		lineGraphPn = new JPanel();
 		lineGraphPn.setBackground(new Color(255, 255, 255));
 		lineGraphPn.setBounds(23, 100, 709, 430);
@@ -692,17 +709,47 @@ public class Dashboard2 extends javax.swing.JFrame {
 			e1.printStackTrace();
 		}
 		salesReportContentPanel.add(lineGraphPn);
-		
+
 		PieChartPanel = new JPanel();
 		PieChartPanel.setBackground(new Color(255, 255, 128));
 		PieChartPanel.setBounds(753, 109, 560, 341);
 		try {
-			PieChartPanel.add( new CreatePieChart("Pie Chart Test","Stocks Comparison"));
+
+			PieChartPanel.add(new CreatePieChart("Pie Chart Test", "Stocks Comparison"));
+
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+
 		salesReportContentPanel.add(PieChartPanel);
+
+
+		JButton btnNewButton_4 = new JButton("New button");
+		btnNewButton_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tryGraph();
+			}
+		});
+		btnNewButton_4.setBounds(346, 24, 89, 23);
+		salesReportContentPanel.add(btnNewButton_4);
+
+		JComboBox comboBox = new JComboBox();
+		comboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (comboBox.getSelectedItem().equals("Total Sales")) {
+					switchToAllSales();
+				} else if (comboBox.getSelectedItem().equals("This Year")) {
+					switchToThisYear();
+				} else if (comboBox.getSelectedItem().equals("This Month")) {
+					switchToThisMonth();
+				} 
+			}
+		});
+		comboBox.setModel(new DefaultComboBoxModel(new String[] { "Total Sales", "This Year", "This Month" }));
+		comboBox.setBounds(1209, 24, 104, 22);
+		salesReportContentPanel.add(comboBox);
+
 		SalesReportPanel.setLayout(SalesReportPanelLayout);
 
 		layeredPane.add(SalesReportPanel, "card2");
@@ -757,8 +804,61 @@ public class Dashboard2 extends javax.swing.JFrame {
 		layeredPane.revalidate();
 	}
 
+	public void switchToThisMonth() {
+		PieChartPanel.removeAll();
+		InviFrame = new InvisibleFrame();
+		databaseHandler.table_load("catcomparison", InviFrame.table);
+		InviFrame.setVisible(false);
+		setPeripherals((int) calculateSalesThisMonth(InviFrame.table, 1));
+		setcpu((int) calculateSalesThisMonth(InviFrame.table, 2));
+		setgpu((int) calculateSalesThisMonth(InviFrame.table, 3));
+		setmotherboard((int) calculateSalesThisMonth(InviFrame.table, 4));
+		setram((int) calculateSalesThisMonth(InviFrame.table, 5));
+		setstoragedevice((int) calculateSalesThisMonth(InviFrame.table, 6));
+
+		PieChartPanel.add(new CreatePieChart("Pie Chart Test", "This Month Comparison"));
+		repaint();
+		revalidate();
+	}
+
+	public void switchToThisYear() {
+		PieChartPanel.removeAll();
+		InviFrame = new InvisibleFrame();
+		databaseHandler.table_load("catcomparison", InviFrame.table);
+		InviFrame.setVisible(false);
+		setPeripherals((int) calculateSalesThisYear(InviFrame.table, 1));
+		setcpu((int) calculateSalesThisYear(InviFrame.table, 2));
+		setgpu((int) calculateSalesThisYear(InviFrame.table, 3));
+		setmotherboard((int) calculateSalesThisYear(InviFrame.table, 4));
+		setram((int) calculateSalesThisYear(InviFrame.table, 5));
+		setstoragedevice((int) calculateSalesThisYear(InviFrame.table, 6));
+
+		PieChartPanel.add(new CreatePieChart("Pie Chart Test",  "This Year Comparison"));
+		repaint();
+		revalidate();
+	}
+
+	public void switchToAllSales() {
+		PieChartPanel.removeAll();
+		InviFrame = new InvisibleFrame();
+		databaseHandler.table_load("catcomparison", InviFrame.table);
+		InviFrame.setVisible(false);
+		setPeripherals((int) calculateTotalSales(InviFrame.table, 1));
+		setcpu((int) calculateTotalSales(InviFrame.table, 2));
+		setgpu((int) calculateTotalSales(InviFrame.table, 3));
+		setmotherboard((int) calculateTotalSales(InviFrame.table, 4));
+		setram((int) calculateTotalSales(InviFrame.table, 5));
+		setstoragedevice((int) calculateTotalSales(InviFrame.table, 6));
+
+		PieChartPanel.add(new CreatePieChart("Pie Chart Test", "Total Sales Comparison"));
+		repaint();
+		revalidate();
+	}
+
 	private void formWindowOpened(java.awt.event.WindowEvent evt) {
-		switchPanels(SalesReportPanel); // TODO add your handling code here:
+		switchPanels(SalesReportPanel);
+		switchToAllSales();
+
 	}
 
 	private void OpenMenuMouseReleased(java.awt.event.MouseEvent evt) {
@@ -893,9 +993,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 		trs.setRowFilter(RowFilter.regexFilter(str));
 		
 	}
-	
-	
-	
+
 	public void windowStart() {
 
 		databaseHandler = new DatabaseHandler();
@@ -920,8 +1018,8 @@ public class Dashboard2 extends javax.swing.JFrame {
 			java.util.logging.Logger.getLogger(Dashboard2.class.getName()).log(java.util.logging.Level.SEVERE, null,
 					ex);
 		}
-  }
-  
+	}
+
 	public ChartPanel createLineGraph() throws Exception {
 			String query = "SELECT DATE_FORMAT(Date, '%b %e %Y') AS FormattedDate, Sales FROM salesdata";
 			JDBCCategoryDataset dataset = new JDBCCategoryDataset(databaseHandler.con,query);
@@ -938,33 +1036,195 @@ public class Dashboard2 extends javax.swing.JFrame {
 			PieDataset dataset = createDataset();
 			JFreeChart chart = createChart(dataset, chartTitle);
 			ChartPanel chartPanel = new ChartPanel(chart);
-			chartPanel.setPreferredSize(new java.awt.Dimension(500,300));
+			chartPanel.setPreferredSize(new java.awt.Dimension(500, 300));
 			add(chartPanel);
-			
+
 		}
-		
+
 		private PieDataset createDataset() {
 			DefaultPieDataset result = new DefaultPieDataset();
-			result.setValue("Peripherals", 65);
-			result.setValue("CPU", 24);
-			result.setValue("GPU", 40);
-			result.setValue("Motherboard", 21);
-			result.setValue("RAM", 34);
-			result.setValue("Storage Device", 21);
+			result.setValue("Peripherals", getPeripherals());
+			result.setValue("CPU", getcpu());
+			result.setValue("GPU", getgpu());
+			result.setValue("Motherboard", getmotherboard());
+			result.setValue("RAM", getram());
+			result.setValue("Storage Device", getstoragedevice());
 			return result;
 		}
 
 		private JFreeChart createChart(PieDataset dataset, String title) {
 			JFreeChart chart = ChartFactory.createPieChart3D(title, dataset, true, true, true);
-			PiePlot3D plot = (PiePlot3D)chart.getPlot();
+			PiePlot3D plot = (PiePlot3D) chart.getPlot();
 			plot.setStartAngle(90);
 			plot.setDirection(Rotation.CLOCKWISE);
 			plot.setForegroundAlpha(0.5f);
 			return chart;
 		}
-		
 
 	}
+
+	public int calculateSalesThisYear(JTable table, int index) {
+		int total = 0;
+
+		// Column indices for the date column (first column) and the value column
+		// (second column)
+		int dateColumnIndex = 0; // First column
+		int valueColumnIndex = index; // Second column
+
+		// Get the current year
+		Calendar currentYear = Calendar.getInstance();
+
+		// Iterate through the rows of the table
+		for (int row = 0; row < table.getRowCount(); row++) {
+			// Parse the date from the first column as java.sql.Date
+			java.sql.Date sqlDate = (java.sql.Date) table.getValueAt(row, dateColumnIndex); // Fully qualify
+																							// java.sql.Date
+
+			// Convert the java.sql.Date to java.util.Date
+			Date utilDate = new Date(sqlDate.getTime());
+
+			// Format the date as a string in "yyyy-MM-dd" format
+			String dateString = new SimpleDateFormat("yyyy-MM-dd").format(utilDate);
+
+			// Check if the date belongs to the current year
+			if (isDateInCurrentYear(utilDate, currentYear)) {
+				Object value = table.getValueAt(row, valueColumnIndex);
+				if (value instanceof Number) {
+					total += ((Number) value).intValue();
+				}
+			}
+		}
+
+		return total;
+	}
+
+	private boolean isDateInCurrentYear(Date date, Calendar currentYear) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		return calendar.get(Calendar.YEAR) == currentYear.get(Calendar.YEAR);
+	}
+
+	public int calculateSalesThisMonth(JTable table, int index) {
+		int total = 0;
+
+		// Column indices for the date column (first column) and the value column
+		// (second column)
+		int dateColumnIndex = 0; // First column
+		int valueColumnIndex = index; // Second column
+
+		// Get the current date and set it to the first day of the current month
+		Calendar currentDate = Calendar.getInstance();
+		currentDate.set(Calendar.DAY_OF_MONTH, 1);
+
+		// Iterate through the rows of the table
+		for (int row = 0; row < table.getRowCount(); row++) {
+			// Parse the date from the first column as java.sql.Date
+			java.sql.Date sqlDate = (java.sql.Date) table.getValueAt(row, dateColumnIndex); // Fully qualify
+																							// java.sql.Date
+
+			// Convert the java.sql.Date to java.util.Date
+			Date utilDate = new Date(sqlDate.getTime());
+
+			// Format the date as a string in "yyyy-MM-dd" format
+			String dateString = new SimpleDateFormat("yyyy-MM-dd").format(utilDate);
+
+			// Check if the date belongs to the current month
+			if (isDateInCurrentMonth(utilDate, currentDate)) {
+				Object value = table.getValueAt(row, valueColumnIndex);
+				if (value instanceof Number) {
+					total += ((Number) value).intValue();
+				}
+			}
+		}
+
+		return total;
+	}
+
+	private boolean isDateInCurrentMonth(Date date, Calendar currentMonth) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		return calendar.get(Calendar.MONTH) == currentMonth.get(Calendar.MONTH)
+				&& calendar.get(Calendar.YEAR) == currentMonth.get(Calendar.YEAR);
+	}
+
+	public int calculateTotalSales(JTable table, int index) {
+		int total = 0;
+
+		// Get the number of rows in the table
+		int rowCount = table.getRowCount();
+
+		// Column index for the second column (assuming a zero-based index)
+		int columnIndex = index; // 1 represents the second column
+
+		// Iterate through the rows and sum the values in the second column
+		for (int row = 0; row < rowCount; row++) {
+			Object value = table.getValueAt(row, columnIndex);
+
+			if (value instanceof Number) {
+				total += ((Number) value).intValue();
+			}
+			// If your cells contain non-numeric data, you might need additional validation.
+			// For example, you can check the type of the cell value before adding it to the
+			// total.
+		}
+
+		return total;
+	}
+
+	public void setPeripherals(int num) {
+		peripherals = num;
+	}
+
+	public int getPeripherals() {
+		return peripherals;
+	}
+
+	public void setcpu(int num) {
+		cpu = num;
+	}
+
+	public int getcpu() {
+		return cpu;
+	}
+
+	public void setgpu(int num) {
+		gpu = num;
+	}
+
+	public int getgpu() {
+		return gpu;
+	}
+
+	public void setmotherboard(int num) {
+		motherboard = num;
+	}
+
+	public int getmotherboard() {
+		return motherboard;
+	}
+
+	public void setram(int num) {
+		ram = num;
+	}
+
+	public int getram() {
+		return ram;
+	}
+
+	public void setstoragedevice(int num) {
+		storagedevice = num;
+	}
+
+	public int getstoragedevice() {
+		return storagedevice;
+	}
+
+	private int peripherals = 0;
+	private int cpu = 0;
+	private int gpu = 0;
+	private int motherboard = 0;
+	private int ram = 0;
+	private int storagedevice = 0;
 
 	// Variables declaration - do not modify
 	private javax.swing.JLabel ActivityLogs;
@@ -1010,7 +1270,12 @@ public class Dashboard2 extends javax.swing.JFrame {
 	public static String test3;
 	static StockInWindow stockinwindow = new StockInWindow();
 	static RemoveWindow removewindow = new RemoveWindow();
+
+	private JLabel jLabel1;
+	private InvisibleFrame InviFrame;
+
 	static DefaultTableModel model = null;
 	private JTable employeeTable;
 	private JLabel searchIcon;
+
 }
