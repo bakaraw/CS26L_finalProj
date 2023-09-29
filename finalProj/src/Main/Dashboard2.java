@@ -703,7 +703,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 
 		PieChartPanel = new JPanel();
 		PieChartPanel.setBackground(new Color(255, 255, 128));
-		PieChartPanel.setBounds(742, 100, 613, 430);
+		PieChartPanel.setBounds(730, 100, 606, 430);
 		try {
 
 			PieChartPanel.add(new CreatePieChart("Pie Chart Test", "Stocks Comparison"));
@@ -716,9 +716,10 @@ public class Dashboard2 extends javax.swing.JFrame {
 		salesReportContentPanel.add(PieChartPanel);
 
 		JComboBox comboBox = new JComboBox();
+		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (comboBox.getSelectedItem().equals("Total Sales")) {
+				if (comboBox.getSelectedItem().equals("Overall")) {
 					switchToAllSales();
 				} else if (comboBox.getSelectedItem().equals("This Year")) {
 					switchToThisYear();
@@ -727,8 +728,8 @@ public class Dashboard2 extends javax.swing.JFrame {
 				} 
 			}
 		});
-		comboBox.setModel(new DefaultComboBoxModel(new String[] { "Total Sales", "This Year", "This Month" }));
-		comboBox.setBounds(742, 66, 104, 22);
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Overall", "This Year", "This Month"}));
+		comboBox.setBounds(730, 64, 104, 26);
 		salesReportContentPanel.add(comboBox);
 		
 		cbDMY = new JComboBox();
@@ -890,7 +891,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 		setram((int) calculateTotalSales(InviFrame.table, 5));
 		setstoragedevice((int) calculateTotalSales(InviFrame.table, 6));
 
-		PieChartPanel.add(new CreatePieChart("Pie Chart Test", "Total Sales Comparison"));
+		PieChartPanel.add(new CreatePieChart("Pie Chart Test", "Overall Comparison"));
 		repaint();
 		revalidate();
 	}
@@ -1108,10 +1109,12 @@ public class Dashboard2 extends javax.swing.JFrame {
 	
 	public class CreatePieChart extends JPanel {
 		public CreatePieChart (String apptitle, String chartTitle) {
+			int h = PieChartPanel.getHeight()-15;
+			int w = PieChartPanel.getWidth()-5;
 			PieDataset dataset = createDataset();
 			JFreeChart chart = createChart(dataset, chartTitle);
 			ChartPanel chartPanel = new ChartPanel(chart);
-			chartPanel.setPreferredSize(new java.awt.Dimension(500, 300));
+			chartPanel.setPreferredSize(new java.awt.Dimension(w, h));
 			add(chartPanel);
 
 		}
