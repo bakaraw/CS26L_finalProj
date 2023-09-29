@@ -70,7 +70,7 @@ public class DatabaseHandler {
 		change = cr.getChange();
 		try {
 			pst = con.prepareStatement(
-					"insert into `clientrecords`(`Date`, `Items`, `Total Sales`, `Amount Payed`, `Change_`)values(?,?,?,?,?)");
+					"insert into `clientrecords`(`Date`, `Items`, `TotalSales`, `Amount Payed`, `Change_`)values(?,?,?,?,?)");
 			pst.setDate(1, cr.getDate());
 			pst.setString(2, items);
 			pst.setString(3, totalSales);
@@ -116,7 +116,7 @@ public class DatabaseHandler {
 		}
 	}
 
-	public void saveToDatabase(Employee employee) {
+	public void saveToDatabase(Employee employee) throws SQLException {
 		String id, name, birthday, username, password;
 
 		id = employee.getID();
@@ -125,18 +125,12 @@ public class DatabaseHandler {
 		username = employee.getUsername();
 		password = employee.getPassword();
 
-		try {
-			pst = con.prepareStatement(
-					"insert into employee(`Name`, `Birthday`, `Username`, `Password`)values(?,?,?,?)");
-			pst.setString(1, name);
-			pst.setString(2, birthday);
-			pst.setString(3, username);
-			pst.setString(4, password);
-			pst.executeUpdate();
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Unexpected Error Occurred");
-		}
+		pst = con.prepareStatement("insert into employee(`Name`, `Birthday`, `Username`, `Password`)values(?,?,?,?)");
+		pst.setString(1, name);
+		pst.setString(2, birthday);
+		pst.setString(3, username);
+		pst.setString(4, password);
+		pst.executeUpdate();
 
 	}
 
@@ -163,6 +157,8 @@ public class DatabaseHandler {
 
 		}
 	}
+	
+	
 
 	public void updateStockQty(int changedQty, String sku) {
 		try {
@@ -179,6 +175,17 @@ public class DatabaseHandler {
 	public void table_load(String dbTablename, JTable table) {
 		try {
 			pst = con.prepareStatement("select * from " + dbTablename);
+			rs = pst.executeQuery();
+			table.setModel(DbUtils.resultSetToTableModel(rs));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//loads the table specifically for employee table
+	public void table_load(JTable table) {
+		try {
+			pst = con.prepareStatement("select ID,Name,Birthday from employee");
 			rs = pst.executeQuery();
 			table.setModel(DbUtils.resultSetToTableModel(rs));
 		} catch (SQLException e) {
@@ -216,6 +223,35 @@ public class DatabaseHandler {
 		}
 
 	}
+	public void skuSearch(String skuField) {
+		try {
+
+			skuSearched = skuField;
+
+			pst = con.prepareStatement("select SKU,Description,Qty,Price from product where SKU = ?");
+			pst.setString(1, skuSearched);
+			ResultSet rs = pst.executeQuery();
+
+			if (rs.next() == true) {
+				Cart cart = new Cart();
+				String sku = rs.getString(1);
+				String desc = rs.getString(2);
+				String qty = rs.getString(3);
+				String price = rs.getString(4);
+				Dashboard.setdataqty(qty);
+				cart.setSku(sku);
+				cart.setdesc(desc);
+				cart.setprice(price);
+				cart.setTot(price);
+
+			} else {
+				JOptionPane.showMessageDialog(null, "Product NOT Found");
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+
+		}
+	}
 
 	public void skuSearch(JTextField skuField) {
 		try {
@@ -248,7 +284,7 @@ public class DatabaseHandler {
 	}
 
 	public void credentialsSearch(String username) {
-		
+
 	}
 
 	public void deleteRow(String dbTablename, String columnReference, String columnVal) {
@@ -279,4 +315,7 @@ public class DatabaseHandler {
 		}
 
 	}
+	
+	
+	
 }

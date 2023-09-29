@@ -29,7 +29,7 @@ public class AdminLogin implements WindowListener{
 	private JTextField usernameField;
 	private JPasswordField passwordField;
 	private HashMap<String, String> adminLoginInfo = new HashMap<String, String>();
-	JFrame frame;
+	JFrame frmAdminLogin;
 	JFrame frameDb;
 	
 	public AdminLogin(HashMap<String, String> adminLoginInfo, JFrame jfdb){
@@ -46,17 +46,18 @@ public class AdminLogin implements WindowListener{
 	}
 	
 	void Initialization(HashMap<String, String> adminLoginInfo, JFrame jfdb) {
-		frame = new JFrame();
+		frmAdminLogin = new JFrame();
+		frmAdminLogin.setTitle("Admin Login");
 		this.adminLoginInfo = adminLoginInfo;
 		this.frameDb = jfdb;
 		frameDb.setEnabled(false);
 		
-		frame.addWindowListener(this);
-		frame.setBounds(100, 100, 467, 430);
+		frmAdminLogin.addWindowListener(this);
+		frmAdminLogin.setBounds(100, 100, 467, 430);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		frame.setContentPane(contentPane);
+		frmAdminLogin.setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JPanel header = new JPanel();
@@ -74,7 +75,7 @@ public class AdminLogin implements WindowListener{
 		header.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Username: ");
-		lblNewLabel_1_1.setFont(new Font("Gilroy Light", Font.PLAIN, 20));
+		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		lblNewLabel_1_1.setBounds(71, 120, 102, 14);
 		contentPane.add(lblNewLabel_1_1);
 		
@@ -109,7 +110,7 @@ public class AdminLogin implements WindowListener{
 		contentPane.add(usernameField);
 		
 		JLabel lblNewLabel_1_1_1 = new JLabel("Password: ");
-		lblNewLabel_1_1_1.setFont(new Font("Gilroy Light", Font.PLAIN, 20));
+		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		lblNewLabel_1_1_1.setBounds(71, 184, 102, 14);
 		contentPane.add(lblNewLabel_1_1_1);
 		
@@ -155,9 +156,9 @@ public class AdminLogin implements WindowListener{
 		});
 		
 		contentPane.add(btnLogin);
-		frame.setLocationRelativeTo(null);
-		frame.setResizable(false);
-		frame.setVisible(true);
+		frmAdminLogin.setLocationRelativeTo(null);
+		frmAdminLogin.setResizable(false);
+		frmAdminLogin.setVisible(true);
 	}
 	
 	private void loginAccount() {
@@ -167,8 +168,13 @@ public class AdminLogin implements WindowListener{
 		if (adminLoginInfo.containsKey(userID)) {
 			if (adminLoginInfo.get(userID).equals(password)) {
 				frameDb.dispose();
-				frame.dispose();
-				AdminPage adminPage = new AdminPage();
+				frmAdminLogin.dispose();
+				java.awt.EventQueue.invokeLater(new Runnable() {
+					public void run() {
+
+						new Dashboard2().setVisible(true);
+					}
+				});
 			} else {
 				JOptionPane.showMessageDialog(null,"Wrong password or username");
 			}
