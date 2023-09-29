@@ -157,6 +157,8 @@ public class DatabaseHandler {
 
 		}
 	}
+	
+	
 
 	public void updateStockQty(int changedQty, String sku) {
 		try {
@@ -173,6 +175,17 @@ public class DatabaseHandler {
 	public void table_load(String dbTablename, JTable table) {
 		try {
 			pst = con.prepareStatement("select * from " + dbTablename);
+			rs = pst.executeQuery();
+			table.setModel(DbUtils.resultSetToTableModel(rs));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//loads the table specifically for employee table
+	public void table_load(JTable table) {
+		try {
+			pst = con.prepareStatement("select ID,Name,Birthday from employee");
 			rs = pst.executeQuery();
 			table.setModel(DbUtils.resultSetToTableModel(rs));
 		} catch (SQLException e) {
@@ -209,6 +222,35 @@ public class DatabaseHandler {
 
 		}
 
+	}
+	public void skuSearch(String skuField) {
+		try {
+
+			skuSearched = skuField;
+
+			pst = con.prepareStatement("select SKU,Description,Qty,Price from product where SKU = ?");
+			pst.setString(1, skuSearched);
+			ResultSet rs = pst.executeQuery();
+
+			if (rs.next() == true) {
+				Cart cart = new Cart();
+				String sku = rs.getString(1);
+				String desc = rs.getString(2);
+				String qty = rs.getString(3);
+				String price = rs.getString(4);
+				Dashboard.setdataqty(qty);
+				cart.setSku(sku);
+				cart.setdesc(desc);
+				cart.setprice(price);
+				cart.setTot(price);
+
+			} else {
+				JOptionPane.showMessageDialog(null, "Product NOT Found");
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+
+		}
 	}
 
 	public void skuSearch(JTextField skuField) {
@@ -273,4 +315,7 @@ public class DatabaseHandler {
 		}
 
 	}
+	
+	
+	
 }

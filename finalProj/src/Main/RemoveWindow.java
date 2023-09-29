@@ -41,6 +41,8 @@ public class RemoveWindow extends JFrame {
 	private JCheckBox deleteChkbox;
 
 	public RemoveWindow() {
+		setTitle("Remove ");
+		setResizable(false);
 		createGUI();
 	}
 
@@ -84,7 +86,7 @@ public class RemoveWindow extends JFrame {
 		JLabel lblDescription = new JLabel("DESCRIPTION:");
 		lblDescription.setVerticalAlignment(SwingConstants.TOP);
 		lblDescription.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblDescription.setBounds(35, 121, 109, 20);
+		lblDescription.setBounds(37, 121, 109, 20);
 		body.add(lblDescription);
 
 		descremField = new JTextField();
@@ -97,7 +99,7 @@ public class RemoveWindow extends JFrame {
 		JLabel lblCurrentQty = new JLabel("CURRENT QTY:");
 		lblCurrentQty.setVerticalAlignment(SwingConstants.TOP);
 		lblCurrentQty.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblCurrentQty.setBounds(35, 164, 114, 20);
+		lblCurrentQty.setBounds(32, 158, 114, 20);
 		body.add(lblCurrentQty);
 
 		qtyremField = new JTextField();
@@ -110,6 +112,7 @@ public class RemoveWindow extends JFrame {
 		JButton btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				handler.skuSearched = inventorySF.getText();
 				handler.skuSearch(inventorySF, descremField, qtyremField);
 			}
 		});
@@ -125,7 +128,7 @@ public class RemoveWindow extends JFrame {
 		JLabel lblStockInBy = new JLabel("REMOVED BY:");
 		lblStockInBy.setVerticalAlignment(SwingConstants.TOP);
 		lblStockInBy.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblStockInBy.setBounds(35, 240, 104, 20);
+		lblStockInBy.setBounds(43, 235, 104, 20);
 		body.add(lblStockInBy);
 
 		rembyField = new JTextField();
@@ -137,7 +140,7 @@ public class RemoveWindow extends JFrame {
 		JLabel lblQuantity = new JLabel("QUANTITY:");
 		lblQuantity.setVerticalAlignment(SwingConstants.TOP);
 		lblQuantity.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblQuantity.setBounds(35, 202, 89, 20);
+		lblQuantity.setBounds(59, 197, 89, 20);
 		body.add(lblQuantity);
 
 		JButton btnRemove = new JButton("REMOVE");
@@ -164,7 +167,7 @@ public class RemoveWindow extends JFrame {
 		JLabel lblRemarks = new JLabel("REMARKS:");
 		lblRemarks.setVerticalAlignment(SwingConstants.TOP);
 		lblRemarks.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblRemarks.setBounds(35, 271, 76, 20);
+		lblRemarks.setBounds(70, 271, 76, 20);
 		body.add(lblRemarks);
 
 		JTextArea remarksArea = new JTextArea();
@@ -215,18 +218,18 @@ public class RemoveWindow extends JFrame {
 			handler.saveToDatabase(logs);
 
 			handler.deleteRow("product", "SKU", inventorySF.getText());
-			handler.table_load("product", inventoryTable);
-			handler.table_load("activitylogs", logsTable);
-
 			inventorySF.setText("");
 			descremField.setText("");
 			rembyField.setText("");
 			remarksArea.setText("");
 			qtyremField.setText("");
+			handler.table_load("product", inventoryTable);
+			handler.table_load("activitylogs", logsTable);
 			
 
 		} catch (Exception f) {
 			JOptionPane.showMessageDialog(null, "Please input the necessary information");
+			System.out.println("try");
 		}
 
 	}

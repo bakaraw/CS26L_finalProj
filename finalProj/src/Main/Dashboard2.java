@@ -28,6 +28,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.RowFilter;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
@@ -45,11 +46,50 @@ import org.jfree.util.Rotation;
 import utils.ActivityLogs;
 import utils.DatabaseHandler;
 import utils.Product;
+
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JTable;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.JTextArea;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.sql.SQLException;
+import org.jfree.ui.ApplicationFrame;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PiePlot;
+import org.jfree.chart.plot.RingPlot; // If you're creating a ring chart
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.PiePlot3D; // For 3D pie charts
+import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.general.PieDataset;
+
+import org.jfree.ui.RefineryUtilities;
+
+import org.jfree.util.Rotation;
+
+
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+
 
 public class Dashboard2 extends javax.swing.JFrame {
 
 	public Dashboard2() {
+		setTitle("Admin");
 		windowStart();
 		initComponents();
 		setLocationRelativeTo(null);
@@ -76,10 +116,10 @@ public class Dashboard2 extends javax.swing.JFrame {
 		InventoryPanel = new javax.swing.JPanel();
 		ActivityLogsPanel = new javax.swing.JPanel();
 		ClientRecordsPanel = new javax.swing.JPanel();
-		StockInPanel = new javax.swing.JPanel();
+		EmployeePanel = new javax.swing.JPanel();
 		SalesReportPanel = new javax.swing.JPanel();
 
-		jLabel1 = new javax.swing.JLabel();
+
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		setResizable(false);
@@ -146,7 +186,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 		StockIn.setBackground(new Color(43, 52, 59));
 		StockIn.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
 		StockIn.setForeground(new Color(255, 255, 255));
-		StockIn.setText("     Stock In");
+		StockIn.setText("     Employee");
 		StockIn.setOpaque(true);
 		StockIn.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -297,20 +337,17 @@ public class Dashboard2 extends javax.swing.JFrame {
 		lblNewLabel_3 = new JLabel(" Inventory");
 		lblNewLabel_3.setIcon(new ImageIcon("img\\icons8-open-box-32.png"));
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 28));
-
 		inventorySF = new JTextField();
-		inventorySF.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		inventorySF.setColumns(10);
-
-		btnSearch = new JButton("");
-		btnSearch.setIcon(new ImageIcon("img//icons8-search-16 (1).png"));
-		btnSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		inventorySF.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				String searchString = inventorySF.getText();
+				search(searchString);
 			}
 		});
 
-		btnSearch.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnSearch.setBackground(new Color(187, 214, 249));
+		inventorySF.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		inventorySF.setColumns(10);
 
 		lblNewLabel_4 = new JLabel("View by category:");
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -323,9 +360,6 @@ public class Dashboard2 extends javax.swing.JFrame {
 		});
 		viewCB.addItem("All");
 		viewCB.setFont(new Font("Tahoma", Font.PLAIN, 15));
-
-		lblNewLabel_5 = new JLabel("SKU search");
-		lblNewLabel_5.setFont(new Font("Tahoma", Font.ITALIC, 11));
 
 		btnRefresh = new JButton("");
 		btnRefresh.setIcon(new ImageIcon("img//icons8-refresh-16 (1).png"));
@@ -364,8 +398,12 @@ public class Dashboard2 extends javax.swing.JFrame {
 				removewindow.getObj().setVisible(true);
 			}
 		});
+		
+		searchIcon = new JLabel("");
+		searchIcon.setIcon(new ImageIcon("img//icons8-search-16 (1).png"));
 
 		javax.swing.GroupLayout InventoryPanelLayout = new javax.swing.GroupLayout(InventoryPanel);
+
 		InventoryPanelLayout.setHorizontalGroup(InventoryPanelLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(InventoryPanelLayout.createSequentialGroup().addContainerGap(20, Short.MAX_VALUE)
 						.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.LEADING)
@@ -427,42 +465,43 @@ public class Dashboard2 extends javax.swing.JFrame {
 						.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 467, GroupLayout.PREFERRED_SIZE)
 						.addGap(20)));
 
+
 		inventoryTable = new JTable();
 		inventoryTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
-					int row = inventoryTable.getSelectedRow();
+					int row = inventoryTable.convertRowIndexToModel(inventoryTable.getSelectedRow());
+					DefaultTableModel model = (DefaultTableModel) inventoryTable.getModel();
 					String Table_click = (inventoryTable.getModel().getValueAt(row, 0).toString());
-					databaseHandler.pst = databaseHandler.con
-							.prepareStatement("select * from product where SKU ='" + Table_click + "'  ");
+					databaseHandler.pst = databaseHandler.con.prepareStatement("select * from product where SKU ='" + Table_click + "'  ");
 					databaseHandler.rs = databaseHandler.pst.executeQuery();
-
+					
+					
 					if (databaseHandler.rs.next()) {
-						String sku = databaseHandler.rs.getString("SKU");
 
-//						inventorySF.setText(sku);
+						StockInWindow.getObj().setVisible(false);
+						RemoveWindow.getObj().setVisible(false);
+						
+						String sku = databaseHandler.rs.getString("SKU");
 						String desc = databaseHandler.rs.getString("Description");
-//						descremField.setText(desc);
 						String qty = databaseHandler.rs.getString("Qty");
-//						qtyremField.setText(qty);
 
 						StockInWindow.setaddstockSkuField(sku);
 						StockInWindow.setadddescField(desc);
 						StockInWindow.setcurrQtyField(qty);
 						StockInWindow.setInventoryTable(inventoryTable);
-						StockInWindow.setLogsTable(clientRecordsTable);
-
-//						removewindow = new RemoveWindow();
+						StockInWindow.setLogsTable(logsTable);
+		
 						RemoveWindow.setInventoryTable(inventoryTable);
-						RemoveWindow.setLogsTable(clientRecordsTable);
+						RemoveWindow.setLogsTable(logsTable);
 						RemoveWindow.setinventorySF(sku);
 						RemoveWindow.setdescremField(desc);
 						RemoveWindow.setcurrQtyField(qty);
-
-						databaseHandler.skuSearched = Table_click;
-					}
-
+						System.out.println(sku);
+						
+					}	
+					
 				} catch (Exception f) {
 					JOptionPane.showMessageDialog(null, "Click table row");
 					f.printStackTrace();
@@ -502,6 +541,17 @@ public class Dashboard2 extends javax.swing.JFrame {
 		btnRefreshLogs.setBackground(new Color(201, 242, 168));
 
 		JButton btnDeleteLogs = new JButton("Delete all");
+		btnDeleteLogs.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete all data in the table?", "Confirm Dialog",
+			               JOptionPane.YES_NO_OPTION,
+			               JOptionPane.QUESTION_MESSAGE);
+				if(confirm == JOptionPane.YES_OPTION) {
+					databaseHandler.deleteAllData("activitylogs");
+					databaseHandler.table_load("activitylogs", logsTable);
+				}
+			}
+		});
 		btnDeleteLogs.setIcon(new ImageIcon("img\\icons8-remove-16 (1).png"));
 
 		JScrollPane scrollPane_actLogs = new JScrollPane();
@@ -547,6 +597,20 @@ public class Dashboard2 extends javax.swing.JFrame {
 		scrollPane_4 = new JScrollPane();
 
 		btnDeleteClientRecords = new JButton("Delete all");
+		btnDeleteClientRecords.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete all the data in this table?", "Confirm Dialog",
+			               JOptionPane.YES_NO_OPTION,
+			               JOptionPane.QUESTION_MESSAGE);
+				
+				if(confirm == JOptionPane.YES_OPTION) {
+					databaseHandler.deleteAllData("clientrecords");
+					databaseHandler.table_load("clientrecords", clientRecordsTable);
+				}
+				
+			}
+		});
 		btnDeleteClientRecords.setIcon(new ImageIcon("img\\icons8-remove-16 (1).png"));
 
 		lblNewLabel_2_1_1_1 = new JLabel("  Client Records");
@@ -576,215 +640,44 @@ public class Dashboard2 extends javax.swing.JFrame {
 
 		layeredPane.add(ClientRecordsPanel, "card5");
 
-		StockInPanel.setBackground(new Color(255, 255, 255));
+		EmployeePanel.setBackground(new Color(255, 255, 255));
+		
+		JLabel lblNewLabel_2_1_1_1_1 = new JLabel("Employee");
+		lblNewLabel_2_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 25));
+		
+		JScrollPane employeeTbScrollPane = new JScrollPane();
 
-		JPanel newProdPn = new JPanel();
-		newProdPn.setLayout(null);
-		newProdPn.setBackground(new Color(187, 214, 249));
+		javax.swing.GroupLayout gl_EmployeePanel = new javax.swing.GroupLayout(EmployeePanel);
+		gl_EmployeePanel.setHorizontalGroup(
+			gl_EmployeePanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_EmployeePanel.createSequentialGroup()
+					.addGap(26)
+					.addGroup(gl_EmployeePanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblNewLabel_2_1_1_1_1, GroupLayout.PREFERRED_SIZE, 349, GroupLayout.PREFERRED_SIZE)
+						.addComponent(employeeTbScrollPane, GroupLayout.PREFERRED_SIZE, 1353, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(21, Short.MAX_VALUE))
+		);
+		gl_EmployeePanel.setVerticalGroup(
+			gl_EmployeePanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_EmployeePanel.createSequentialGroup()
+					.addGap(21)
+					.addComponent(lblNewLabel_2_1_1_1_1, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(employeeTbScrollPane, GroupLayout.PREFERRED_SIZE, 507, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(20, Short.MAX_VALUE))
+		);
+		
+		employeeTable = new JTable();
+		employeeTbScrollPane.setViewportView(employeeTable);
+		databaseHandler.table_load(employeeTable);
+		EmployeePanel.setLayout(gl_EmployeePanel);
 
-		textField = new JTextField();
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		textField.setColumns(10);
-		textField.setBounds(170, 213, 170, 28);
-		newProdPn.add(textField);
-
-		JLabel lblNewLabel_3_1 = new JLabel("ADD NEW PRODUCT");
-		lblNewLabel_3_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_3_1.setBounds(10, 11, 150, 19);
-		newProdPn.add(lblNewLabel_3_1);
-
-		JButton btnAddProd = new JButton("Add product");
-		btnAddProd.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnAddProd.setBackground(new Color(201, 242, 168));
-		btnAddProd.setBounds(170, 442, 170, 37);
-		newProdPn.add(btnAddProd);
-
-		JLabel lblNewLabel_5_1_1_1 = new JLabel("Qty:");
-		lblNewLabel_5_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel_5_1_1_1.setBounds(121, 252, 38, 25);
-		newProdPn.add(lblNewLabel_5_1_1_1);
-
-		JLabel lblNewLabel_5_1 = new JLabel("SKU:");
-		lblNewLabel_5_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel_5_1.setBounds(118, 44, 43, 25);
-		newProdPn.add(lblNewLabel_5_1);
-
-		JLabel lblNewLabel_5_1_1 = new JLabel("Description:");
-		lblNewLabel_5_1_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel_5_1_1.setBounds(54, 87, 107, 25);
-		newProdPn.add(lblNewLabel_5_1_1);
-
-		JLabel lblNewLabel_5_1_1_2 = new JLabel("Stock in by:");
-		lblNewLabel_5_1_1_2.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel_5_1_1_2.setBounds(54, 135, 107, 25);
-		newProdPn.add(lblNewLabel_5_1_1_2);
-
-		textField_1 = new JTextField();
-		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		textField_1.setColumns(10);
-		textField_1.setBounds(171, 135, 421, 28);
-		newProdPn.add(textField_1);
-
-		textField_2 = new JTextField();
-		textField_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		textField_2.setColumns(10);
-		textField_2.setBounds(171, 88, 421, 28);
-		newProdPn.add(textField_2);
-
-		textField_3 = new JTextField();
-		textField_3.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		textField_3.setColumns(10);
-		textField_3.setBounds(171, 41, 421, 28);
-		newProdPn.add(textField_3);
-
-		textField_4 = new JTextField();
-		textField_4.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		textField_4.setColumns(10);
-		textField_4.setBounds(170, 253, 170, 28);
-		newProdPn.add(textField_4);
-
-		JLabel lblNewLabel_5_1_1_2_1 = new JLabel("Price:");
-		lblNewLabel_5_1_1_2_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel_5_1_1_2_1.setBounds(109, 209, 50, 25);
-		newProdPn.add(lblNewLabel_5_1_1_2_1);
-
-		JComboBox catCb = new JComboBox(new Object[] {});
-		catCb.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		catCb.setBounds(170, 174, 170, 28);
-		newProdPn.add(catCb);
-
-		JLabel lblNewLabel_5_1_1_2_1_1 = new JLabel("Category:");
-		lblNewLabel_5_1_1_2_1_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel_5_1_1_2_1_1.setBounds(73, 173, 87, 25);
-		newProdPn.add(lblNewLabel_5_1_1_2_1_1);
-
-		JScrollPane scrollPane_3 = new JScrollPane();
-		scrollPane_3.setBounds(170, 292, 422, 139);
-		newProdPn.add(scrollPane_3);
-
-		JLabel lblNewLabel_5_1_1_1_1 = new JLabel("Remarks:");
-		lblNewLabel_5_1_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel_5_1_1_1_1.setBounds(73, 292, 87, 25);
-		newProdPn.add(lblNewLabel_5_1_1_1_1);
-
-		JPanel addstockPn = new JPanel();
-		addstockPn.setLayout(null);
-		addstockPn.setBackground(new Color(187, 214, 249));
-
-		JLabel lblNewLabel_3_1_1 = new JLabel("ADD STOCK");
-		lblNewLabel_3_1_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_3_1_1.setBounds(10, 11, 99, 19);
-		addstockPn.add(lblNewLabel_3_1_1);
-
-		textField_5 = new JTextField();
-		textField_5.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		textField_5.setColumns(10);
-		textField_5.setBounds(10, 65, 346, 28);
-		addstockPn.add(textField_5);
-
-		JButton btnNewButton_2 = new JButton("Search");
-		btnNewButton_2.setForeground(Color.BLACK);
-		btnNewButton_2.setBackground(new Color(221, 221, 221));
-		btnNewButton_2.setBounds(374, 66, 88, 26);
-		addstockPn.add(btnNewButton_2);
-
-		JLabel lblNewLabel_6 = new JLabel("Enter SKU:");
-		lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_6.setBounds(10, 35, 71, 19);
-		addstockPn.add(lblNewLabel_6);
-
-		JLabel lblNewLabel_5_1_2 = new JLabel("Description:");
-		lblNewLabel_5_1_2.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel_5_1_2.setBounds(76, 107, 107, 25);
-		addstockPn.add(lblNewLabel_5_1_2);
-
-		JLabel lblNewLabel_5_1_2_2 = new JLabel("Stock in by:");
-		lblNewLabel_5_1_2_2.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel_5_1_2_2.setBounds(76, 183, 107, 25);
-		addstockPn.add(lblNewLabel_5_1_2_2);
-
-		textField_6 = new JTextField();
-		textField_6.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		textField_6.setColumns(10);
-		textField_6.setBounds(193, 183, 346, 28);
-		addstockPn.add(textField_6);
-
-		textField_7 = new JTextField();
-		textField_7.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		textField_7.setEditable(false);
-		textField_7.setColumns(10);
-		textField_7.setBounds(193, 104, 346, 28);
-		addstockPn.add(textField_7);
-
-		JLabel lblNewLabel_5_1_2_1 = new JLabel("Add Qty:");
-		lblNewLabel_5_1_2_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel_5_1_2_1.setBounds(101, 223, 82, 25);
-		addstockPn.add(lblNewLabel_5_1_2_1);
-
-		textField_8 = new JTextField();
-		textField_8.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		textField_8.setColumns(10);
-		textField_8.setBounds(193, 224, 160, 28);
-		addstockPn.add(textField_8);
-
-		textField_9 = new JTextField();
-		textField_9.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		textField_9.setEditable(false);
-		textField_9.setColumns(10);
-		textField_9.setBounds(193, 144, 160, 28);
-		addstockPn.add(textField_9);
-
-		JButton btnAddStock = new JButton("Add stock\r\n");
-		btnAddStock.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnAddStock.setBackground(new Color(201, 242, 168));
-		btnAddStock.setBounds(193, 442, 170, 37);
-		addstockPn.add(btnAddStock);
-
-		JLabel lblNewLabel_5_1_2_3 = new JLabel("Current Qty:");
-		lblNewLabel_5_1_2_3.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel_5_1_2_3.setBounds(73, 147, 110, 25);
-		addstockPn.add(lblNewLabel_5_1_2_3);
-
-		JScrollPane scrollPane_2 = new JScrollPane();
-		scrollPane_2.setBounds(193, 263, 346, 168);
-		addstockPn.add(scrollPane_2);
-
-		JLabel lblNewLabel_5_1_2_1_1 = new JLabel("Remarks:");
-		lblNewLabel_5_1_2_1_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel_5_1_2_1_1.setBounds(95, 259, 88, 25);
-		addstockPn.add(lblNewLabel_5_1_2_1_1);
-
-		JLabel lblNewLabel_2_1 = new JLabel("Stock In");
-		lblNewLabel_2_1.setIcon(new ImageIcon("img\\icons8-add-to-cart-32.png"));
-		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 28));
-
-		javax.swing.GroupLayout StockInPanelLayout = new javax.swing.GroupLayout(StockInPanel);
-		StockInPanelLayout.setHorizontalGroup(StockInPanelLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(StockInPanelLayout.createSequentialGroup().addGap(28).addGroup(StockInPanelLayout
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(StockInPanelLayout.createSequentialGroup()
-								.addComponent(lblNewLabel_2_1, GroupLayout.PREFERRED_SIZE, 136,
-										GroupLayout.PREFERRED_SIZE)
-								.addContainerGap())
-						.addGroup(StockInPanelLayout.createSequentialGroup()
-								.addComponent(newProdPn, GroupLayout.PREFERRED_SIZE, 647, GroupLayout.PREFERRED_SIZE)
-								.addGap(26).addComponent(addstockPn, GroupLayout.DEFAULT_SIZE, 662, Short.MAX_VALUE)
-								.addGap(37)))));
-		StockInPanelLayout.setVerticalGroup(StockInPanelLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(StockInPanelLayout.createSequentialGroup().addContainerGap()
-						.addComponent(lblNewLabel_2_1, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addGroup(StockInPanelLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(addstockPn, GroupLayout.PREFERRED_SIZE, 516, GroupLayout.PREFERRED_SIZE)
-								.addComponent(newProdPn, GroupLayout.PREFERRED_SIZE, 516, GroupLayout.PREFERRED_SIZE))
-						.addContainerGap(22, Short.MAX_VALUE)));
-		StockInPanel.setLayout(StockInPanelLayout);
-
-		layeredPane.add(StockInPanel, "card6");
+		layeredPane.add(EmployeePanel, "card6");
 
 		SalesReportPanel.setBackground(new Color(255, 255, 255));
 
 		JPanel salesReportContentPanel = new JPanel();
+		salesReportContentPanel.setBackground(new Color(255, 255, 255));
 
 		javax.swing.GroupLayout SalesReportPanelLayout = new javax.swing.GroupLayout(SalesReportPanel);
 		SalesReportPanelLayout.setHorizontalGroup(
@@ -798,16 +691,17 @@ public class Dashboard2 extends javax.swing.JFrame {
 						.createSequentialGroup().addGap(19).addComponent(salesReportContentPanel,
 								GroupLayout.PREFERRED_SIZE, 556, GroupLayout.PREFERRED_SIZE)
 						.addContainerGap(22, Short.MAX_VALUE)));
+
 		salesReportContentPanel.setLayout(null);
 
 		JLabel lblNewLabel_7 = new JLabel("Sales Report");
 		lblNewLabel_7.setFont(new Font("Tahoma", Font.BOLD, 28));
-		lblNewLabel_7.setBounds(34, 11, 302, 34);
+		lblNewLabel_7.setBounds(23, 11, 206, 34);
 		salesReportContentPanel.add(lblNewLabel_7);
 
 		lineGraphPn = new JPanel();
 		lineGraphPn.setBackground(new Color(255, 255, 255));
-		lineGraphPn.setBounds(34, 67, 709, 430);
+		lineGraphPn.setBounds(23, 100, 709, 430);
 		try {
 			lineGraphPn.add(createLineGraph());
 		} catch (Exception e1) {
@@ -818,7 +712,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 
 		PieChartPanel = new JPanel();
 		PieChartPanel.setBackground(new Color(255, 255, 128));
-		PieChartPanel.setBounds(753, 67, 560, 341);
+		PieChartPanel.setBounds(753, 109, 560, 341);
 		try {
 
 			PieChartPanel.add(new CreatePieChart("Pie Chart Test", "Stocks Comparison"));
@@ -829,6 +723,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 		}
 
 		salesReportContentPanel.add(PieChartPanel);
+
 
 		JButton btnNewButton_4 = new JButton("New button");
 		btnNewButton_4.addActionListener(new ActionListener() {
@@ -854,6 +749,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 		comboBox.setModel(new DefaultComboBoxModel(new String[] { "Total Sales", "This Year", "This Month" }));
 		comboBox.setBounds(1209, 24, 104, 22);
 		salesReportContentPanel.add(comboBox);
+
 		SalesReportPanel.setLayout(SalesReportPanelLayout);
 
 		layeredPane.add(SalesReportPanel, "card2");
@@ -1064,7 +960,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 	}
 
 	private void StockInMouseReleased(java.awt.event.MouseEvent evt) {
-		switchPanels(StockInPanel); // TODO add your handling code here:
+		switchPanels(EmployeePanel); // TODO add your handling code here:
 	}
 
 	private void ActivityLogsMouseReleased(java.awt.event.MouseEvent evt) {
@@ -1076,19 +972,26 @@ public class Dashboard2 extends javax.swing.JFrame {
 	}
 
 	private void LogOutMouseReleased(java.awt.event.MouseEvent evt) {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			LoginPage loginPage = new LoginPage();
+			
+		} catch (IOException | ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		}
 		dispose();
-		// pantawag sa login page:
-		/*
-		 * try { LoginPage loginpage = new LoginPage(); } catch ( IOException e1) { //
-		 * TODO Auto-generated catch block e1.printStackTrace(); }
-		 */
 	}
 
-	/**
-	 * @param args the command line arguments
-	 */
 	public static void start() {
 
+	}
+	
+	public void search (String str) {
+		model = (DefaultTableModel) inventoryTable.getModel();
+		TableRowSorter<DefaultTableModel> trs = new TableRowSorter(model);	
+		inventoryTable.setRowSorter(trs);
+		trs.setRowFilter(RowFilter.regexFilter(str));
+		
 	}
 
 	public void windowStart() {
@@ -1118,41 +1021,18 @@ public class Dashboard2 extends javax.swing.JFrame {
 	}
 
 	public ChartPanel createLineGraph() throws Exception {
-		String query = "select Date,TotalSales from clientrecords";
-		JDBCCategoryDataset dataset = new JDBCCategoryDataset(databaseHandler.con, query);
-		JFreeChart chart = ChartFactory.createLineChart("Sales Chart", "Date", "Sales (Php)", dataset,
-				PlotOrientation.VERTICAL, false, true, true);
-		BarRenderer renderer = null;
-		CategoryPlot plot = null;
-		renderer = new BarRenderer();
-		ChartPanel chartpn = new ChartPanel(chart, true);
-		return chartpn;
-	}
-
-	public void tryGraph() {
-
-		try {
-			String query = "select 'Date','Total Sales' from clientrecords";
-			JDBCCategoryDataset dataset = new JDBCCategoryDataset(databaseHandler.con, query);
-			JFreeChart chart = ChartFactory.createLineChart("title", "Date", "Sales (Php)", dataset,
-					PlotOrientation.VERTICAL, false, true, true);
+			String query = "SELECT DATE_FORMAT(Date, '%b %e %Y') AS FormattedDate, Sales FROM salesdata";
+			JDBCCategoryDataset dataset = new JDBCCategoryDataset(databaseHandler.con,query);
+			JFreeChart chart = ChartFactory.createLineChart("Sales Chart", "Date", "Sales (Php)", dataset, PlotOrientation.VERTICAL, false, true, true);
 			BarRenderer renderer = null;
 			CategoryPlot plot = null;
 			renderer = new BarRenderer();
-			ChartFrame frame = new ChartFrame("Query Chart", chart);
-			frame.setVisible(true);
-			frame.setSize(400, 400);
-		} catch (SQLException e) {
-
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+			ChartPanel chartpn = new ChartPanel(chart, true);
+			return chartpn;
 	}
-
+	
 	public class CreatePieChart extends JPanel {
-
-		public CreatePieChart(String apptitle, String chartTitle) {
+		public CreatePieChart (String apptitle, String chartTitle) {
 			PieDataset dataset = createDataset();
 			JFreeChart chart = createChart(dataset, chartTitle);
 			ChartPanel chartPanel = new ChartPanel(chart);
@@ -1362,31 +1242,19 @@ public class Dashboard2 extends javax.swing.JFrame {
 	private javax.swing.JPanel SalesReportPanel;
 	private javax.swing.JPanel SlidingMenu;
 	private javax.swing.JLabel StockIn;
-	private javax.swing.JPanel StockInPanel;
+	private javax.swing.JPanel EmployeePanel;
 	private javax.swing.JLabel StockSales;
 	private javax.swing.JLayeredPane layeredPane;
 	private JLabel lblNewLabel_3;
 	private JTextField inventorySF;
-	private JButton btnSearch;
 	private JLabel lblNewLabel_4;
 	private JComboBox viewCB;
-	private JLabel lblNewLabel_5;
 	private JButton btnRefresh;
 	private DatabaseHandler databaseHandler;
 	private JScrollPane scrollPane_1;
-	private JTable inventoryTable;
+	public JTable inventoryTable;
 	private Product category = new Product();
 	private String chosenCat = category.getCategoryByIndex(0);
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_7;
-	private JTextField textField_8;
-	private JTextField textField_9;
 	private JTable logsTable;
 	private JScrollPane scrollPane_4;
 	private JButton btnDeleteClientRecords;
@@ -1402,6 +1270,12 @@ public class Dashboard2 extends javax.swing.JFrame {
 	public static String test3;
 	static StockInWindow stockinwindow = new StockInWindow();
 	static RemoveWindow removewindow = new RemoveWindow();
+
 	private JLabel jLabel1;
 	private InvisibleFrame InviFrame;
+
+	static DefaultTableModel model = null;
+	private JTable employeeTable;
+	private JLabel searchIcon;
+
 }

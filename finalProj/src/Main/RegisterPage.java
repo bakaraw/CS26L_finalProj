@@ -91,6 +91,7 @@ public class RegisterPage extends DatabaseHandler implements KeyListener {
 		Connect();
 
 		frame = new JFrame();
+    frame.setTitle("Register Account");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(100, 100, 962, 548);
 		contentPane = new JPanel();

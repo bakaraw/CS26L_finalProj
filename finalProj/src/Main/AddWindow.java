@@ -41,9 +41,10 @@ public class AddWindow extends JFrame {
 	private static JTable logsTable;
 	static DatabaseHandler handler = new DatabaseHandler();
 	private static AddWindow obj = null;
-	private static JTextArea addnewprodRemarks = new JTextArea();
+	private static JTextArea addnewprodRemarks;
 
 	public AddWindow() {
+		setTitle("Add Product\r\n");
 		handler.Connect();
 		initComponents();
 	}
@@ -166,20 +167,17 @@ public class AddWindow extends JFrame {
 		Body.add(qtyField);
 
 		JButton btnNewButton = new JButton("ADD");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				saveToDataBase();
+				dispose();
 			}
 		});
 
 		btnNewButton.setBounds(114, 408, 89, 23);
 		Body.add(btnNewButton);
-
+		addnewprodRemarks = new JTextArea();
 		addnewprodRemarks.setBounds(140, 296, 165, 101);
 		Body.add(addnewprodRemarks);
 
@@ -234,7 +232,7 @@ public class AddWindow extends JFrame {
 				JOptionPane.showMessageDialog(null, "Please input all the necessary information");
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+//			System.out.println("");
 		}
 
 	}

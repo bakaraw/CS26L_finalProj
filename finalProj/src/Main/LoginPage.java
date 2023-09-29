@@ -37,6 +37,7 @@ public class LoginPage extends DatabaseHandler implements KeyListener {
 
 	LoginPage() throws IOException {
 		Connect();
+		frame.setTitle("Login");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(100, 100, 962, 548);
 		contentPane = new JPanel();
@@ -201,7 +202,7 @@ public class LoginPage extends DatabaseHandler implements KeyListener {
 		try {
 
 			pst = con.prepareStatement("select ID,Name,Password from employee where Username = ?");
-			pst.setString(1, userID);
+			pst.setString(1, username);
 			ResultSet rs = pst.executeQuery();
 
 			if (rs.next() == true) {
@@ -217,7 +218,7 @@ public class LoginPage extends DatabaseHandler implements KeyListener {
 		if (!password.isEmpty()) {
 			if (password.equals(passwordFromDatabase)) {
 				frame.dispose();
-				Dashboard window = new Dashboard(userID, name, id);
+				Dashboard window = new Dashboard(username, name, id);
 			} else {
 				JOptionPane.showMessageDialog(null, "Wrong password or username");
 			}
