@@ -60,7 +60,7 @@ public class RemoveWindow extends JFrame {
 		JPanel top = new JPanel();
 		top.setLayout(null);
 		top.setBorder(new EmptyBorder(0, 5, 0, 83));
-		top.setBackground(new Color(48, 62, 71));
+		top.setBackground(new Color(36, 49, 55));
 		top.setBounds(0, 0, 447, 64);
 		body.add(top);
 

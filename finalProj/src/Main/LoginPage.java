@@ -22,6 +22,7 @@ import java.util.HashMap;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import Main.RegisterPage;
 import utils.DatabaseHandler;

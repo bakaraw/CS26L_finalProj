@@ -278,7 +278,7 @@ public class Dashboard extends DatabaseHandler {
 		JPanel top = new JPanel();
 		top.setBounds(0, 0, 1430, 101);
 		top.setBorder(new EmptyBorder(0, 5, 0, 83));
-		top.setBackground(new Color(48, 62, 71));
+		top.setBackground(new Color(36, 49, 55));
 		frame.getContentPane().add(top);
 
 		JLabel lblNewLabel_1 = new JLabel("");
@@ -317,11 +317,33 @@ public class Dashboard extends DatabaseHandler {
 		employeeNameLabel.setForeground(new Color(255, 255, 255));
 		employeeNameLabel.setBounds(481, 50, 776, 40);
 		top.add(employeeNameLabel);
+		
+		JLabel logoPanel = new JLabel("");
+		logoPanel.addMouseListener(new MouseAdapter() {
+	
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JFrame frame = new JFrame();
+				frame = new JFrame();
+				frame.setTitle("Oliver");
+				frame.setBounds(100, 100, 453, 384);
+				frame.setResizable(false);
+				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				
+				JLabel monkeGif = new JLabel("                  ");
+				monkeGif.setIcon(new ImageIcon("img\\monkey-monke.gif"));
+				frame.getContentPane().add(monkeGif, BorderLayout.CENTER);
+				frame.setVisible(true);
+			}
+		});
+		logoPanel.setIcon(new ImageIcon("img//logo.png"));
+		logoPanel.setBounds(10, 11, 461, 90);
+		top.add(logoPanel);
 
 		JPanel left = new JPanel();
 		left.setBounds(0, 97, 482, 737);
 		left.setBorder(new EmptyBorder(25, 15, 15, 15));
-		left.setBackground(new Color(48, 62, 71));
+		left.setBackground(new Color(36, 49, 55));
 		frame.getContentPane().add(left);
 		GridBagLayout gbl_left = new GridBagLayout();
 		gbl_left.columnWidths = new int[] { 408 };
@@ -408,26 +430,24 @@ public class Dashboard extends DatabaseHandler {
 				try {
 					DefaultTableModel tbl = (DefaultTableModel) cartble.getModel();
 					int i = cartble.getSelectedRow();
+					
 
-					String desc = cartble.getValueAt(i, 0).toString();
-					String qty = cartble.getValueAt(i, 1).toString();
-					int cartQty = Integer.parseInt(qty);
-
-					pst = con.prepareStatement("SELECT `Qty` FROM `product` WHERE `Description` = '" + desc + "'");
-					int currQty = rs.getInt("Qty") - cartQty;
-					int newQty = currQty + cartQty;
-
-					pst = con.prepareStatement(
-							"UPDATE `product` SET `Qty`='" + newQty + "' WHERE Description=" + "'" + desc + "'");
-					pst.execute();
+//					String desc = cartble.getValueAt(i, 0).toString();
+//					String qty = cartble.getValueAt(i, 1).toString();
+//					int cartQty = Integer.parseInt(qty);
+//
+//					pst = con.prepareStatement("SELECT `Qty` FROM `product` WHERE `Description` = '" + desc + "'");
+//					int currQty = rs.getInt("Qty") - cartQty;
+//					int newQty = currQty + cartQty;
+//
+//					pst = con.prepareStatement(
+//							"UPDATE `product` SET `Qty`='" + newQty + "' WHERE Description=" + "'" + desc + "'");
+//					pst.execute();
 					table_load("product", prodTable);
 					tbl.removeRow(i);
 
 				} catch (ArrayIndexOutOfBoundsException o) {
 					JOptionPane.showMessageDialog(null, "No Item Selected");
-				} catch (SQLException e1) {
-
-					e1.printStackTrace();
 				}
 			}
 		});
@@ -654,7 +674,8 @@ public class Dashboard extends DatabaseHandler {
 			billwin = new BillWindow();
 
 			billwin.getRec()
-					.setText("=========================================\n" + "	        **POSBILL**				  \n"
+					.setText("=========================================\n" + "	        **BITMONKE**				  \n"
+							+"Inventory and Check out system with Sales Report\n"
 							+ "=========================================\n" + "\n" + "\n" + "Qty" + "\t" + "Price"
 							+ "\t" + "Product\n");
 			String finalClientRec = "";

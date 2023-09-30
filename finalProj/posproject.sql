@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3306
--- Generation Time: Sep 30, 2023 at 02:59 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Host: 127.0.0.1
+-- Generation Time: Sep 30, 2023 at 05:58 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -54,7 +54,10 @@ INSERT INTO `activitylogs` (`Date`, `SKU`, `Description`, `Activity`, `Qty`, `Ch
 ('2023-09-28', 3211, 'Intel Core i7-870 2.93GHz Quad-Core', 'Stock in', 20, 'Laighton', 'none'),
 ('2023-09-29', 4321, 'MSI MAG Z790 Tomahawk WiFi', 'Stock in', 5, 'Laighton', 'none'),
 ('2023-09-29', 4321, 'MSI MAG Z790 Tomahawk WiFi', 'Deleted product', 5, 'Laighton', ''),
-('2023-09-29', 4321, 'MSI MAG Z790 Tomahawk WiFi', 'Stock in', 10, 'Laighton', '');
+('2023-09-29', 4321, 'MSI MAG Z790 Tomahawk WiFi', 'Stock in', 10, 'Laighton', ''),
+('2023-09-30', 1003, 'ASUS - NVIDIA Geforce RTX 3060', 'Stock in', 10, 'Laighton', ''),
+('2023-09-30', 1004, 'Crucial RAM 4GB DDR4 2400 Mhz ', 'Stock in', 40, 'Laighton', ''),
+('2023-09-30', 1005, 'Crucial P3', 'Stock in', 15, 'Laighton', '');
 
 -- --------------------------------------------------------
 
@@ -78,7 +81,8 @@ CREATE TABLE `catcomparison` (
 
 INSERT INTO `catcomparison` (`Date`, `Peripherals`, `CPU`, `GPU`, `Motherboard`, `RAM`, `Storage Device`) VALUES
 ('2023-09-28', 3, 6, 0, 0, 0, 0),
-('2023-09-29', 21, 18, 0, 4, 0, 0);
+('2023-09-29', 21, 18, 0, 4, 0, 0),
+('2023-09-30', 1, 3, 1, 0, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -135,7 +139,11 @@ INSERT INTO `clientrecords` (`Date`, `Items`, `TotalSales`, `Amount Payed`, `Cha
 ('2023-09-29', 'Ryzen 5 4600G (price: 11000.0) (qty: 1) ||Keychron K2 Non-Backlight Wireless Mechanical Keyboard (price: 3200.0) (qty: 1) ||', '14200.0', '14200', '0.0'),
 ('2023-09-29', 'Ryzen 5 4600G (price: 11000.0) (qty: 1) ||Keychron K2 Non-Backlight Wireless Mechanical Keyboard (price: 3200.0) (qty: 1) ||MSI MAG Z790 Tomahawk WiFi (price: 17450.0) (qty: 2) ||', '49100.0', '49100', '0.0'),
 ('2023-09-29', 'Ryzen 5 4600G (price: 11000.0) (qty: 1) ||Keychron K2 Non-Backlight Wireless Mechanical Keyboard (price: 3200.0) (qty: 1) ||MSI MAG Z790 Tomahawk WiFi (price: 17450.0) (qty: 1) ||', '31650.0', '31650', '0.0'),
-('2023-09-29', 'Ryzen 5 4600G (price: 11000.0) (qty: 1) ||Keychron K2 Non-Backlight Wireless Mechanical Keyboard (price: 3200.0) (qty: 1) ||MSI MAG Z790 Tomahawk WiFi (price: 17450.0) (qty: 1) ||', '31650.0', '31650', '0.0');
+('2023-09-29', 'Ryzen 5 4600G (price: 11000.0) (qty: 1) ||Keychron K2 Non-Backlight Wireless Mechanical Keyboard (price: 3200.0) (qty: 1) ||MSI MAG Z790 Tomahawk WiFi (price: 17450.0) (qty: 1) ||', '31650.0', '31650', '0.0'),
+('2023-09-30', 'Ryzen 5 4600G (price: 11000.0) (qty: 1) ||Crucial RAM 4GB DDR4 2400 Mhz  (price: 850.0) (qty: 1) ||', '11850.0', '11850', '0.0'),
+('2023-09-30', 'Ryzen 5 4600G (price: 11000.0) (qty: 1) ||Keychron K2 Non-Backlight Wireless Mechanical Keyboard (price: 3200.0) (qty: 1) ||', '14200.0', '14200', '0.0'),
+('2023-09-30', 'Ryzen 5 4600G (price: 11000.0) (qty: 1) ||Crucial P3 (price: 1500.0) (qty: 1) ||', '12500.0', '12500', '0.0'),
+('2023-09-30', 'ASUS - NVIDIA Geforce RTX 3060 (price: 23469.66) (qty: 1) ||', '23469.66', '23469.66', '0.0');
 
 -- --------------------------------------------------------
 
@@ -183,9 +191,12 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`SKU`, `Description`, `Category`, `Qty`, `Price`) VALUES
-('1000', 'Ryzen 5 4600G', 'CPU', 63, 11000),
-('1001', 'Keychron K2 Non-Backlight Wireless Mechanical Keyboard', 'Peripherals', 13, 3200),
-('1002', 'LOGITECH G102 LIGHTSYNC RGB GAMING MOUSE', 'Peripherals', 2, 1050),
+('1000', 'Ryzen 5 4600G', 'CPU', 60, 11000),
+('1001', 'Keychron K2 Non-Backlight Wireless Mechanical Keyboard', 'Peripherals', 12, 3200),
+('1002', 'LOGITECH G102 LIGHTSYNC RGB GAMING MOUSE', 'Peripherals', 14, 1050),
+('1003', 'ASUS - NVIDIA Geforce RTX 3060', 'GPU', 9, 23469.66),
+('1004', 'Crucial RAM 4GB DDR4 2400 Mhz ', 'RAM', 39, 850),
+('1005', 'Crucial P3', 'Storage device', 14, 1500),
 ('3211', 'Intel Core i7-870 2.93GHz Quad-Core', 'CPU', 100, 3599),
 ('4321', 'MSI MAG Z790 Tomahawk WiFi', 'Motherboard', 6, 17450);
 
@@ -207,8 +218,7 @@ CREATE TABLE `salesdata` (
 INSERT INTO `salesdata` (`Date`, `Sales`) VALUES
 ('2023-09-28', 156087),
 ('2023-09-29', 387988),
-('2023-08-29', 5000),
-('2023-08-27', 10000);
+('2023-09-30', 62019.7);
 
 --
 -- Indexes for dumped tables

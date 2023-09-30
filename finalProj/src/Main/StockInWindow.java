@@ -67,7 +67,7 @@ public class StockInWindow extends JFrame {
 		JPanel top = new JPanel();
 		top.setLayout(null);
 		top.setBorder(new EmptyBorder(0, 5, 0, 83));
-		top.setBackground(new Color(48, 62, 71));
+		top.setBackground(new Color(36, 49, 55));
 		top.setBounds(0, 0, 460, 64);
 		body.add(top);
 
@@ -159,6 +159,7 @@ public class StockInWindow extends JFrame {
 		body.add(btnSearch);
 
 		JButton btnAddStock = new JButton("ADD");
+		btnAddStock.setBackground(new Color(201, 242, 168));
 		btnAddStock.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
