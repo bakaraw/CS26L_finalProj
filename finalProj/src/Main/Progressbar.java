@@ -12,7 +12,6 @@ public class Progressbar {
 	public Progressbar() {
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
-
 				dashboard = new Dashboard2();
 			}
 		});
