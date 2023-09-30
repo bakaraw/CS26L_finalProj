@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 26, 2023 at 11:41 AM
+-- Generation Time: Sep 30, 2023 at 02:59 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -37,6 +37,25 @@ CREATE TABLE `activitylogs` (
   `Remarks` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `activitylogs`
+--
+
+INSERT INTO `activitylogs` (`Date`, `SKU`, `Description`, `Activity`, `Qty`, `Changed by`, `Remarks`) VALUES
+('2023-09-28', 1001, 'Keychron K2 Non-Backlight Wireless Mechanical Keyboard', 'Stock in', 10, 'Laighton', ''),
+('2023-09-28', 1002, 'LOGITECH G102 LIGHTSYNC RGB GAMING MOUSE', 'Stock in', 10, 'Laighton', ''),
+('2023-09-28', 1003, 'Intel Core i7-870 2.93GHz Quad-Core', 'Stock in', 20, 'Laighton', ''),
+('2023-09-28', 1003, 'Intel Core i7-870 2.93GHz Quad-Core', 'Deleted product', 20, 'Laighton', ''),
+('2023-09-28', 3211, 'Intel Core i7-870 2.93GHz Quad-Core', 'Stock in', 50, 'Laighton', ''),
+('2023-09-28', 3211, 'Intel Core i7-870 2.93GHz Quad-Core', 'Stock in', 30, 'laighton', 'none'),
+('2023-09-28', 1001, 'Keychron K2 Non-Backlight Wireless Mechanical Keyboard', 'Stock in', 10, 'laighton', 's'),
+('2023-09-28', 1001, 'Keychron K2 Non-Backlight Wireless Mechanical Keyboard', 'Stock in', 10, 'laighton', 'none'),
+('2023-09-28', 3211, 'Intel Core i7-870 2.93GHz Quad-Core', 'Stock in', 20, 'Laighton', 'none'),
+('2023-09-28', 3211, 'Intel Core i7-870 2.93GHz Quad-Core', 'Stock in', 20, 'Laighton', 'none'),
+('2023-09-29', 4321, 'MSI MAG Z790 Tomahawk WiFi', 'Stock in', 5, 'Laighton', 'none'),
+('2023-09-29', 4321, 'MSI MAG Z790 Tomahawk WiFi', 'Deleted product', 5, 'Laighton', ''),
+('2023-09-29', 4321, 'MSI MAG Z790 Tomahawk WiFi', 'Stock in', 10, 'Laighton', '');
+
 -- --------------------------------------------------------
 
 --
@@ -50,8 +69,16 @@ CREATE TABLE `catcomparison` (
   `GPU` int(11) NOT NULL,
   `Motherboard` int(11) NOT NULL,
   `RAM` int(11) NOT NULL,
-  `StorageDevice` int(11) NOT NULL
+  `Storage Device` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `catcomparison`
+--
+
+INSERT INTO `catcomparison` (`Date`, `Peripherals`, `CPU`, `GPU`, `Motherboard`, `RAM`, `Storage Device`) VALUES
+('2023-09-28', 3, 6, 0, 0, 0, 0),
+('2023-09-29', 21, 18, 0, 4, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -72,13 +99,43 @@ CREATE TABLE `clientrecords` (
 --
 
 INSERT INTO `clientrecords` (`Date`, `Items`, `TotalSales`, `Amount Payed`, `Change_`) VALUES
-('2023-09-21', 'Ryzen 5 4600G (price: 11000.0) (qty: 1) ||', '11000.0', '12000', '1000.0'),
-('2023-09-21', 'damns (price: 4500.0) (qty: 3) ||', '13500.0', '13500', '0.0'),
-('2023-09-23', 'shoroy (price: 8000.0) (qty: 1) ||', '8000.0', '8000', '0.0'),
-('2023-09-23', 'shempoy (price: 5000.0) (qty: 1) ||', '5000.0', '5000', '0.0'),
-('2023-09-23', 'shempoy (price: 5000.0) (qty: 1) ||', '5000.0', '5000', '0.0'),
-('2023-09-23', 'Ryzen 5 4600G (price: 11000.0) (qty: 1) ||', '11000.0', '11000', '0.0'),
-('2023-09-23', 'shoroy (price: 8000.0) (qty: 1) ||', '8000.0', '8000', '0.0');
+('2023-09-28', 'Intel Core i7-870 2.93GHz Quad-Core (price: 3599.0) (qty: 1) ||', '3599.0', '3599', '0.0'),
+('2023-09-28', 'Intel Core i7-870 2.93GHz Quad-Core (price: 3599.0) (qty: 1) ||', '3599.0', '3599', '0.0'),
+('2023-09-28', 'Intel Core i7-870 2.93GHz Quad-Core (price: 3599.0) (qty: 1) ||', '3599.0', '3599', '0.0'),
+('2023-09-28', 'Intel Core i7-870 2.93GHz Quad-Core (price: 3599.0) (qty: 1) ||', '3599.0', '3599', '0.0'),
+('2023-09-28', 'Intel Core i7-870 2.93GHz Quad-Core (price: 3599.0) (qty: 1) ||', '3599.0', '3599', '0.0'),
+('2023-09-28', 'Intel Core i7-870 2.93GHz Quad-Core (price: 3599.0) (qty: 1) ||', '3599.0', '3599', '0.0'),
+('2023-09-28', 'Intel Core i7-870 2.93GHz Quad-Core (price: 3599.0) (qty: 1) ||', '3599.0', '3599', '0.0'),
+('2023-09-28', 'Intel Core i7-870 2.93GHz Quad-Core (price: 3599.0) (qty: 1) ||', '3599.0', '3599', '0.0'),
+('2023-09-28', 'Intel Core i7-870 2.93GHz Quad-Core (price: 3599.0) (qty: 1) ||', '3599.0', '3599', '0.0'),
+('2023-09-28', 'Ryzen 5 4600G (price: 11000.0) (qty: 1) ||', '11000.0', '11000', '0.0'),
+('2023-09-28', 'Intel Core i7-870 2.93GHz Quad-Core (price: 3599.0) (qty: 1) ||', '3599.0', '3599', '0.0'),
+('2023-09-28', 'Intel Core i7-870 2.93GHz Quad-Core (price: 3599.0) (qty: 1) ||', '3599.0', '3599', '0.0'),
+('2023-09-28', 'Intel Core i7-870 2.93GHz Quad-Core (price: 3599.0) (qty: 1) ||', '3599.0', '3599', '0.0'),
+('2023-09-28', 'Ryzen 5 4600G (price: 11000.0) (qty: 1) ||', '11000.0', '11000', '0.0'),
+('2023-09-28', 'Intel Core i7-870 2.93GHz Quad-Core (price: 3599.0) (qty: 1) ||', '3599.0', '3599.0', '0.0'),
+('2023-09-28', 'Keychron K2 Non-Backlight Wireless Mechanical Keyboard (price: 3200.0) (qty: 1) ||', '3200.0', '3200.0', '0.0'),
+('2023-09-28', 'Ryzen 5 4600G (price: 11000.0) (qty: 3) ||Keychron K2 Non-Backlight Wireless Mechanical Keyboard (price: 3200.0) (qty: 2) ||', '39400.0', '39400.0', '0.0'),
+('2023-09-28', 'Keychron K2 Non-Backlight Wireless Mechanical Keyboard (price: 3200.0) (qty: 2) ||Ryzen 5 4600G (price: 11000.0) (qty: 2) ||', '28400.0', '28400.0', '0.0'),
+('2023-09-29', 'Intel Core i7-870 2.93GHz Quad-Core (price: 3599.0) (qty: 2) ||LOGITECH G102 LIGHTSYNC RGB GAMING MOUSE (price: 1050.0) (qty: 2) ||', '9298.0', '9298', '0.0'),
+('2023-09-29', 'Intel Core i7-870 2.93GHz Quad-Core (price: 3599.0) (qty: 2) ||Keychron K2 Non-Backlight Wireless Mechanical Keyboard (price: 3200.0) (qty: 1) ||', '10398.0', '10398', '0.0'),
+('2023-09-29', 'LOGITECH G102 LIGHTSYNC RGB GAMING MOUSE (price: 1050.0) (qty: 3) ||Intel Core i7-870 2.93GHz Quad-Core (price: 3599.0) (qty: 2) ||', '10348.0', '10348', '0.0'),
+('2023-09-29', 'Keychron K2 Non-Backlight Wireless Mechanical Keyboard (price: 3200.0) (qty: 2) ||Intel Core i7-870 2.93GHz Quad-Core (price: 3599.0) (qty: 2) ||', '13598.0', '13598', '0.0'),
+('2023-09-29', 'Intel Core i7-870 2.93GHz Quad-Core (price: 3599.0) (qty: 1) ||Ryzen 5 4600G (price: 11000.0) (qty: 3) ||', '36599.0', '36599.0', '0.0'),
+('2023-09-29', 'Ryzen 5 4600G (price: 11000.0) (qty: 1) ||Keychron K2 Non-Backlight Wireless Mechanical Keyboard (price: 3200.0) (qty: 1) ||', '14200.0', '14200', '0.0'),
+('2023-09-29', 'Ryzen 5 4600G (price: 11000.0) (qty: 2) ||Keychron K2 Non-Backlight Wireless Mechanical Keyboard (price: 3200.0) (qty: 3) ||', '31600.0', '31600', '0.0'),
+('2023-09-29', 'Keychron K2 Non-Backlight Wireless Mechanical Keyboard (price: 3200.0) (qty: 1) ||Ryzen 5 4600G (price: 11000.0) (qty: 1) ||', '14200.0', '14200', '0.0'),
+('2023-09-29', 'Ryzen 5 4600G (price: 11000.0) (qty: 1) ||Keychron K2 Non-Backlight Wireless Mechanical Keyboard (price: 3200.0) (qty: 2) ||', '17400.0', '17400', '0.0'),
+('2023-09-29', 'Ryzen 5 4600G (price: 11000.0) (qty: 1) ||Keychron K2 Non-Backlight Wireless Mechanical Keyboard (price: 3200.0) (qty: 2) ||', '17400.0', '17400', '0.0'),
+('2023-09-29', 'Intel Core i7-870 2.93GHz Quad-Core (price: 3599.0) (qty: 3) ||LOGITECH G102 LIGHTSYNC RGB GAMING MOUSE (price: 1050.0) (qty: 2) ||', '12897.0', '12897', '0.0'),
+('2023-09-29', 'LOGITECH G102 LIGHTSYNC RGB GAMING MOUSE (price: 1050.0) (qty: 2) ||Keychron K2 Non-Backlight Wireless Mechanical Keyboard (price: 3200.0) (qty: 4) ||', '14900.0', '14900', '0.0'),
+('2023-09-29', 'Keychron K2 Non-Backlight Wireless Mechanical Keyboard (price: 3200.0) (qty: 4) ||LOGITECH G102 LIGHTSYNC RGB GAMING MOUSE (price: 1050.0) (qty: 3) ||', '15950.0', '15950', '0.0'),
+('2023-09-29', 'Keychron K2 Non-Backlight Wireless Mechanical Keyboard (price: 3200.0) (qty: 2) ||Ryzen 5 4600G (price: 11000.0) (qty: 2) ||', '28400.0', '28400', '0.0'),
+('2023-09-29', 'Ryzen 5 4600G (price: 11000.0) (qty: 1) ||Keychron K2 Non-Backlight Wireless Mechanical Keyboard (price: 3200.0) (qty: 1) ||', '14200.0', '14200', '0.0'),
+('2023-09-29', 'Ryzen 5 4600G (price: 11000.0) (qty: 1) ||Keychron K2 Non-Backlight Wireless Mechanical Keyboard (price: 3200.0) (qty: 1) ||', '14200.0', '14200', '0.0'),
+('2023-09-29', 'Ryzen 5 4600G (price: 11000.0) (qty: 1) ||Keychron K2 Non-Backlight Wireless Mechanical Keyboard (price: 3200.0) (qty: 1) ||MSI MAG Z790 Tomahawk WiFi (price: 17450.0) (qty: 2) ||', '49100.0', '49100', '0.0'),
+('2023-09-29', 'Ryzen 5 4600G (price: 11000.0) (qty: 1) ||Keychron K2 Non-Backlight Wireless Mechanical Keyboard (price: 3200.0) (qty: 1) ||MSI MAG Z790 Tomahawk WiFi (price: 17450.0) (qty: 1) ||', '31650.0', '31650', '0.0'),
+('2023-09-29', 'Ryzen 5 4600G (price: 11000.0) (qty: 1) ||Keychron K2 Non-Backlight Wireless Mechanical Keyboard (price: 3200.0) (qty: 1) ||MSI MAG Z790 Tomahawk WiFi (price: 17450.0) (qty: 1) ||', '31650.0', '31650', '0.0');
 
 -- --------------------------------------------------------
 
@@ -126,15 +183,32 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`SKU`, `Description`, `Category`, `Qty`, `Price`) VALUES
-('1000', 'Ryzen 5 4600G', 'CPU', 80, 11000),
-('1001', 'shoroy', 'CPU', 20, 8000),
-('1002', 'shempoy', 'Peripherals', 100, 5000),
-('1234', 'kusgan nga graphics card', 'GPU', 20, 8000),
-('9102', 'Mousers', 'Peripherals', 50, 300),
-('9231', 'mouse', 'Peripherals', 20, 300),
-('9321', 'Keyboard', 'Peripherals', 10, 500),
-('9322', 'ssd', 'Storage device', 10, 4500),
-('9333', 'fan', 'Peripherals', 80, 8000);
+('1000', 'Ryzen 5 4600G', 'CPU', 63, 11000),
+('1001', 'Keychron K2 Non-Backlight Wireless Mechanical Keyboard', 'Peripherals', 13, 3200),
+('1002', 'LOGITECH G102 LIGHTSYNC RGB GAMING MOUSE', 'Peripherals', 2, 1050),
+('3211', 'Intel Core i7-870 2.93GHz Quad-Core', 'CPU', 100, 3599),
+('4321', 'MSI MAG Z790 Tomahawk WiFi', 'Motherboard', 6, 17450);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `salesdata`
+--
+
+CREATE TABLE `salesdata` (
+  `Date` date NOT NULL,
+  `Sales` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `salesdata`
+--
+
+INSERT INTO `salesdata` (`Date`, `Sales`) VALUES
+('2023-09-28', 156087),
+('2023-09-29', 387988),
+('2023-08-29', 5000),
+('2023-08-27', 10000);
 
 --
 -- Indexes for dumped tables
