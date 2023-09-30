@@ -52,7 +52,7 @@ public class AddWindow extends JFrame {
 	public void initComponents() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 364, 504);
+		setBounds(100, 100, 466, 562);
 		setLocationRelativeTo(null);
 		Body = new JPanel();
 		Body.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -63,8 +63,8 @@ public class AddWindow extends JFrame {
 		JPanel top = new JPanel();
 		top.setLayout(null);
 		top.setBorder(new EmptyBorder(0, 5, 0, 83));
-		top.setBackground(new Color(48, 62, 71));
-		top.setBounds(0, 0, 348, 64);
+		top.setBackground(new Color(36, 49, 55));
+		top.setBounds(0, 0, 449, 64);
 		Body.add(top);
 
 		JLabel lblNewLabel_3 = new JLabel("Add Product");
@@ -77,25 +77,25 @@ public class AddWindow extends JFrame {
 		JLabel lblNewLabel = new JLabel("SKU:");
 		lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel.setBounds(95, 107, 35, 20);
+		lblNewLabel.setBounds(56, 103, 35, 20);
 		Body.add(lblNewLabel);
 
 		JLabel lblDescription = new JLabel("DESCRIPTION:");
 		lblDescription.setVerticalAlignment(SwingConstants.TOP);
 		lblDescription.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblDescription.setBounds(21, 138, 109, 20);
+		lblDescription.setBounds(56, 144, 109, 20);
 		Body.add(lblDescription);
 
 		JLabel lblStockInBy = new JLabel("STOCK IN BY:");
 		lblStockInBy.setVerticalAlignment(SwingConstants.TOP);
 		lblStockInBy.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblStockInBy.setBounds(28, 170, 102, 20);
+		lblStockInBy.setBounds(56, 182, 102, 20);
 		Body.add(lblStockInBy);
 
 		JLabel lblCategory = new JLabel("CATEGORY:");
 		lblCategory.setVerticalAlignment(SwingConstants.TOP);
 		lblCategory.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblCategory.setBounds(41, 201, 89, 20);
+		lblCategory.setBounds(56, 222, 89, 20);
 		Body.add(lblCategory);
 
 		JComboBox catCb = new JComboBox(new Object[] {});
@@ -121,52 +121,53 @@ public class AddWindow extends JFrame {
 		catCb.setModel(new DefaultComboBoxModel(
 				new String[] { "Peripherals", "CPU", "GPU", "Motherboard", "RAM", "Storage device" }));
 		catCb.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		catCb.setBounds(140, 197, 109, 27);
+		catCb.setBounds(174, 219, 175, 27);
 		Body.add(catCb);
 
 		skuField = new JTextField();
 		skuField.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		skuField.setBounds(140, 107, 141, 22);
+		skuField.setBounds(174, 101, 220, 27);
 		Body.add(skuField);
 		skuField.setColumns(10);
 
 		descField = new JTextField();
 		descField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		descField.setColumns(10);
-		descField.setBounds(140, 140, 141, 22);
+		descField.setBounds(174, 139, 220, 27);
 		Body.add(descField);
 
 		stockbyField = new JTextField();
 		stockbyField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		stockbyField.setColumns(10);
-		stockbyField.setBounds(140, 170, 141, 22);
+		stockbyField.setBounds(174, 180, 220, 27);
 		Body.add(stockbyField);
 
 		JLabel lblPrice = new JLabel("PRICE:");
 		lblPrice.setVerticalAlignment(SwingConstants.TOP);
 		lblPrice.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblPrice.setBounds(80, 232, 50, 20);
+		lblPrice.setBounds(56, 264, 50, 20);
 		Body.add(lblPrice);
 
 		JLabel lblQuantity = new JLabel("QUANTITY:");
 		lblQuantity.setVerticalAlignment(SwingConstants.TOP);
 		lblQuantity.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblQuantity.setBounds(43, 263, 89, 20);
+		lblQuantity.setBounds(56, 302, 89, 20);
 		Body.add(lblQuantity);
 
 		priceField = new JTextField();
 		priceField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		priceField.setColumns(10);
-		priceField.setBounds(140, 232, 141, 22);
+		priceField.setBounds(174, 257, 220, 27);
 		Body.add(priceField);
 
 		qtyField = new JTextField();
 		qtyField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		qtyField.setColumns(10);
-		qtyField.setBounds(140, 263, 141, 22);
+		qtyField.setBounds(174, 295, 220, 27);
 		Body.add(qtyField);
 
 		JButton btnNewButton = new JButton("ADD");
+		btnNewButton.setBackground(new Color(201, 242, 168));
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -175,16 +176,16 @@ public class AddWindow extends JFrame {
 			}
 		});
 
-		btnNewButton.setBounds(114, 408, 89, 23);
+		btnNewButton.setBounds(106, 467, 254, 35);
 		Body.add(btnNewButton);
 		addnewprodRemarks = new JTextArea();
-		addnewprodRemarks.setBounds(140, 296, 165, 101);
+		addnewprodRemarks.setBounds(174, 344, 220, 101);
 		Body.add(addnewprodRemarks);
 
 		JLabel lblRemarks = new JLabel("REMARKS:");
 		lblRemarks.setVerticalAlignment(SwingConstants.TOP);
 		lblRemarks.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblRemarks.setBounds(54, 294, 76, 20);
+		lblRemarks.setBounds(88, 342, 76, 20);
 		Body.add(lblRemarks);
 	}
 

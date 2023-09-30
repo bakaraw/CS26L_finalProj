@@ -4,6 +4,7 @@
  */
 package Main;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -23,6 +24,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -82,12 +84,8 @@ import org.jfree.ui.RefineryUtilities;
 
 import org.jfree.util.Rotation;
 
-
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-
 
 public class Dashboard2 extends javax.swing.JFrame {
 
@@ -112,17 +110,37 @@ public class Dashboard2 extends javax.swing.JFrame {
 		ClientRecords = new javax.swing.JLabel();
 		LogOut = new javax.swing.JLabel();
 		BitMonke = new javax.swing.JLabel();
+		BitMonke.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JFrame frame = new JFrame();
+				frame = new JFrame();
+				frame.setTitle("Oliver");
+				frame.setBounds(100, 100, 453, 384);
+				frame.setResizable(false);
+				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+				JLabel monkeGif = new JLabel("                  ");
+				monkeGif.setIcon(new ImageIcon("img\\monkey-monke.gif"));
+				frame.getContentPane().add(monkeGif, BorderLayout.CENTER);
+				frame.setVisible(true);
+			}
+		});
 		OpenMenu = new javax.swing.JLabel();
 		OpenMenu.setForeground(new Color(43, 52, 59));
 		Bar = new javax.swing.JLabel();
 		layeredPane = new javax.swing.JLayeredPane();
 		InventoryPanel = new javax.swing.JPanel();
+		InventoryPanel.isOptimizedDrawingEnabled();
 		ActivityLogsPanel = new javax.swing.JPanel();
 		ClientRecordsPanel = new javax.swing.JPanel();
 		EmployeePanel = new javax.swing.JPanel();
-		SalesReportPanel = new javax.swing.JPanel();
-
-
+		SalesReportPanel = new javax.swing.JPanel() {
+			@Override
+			public boolean isOptimizedDrawingEnabled() {
+				return false;
+			}
+		};
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		setResizable(false);
@@ -134,10 +152,10 @@ public class Dashboard2 extends javax.swing.JFrame {
 
 		DashboardPanel.setBackground(new java.awt.Color(204, 204, 204));
 
-		SlidingMenu.setBackground(new Color(43, 52, 59));
+		SlidingMenu.setBackground(new Color(36, 49, 55));
 		SlidingMenu.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 0, 1, new java.awt.Color(51, 51, 51)));
 
-		HideMenu.setBackground(new Color(43, 52, 59));
+		HideMenu.setBackground(new Color(36, 49, 55));
 		HideMenu.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		HideMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Main/hide_1.png"))); // NOI18N
 		HideMenu.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -148,7 +166,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 			}
 		});
 
-		StockSales.setBackground(new Color(43, 52, 59));
+		StockSales.setBackground(new Color(36, 49, 55));
 		StockSales.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
 		StockSales.setForeground(new Color(255, 255, 255));
 		StockSales.setText("     Sales Report");
@@ -167,7 +185,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 			}
 		});
 
-		Inventory.setBackground(new Color(43, 52, 59));
+		Inventory.setBackground(new Color(36, 49, 55));
 		Inventory.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
 		Inventory.setForeground(new Color(255, 255, 255));
 		Inventory.setText("     Inventory");
@@ -186,7 +204,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 			}
 		});
 
-		StockIn.setBackground(new Color(43, 52, 59));
+		StockIn.setBackground(new Color(36, 49, 55));
 		StockIn.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
 		StockIn.setForeground(new Color(255, 255, 255));
 		StockIn.setText("     Employee");
@@ -205,7 +223,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 			}
 		});
 
-		ActivityLogs.setBackground(new Color(43, 52, 59));
+		ActivityLogs.setBackground(new Color(36, 49, 55));
 		ActivityLogs.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
 		ActivityLogs.setForeground(new Color(255, 255, 255));
 		ActivityLogs.setText("     Activity Logs");
@@ -224,7 +242,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 			}
 		});
 
-		ClientRecords.setBackground(new Color(43, 52, 59));
+		ClientRecords.setBackground(new Color(36, 49, 55));
 		ClientRecords.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
 		ClientRecords.setForeground(new Color(255, 255, 255));
 		ClientRecords.setText("     Client Records");
@@ -243,7 +261,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 			}
 		});
 
-		LogOut.setBackground(new Color(43, 52, 59));
+		LogOut.setBackground(new Color(36, 49, 55));
 		LogOut.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
 		LogOut.setForeground(new Color(255, 255, 255));
 		LogOut.setText("     Log out");
@@ -262,11 +280,11 @@ public class Dashboard2 extends javax.swing.JFrame {
 			}
 		});
 
-		BitMonke.setBackground(new Color(43, 52, 59));
+		BitMonke.setBackground(new Color(36, 49, 55));
 		BitMonke.setFont(new java.awt.Font("Yu Gothic UI", 1, 36)); // NOI18N
 		BitMonke.setForeground(new Color(255, 255, 255));
 		BitMonke.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-		BitMonke.setText("BitMonke");
+		BitMonke.setIcon(new ImageIcon("img\\bitmonkeadmin.png"));
 		BitMonke.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(102, 102, 102)));
 
 		javax.swing.GroupLayout SlidingMenuLayout = new javax.swing.GroupLayout(SlidingMenu);
@@ -320,7 +338,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 												javax.swing.GroupLayout.PREFERRED_SIZE)
 										.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 
-		OpenMenu.setBackground(new Color(43, 52, 59));
+		OpenMenu.setBackground(new Color(36, 49, 55));
 		OpenMenu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		OpenMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Main/menu (1).png"))); // NOI18N
 		OpenMenu.setOpaque(true);
@@ -330,7 +348,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 			}
 		});
 
-		Bar.setBackground(new Color(43, 52, 59));
+		Bar.setBackground(new Color(36, 49, 55));
 		Bar.setOpaque(true);
 
 		layeredPane.setLayout(new java.awt.CardLayout());
@@ -401,60 +419,56 @@ public class Dashboard2 extends javax.swing.JFrame {
 				removewindow.getObj().setVisible(true);
 			}
 		});
-		
-		
+
 		JLabel searchLogo = new JLabel("");
 		searchLogo.setIcon(new ImageIcon("img//icons8-search-16 (1).png"));
 
 		javax.swing.GroupLayout InventoryPanelLayout = new javax.swing.GroupLayout(InventoryPanel);
-		InventoryPanelLayout.setHorizontalGroup(
-			InventoryPanelLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(InventoryPanelLayout.createSequentialGroup()
-					.addContainerGap(20, Short.MAX_VALUE)
-					.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.LEADING)
+		InventoryPanelLayout.setHorizontalGroup(InventoryPanelLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(InventoryPanelLayout.createSequentialGroup().addGap(20).addGroup(InventoryPanelLayout
+						.createParallelGroup(Alignment.LEADING)
 						.addGroup(InventoryPanelLayout.createSequentialGroup()
-							.addComponent(searchLogo, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(inventorySF, GroupLayout.PREFERRED_SIZE, 294, GroupLayout.PREFERRED_SIZE)
-							.addGap(55)
-							.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(viewCB, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)
-							.addGap(10)
-							.addComponent(btnRefresh, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
-							.addGap(58)
-							.addComponent(btn_AddProduct)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btn_StockIn, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btn_Remove, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+								.addComponent(searchLogo, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(inventorySF, GroupLayout.PREFERRED_SIZE, 294, GroupLayout.PREFERRED_SIZE)
+								.addGap(55)
+								.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 123,
+										GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(viewCB, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)
+								.addGap(10)
+								.addComponent(btnRefresh, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
+								.addGap(58).addComponent(btn_AddProduct).addPreferredGap(ComponentPlacement.UNRELATED)
+								.addComponent(btn_StockIn, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addComponent(btn_Remove, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
 						.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 262, GroupLayout.PREFERRED_SIZE)
-						.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 1362, GroupLayout.PREFERRED_SIZE))
-					.addGap(18))
-		);
-		InventoryPanelLayout.setVerticalGroup(
-			InventoryPanelLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(InventoryPanelLayout.createSequentialGroup()
-					.addGap(24)
-					.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(searchLogo, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-						.addComponent(inventorySF, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-						.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.TRAILING, false)
-							.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(btnRefresh, GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
-								.addComponent(btn_AddProduct, GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
-								.addComponent(btn_StockIn, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btn_Remove, GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE))
-							.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(viewCB, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE))))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 467, GroupLayout.PREFERRED_SIZE)
-					.addGap(19))
-		);
-
+						.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 1417, Short.MAX_VALUE))
+						.addContainerGap()));
+		InventoryPanelLayout.setVerticalGroup(InventoryPanelLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(InventoryPanelLayout.createSequentialGroup().addGap(21)
+						.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+						.addGap(18)
+						.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(searchLogo, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+								.addComponent(inventorySF, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+								.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.TRAILING, false)
+										.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.BASELINE)
+												.addComponent(btnRefresh, GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+												.addComponent(btn_AddProduct, GroupLayout.DEFAULT_SIZE, 32,
+														Short.MAX_VALUE)
+												.addComponent(btn_StockIn, GroupLayout.PREFERRED_SIZE, 31,
+														GroupLayout.PREFERRED_SIZE)
+												.addComponent(btn_Remove, GroupLayout.DEFAULT_SIZE, 32,
+														Short.MAX_VALUE))
+										.addGroup(InventoryPanelLayout.createParallelGroup(Alignment.BASELINE)
+												.addComponent(viewCB, GroupLayout.PREFERRED_SIZE, 32,
+														GroupLayout.PREFERRED_SIZE)
+												.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 19,
+														GroupLayout.PREFERRED_SIZE))))
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 467, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(22, Short.MAX_VALUE)));
 
 		inventoryTable = new JTable();
 		inventoryTable.addMouseListener(new MouseAdapter() {
@@ -464,15 +478,15 @@ public class Dashboard2 extends javax.swing.JFrame {
 					int row = inventoryTable.convertRowIndexToModel(inventoryTable.getSelectedRow());
 					DefaultTableModel model = (DefaultTableModel) inventoryTable.getModel();
 					String Table_click = (inventoryTable.getModel().getValueAt(row, 0).toString());
-					databaseHandler.pst = databaseHandler.con.prepareStatement("select * from product where SKU ='" + Table_click + "'  ");
+					databaseHandler.pst = databaseHandler.con
+							.prepareStatement("select * from product where SKU ='" + Table_click + "'  ");
 					databaseHandler.rs = databaseHandler.pst.executeQuery();
-					
-					
+
 					if (databaseHandler.rs.next()) {
 
 						StockInWindow.getObj().setVisible(false);
 						RemoveWindow.getObj().setVisible(false);
-						
+
 						String sku = databaseHandler.rs.getString("SKU");
 						String desc = databaseHandler.rs.getString("Description");
 						String qty = databaseHandler.rs.getString("Qty");
@@ -482,15 +496,15 @@ public class Dashboard2 extends javax.swing.JFrame {
 						StockInWindow.setcurrQtyField(qty);
 						StockInWindow.setInventoryTable(inventoryTable);
 						StockInWindow.setLogsTable(logsTable);
-		
+
 						RemoveWindow.setInventoryTable(inventoryTable);
 						RemoveWindow.setLogsTable(logsTable);
 						RemoveWindow.setinventorySF(sku);
 						RemoveWindow.setdescremField(desc);
 						RemoveWindow.setcurrQtyField(qty);
-						
-					}	
-					
+
+					}
+
 				} catch (Exception f) {
 					JOptionPane.showMessageDialog(null, "Click table row");
 					f.printStackTrace();
@@ -532,10 +546,10 @@ public class Dashboard2 extends javax.swing.JFrame {
 		JButton btnDeleteLogs = new JButton("Delete all");
 		btnDeleteLogs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete all data in the table?", "Confirm Dialog",
-			               JOptionPane.YES_NO_OPTION,
-			               JOptionPane.QUESTION_MESSAGE);
-				if(confirm == JOptionPane.YES_OPTION) {
+				int confirm = JOptionPane.showConfirmDialog(null,
+						"Are you sure you want to delete all data in the table?", "Confirm Dialog",
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if (confirm == JOptionPane.YES_OPTION) {
 					databaseHandler.deleteAllData("activitylogs");
 					databaseHandler.table_load("activitylogs", logsTable);
 				}
@@ -588,16 +602,16 @@ public class Dashboard2 extends javax.swing.JFrame {
 		btnDeleteClientRecords = new JButton("Delete all");
 		btnDeleteClientRecords.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete all the data in this table?", "Confirm Dialog",
-			               JOptionPane.YES_NO_OPTION,
-			               JOptionPane.QUESTION_MESSAGE);
-				
-				if(confirm == JOptionPane.YES_OPTION) {
+
+				int confirm = JOptionPane.showConfirmDialog(null,
+						"Are you sure you want to delete all the data in this table?", "Confirm Dialog",
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+				if (confirm == JOptionPane.YES_OPTION) {
 					databaseHandler.deleteAllData("clientrecords");
 					databaseHandler.table_load("clientrecords", clientRecordsTable);
 				}
-				
+
 			}
 		});
 		btnDeleteClientRecords.setIcon(new ImageIcon("img\\icons8-remove-16 (1).png"));
@@ -630,32 +644,28 @@ public class Dashboard2 extends javax.swing.JFrame {
 		layeredPane.add(ClientRecordsPanel, "card5");
 
 		EmployeePanel.setBackground(new Color(255, 255, 255));
-		
+
 		JLabel lblNewLabel_2_1_1_1_1 = new JLabel("Employee");
 		lblNewLabel_2_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 25));
-		
+
 		JScrollPane employeeTbScrollPane = new JScrollPane();
 
 		javax.swing.GroupLayout gl_EmployeePanel = new javax.swing.GroupLayout(EmployeePanel);
-		gl_EmployeePanel.setHorizontalGroup(
-			gl_EmployeePanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_EmployeePanel.createSequentialGroup()
-					.addGap(26)
-					.addGroup(gl_EmployeePanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblNewLabel_2_1_1_1_1, GroupLayout.PREFERRED_SIZE, 349, GroupLayout.PREFERRED_SIZE)
-						.addComponent(employeeTbScrollPane, GroupLayout.PREFERRED_SIZE, 1353, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(21, Short.MAX_VALUE))
-		);
-		gl_EmployeePanel.setVerticalGroup(
-			gl_EmployeePanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_EmployeePanel.createSequentialGroup()
-					.addGap(21)
-					.addComponent(lblNewLabel_2_1_1_1_1, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(employeeTbScrollPane, GroupLayout.PREFERRED_SIZE, 507, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(20, Short.MAX_VALUE))
-		);
-		
+		gl_EmployeePanel.setHorizontalGroup(gl_EmployeePanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_EmployeePanel.createSequentialGroup().addGap(26)
+						.addGroup(gl_EmployeePanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblNewLabel_2_1_1_1_1, GroupLayout.PREFERRED_SIZE, 349,
+										GroupLayout.PREFERRED_SIZE)
+								.addComponent(employeeTbScrollPane, GroupLayout.PREFERRED_SIZE, 1353,
+										GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(21, Short.MAX_VALUE)));
+		gl_EmployeePanel.setVerticalGroup(gl_EmployeePanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_EmployeePanel.createSequentialGroup().addGap(21)
+						.addComponent(lblNewLabel_2_1_1_1_1, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+						.addGap(18)
+						.addComponent(employeeTbScrollPane, GroupLayout.PREFERRED_SIZE, 507, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(20, Short.MAX_VALUE)));
+
 		employeeTable = new JTable();
 		employeeTbScrollPane.setViewportView(employeeTable);
 		databaseHandler.table_load(employeeTable);
@@ -669,32 +679,85 @@ public class Dashboard2 extends javax.swing.JFrame {
 		salesReportContentPanel.setBackground(new Color(255, 255, 255));
 
 		javax.swing.GroupLayout SalesReportPanelLayout = new javax.swing.GroupLayout(SalesReportPanel);
-		SalesReportPanelLayout.setHorizontalGroup(
-			SalesReportPanelLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(SalesReportPanelLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(salesReportContentPanel, GroupLayout.DEFAULT_SIZE, 1380, Short.MAX_VALUE)
-					.addContainerGap())
-		);
-		SalesReportPanelLayout.setVerticalGroup(
-			SalesReportPanelLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(SalesReportPanelLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(salesReportContentPanel, GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE)
-					.addContainerGap())
-		);
+		SalesReportPanelLayout.setHorizontalGroup(SalesReportPanelLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(SalesReportPanelLayout.createSequentialGroup().addContainerGap()
+						.addComponent(salesReportContentPanel, GroupLayout.DEFAULT_SIZE, 1427, Short.MAX_VALUE)
+						.addContainerGap()));
+		SalesReportPanelLayout.setVerticalGroup(SalesReportPanelLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(SalesReportPanelLayout.createSequentialGroup().addContainerGap()
+						.addComponent(salesReportContentPanel, GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE)
+						.addContainerGap()));
 
 		salesReportContentPanel.setLayout(null);
 
-		JLabel lblNewLabel_7 = new JLabel("Sales Report");
+		JLabel lblNewLabel_7 = new JLabel(" Sales Report");
 		lblNewLabel_7.setFont(new Font("Tahoma", Font.BOLD, 28));
-		lblNewLabel_7.setBounds(23, 11, 206, 34);
+		lblNewLabel_7.setBounds(23, 11, 318, 34);
+		lblNewLabel_7.setIcon(new ImageIcon("img\\graph.png"));
 		salesReportContentPanel.add(lblNewLabel_7);
 
 		lineGraphPn = new JPanel();
 		lineGraphPn.setBackground(new Color(255, 255, 255));
-		lineGraphPn.setBounds(23, 100, 709, 430);
+		lineGraphPn.setBounds(23, 56, 709, 474);
 		try {
+
+			cbDMY = new JComboBox();
+			lineGraphPn.add(cbDMY);
+			cbDMY.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if (cbDMY.getSelectedItem().toString().equals("Daily")) {
+						try {
+							Component[] components = lineGraphPn.getComponents();
+							if (components.length > 0) {
+								Component lastComponent = components[components.length - 1];
+								lineGraphPn.remove(lastComponent);
+								lineGraphPn.revalidate();
+								lineGraphPn.repaint();
+							}
+							lineGraphPn.add(createDailyLineGraph());
+							System.out.println("daily");
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+					if (cbDMY.getSelectedItem().toString().equals("Monthly")) {
+						try {
+							Component[] components = lineGraphPn.getComponents();
+							if (components.length > 0) {
+								Component lastComponent = components[components.length - 1];
+								lineGraphPn.remove(lastComponent);
+								lineGraphPn.revalidate();
+								lineGraphPn.repaint();
+							}
+							lineGraphPn.add(createMonthlyLineGraph());
+							System.out.println("Monthly");
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+					if (cbDMY.getSelectedItem().toString().equals("Yearly")) {
+						try {
+							Component[] components = lineGraphPn.getComponents();
+							if (components.length > 0) {
+								Component lastComponent = components[components.length - 1];
+								lineGraphPn.remove(lastComponent);
+								lineGraphPn.revalidate();
+								lineGraphPn.repaint();
+							}
+							lineGraphPn.add(createYearlyLineGraph());
+							System.out.println("yearly");
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+
+				}
+			});
+			cbDMY.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			cbDMY.setModel(new DefaultComboBoxModel(new String[] { "Daily", "Monthly", "Yearly" }));
 			lineGraphPn.add(createDailyLineGraph());
 		} catch (Exception e1) {
 			e1.printStackTrace();
@@ -702,8 +765,8 @@ public class Dashboard2 extends javax.swing.JFrame {
 		salesReportContentPanel.add(lineGraphPn);
 
 		PieChartPanel = new JPanel();
-		PieChartPanel.setBackground(new Color(255, 255, 128));
-		PieChartPanel.setBounds(742, 100, 613, 430);
+		PieChartPanel.setBackground(new Color(255, 255, 255));
+		PieChartPanel.setBounds(772, 79, 613, 442);
 		try {
 
 			PieChartPanel.add(new CreatePieChart("Pie Chart Test", "Stocks Comparison"));
@@ -716,6 +779,9 @@ public class Dashboard2 extends javax.swing.JFrame {
 		salesReportContentPanel.add(PieChartPanel);
 
 		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(1017, 56, 122, 23);
+		salesReportContentPanel.add(comboBox);
+		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (comboBox.getSelectedItem().equals("Total Sales")) {
@@ -724,71 +790,10 @@ public class Dashboard2 extends javax.swing.JFrame {
 					switchToThisYear();
 				} else if (comboBox.getSelectedItem().equals("This Month")) {
 					switchToThisMonth();
-				} 
+				}
 			}
 		});
 		comboBox.setModel(new DefaultComboBoxModel(new String[] { "Total Sales", "This Year", "This Month" }));
-		comboBox.setBounds(742, 66, 104, 22);
-		salesReportContentPanel.add(comboBox);
-		
-		cbDMY = new JComboBox();
-		cbDMY.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(cbDMY.getSelectedItem().toString().equals("Daily")) {
-					try {
-						Component[] components = lineGraphPn.getComponents();
-		                if (components.length > 0) {
-		                    Component lastComponent = components[components.length - 1];
-		                    lineGraphPn.remove(lastComponent);
-		                    lineGraphPn.revalidate();
-		                    lineGraphPn.repaint();
-		                }
-						lineGraphPn.add(createDailyLineGraph());
-						System.out.println("daily");
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-				if(cbDMY.getSelectedItem().toString().equals("Monthly")) {
-					try {
-						Component[] components = lineGraphPn.getComponents();
-		                if (components.length > 0) {
-		                    Component lastComponent = components[components.length - 1];
-		                    lineGraphPn.remove(lastComponent);
-		                    lineGraphPn.revalidate();
-		                    lineGraphPn.repaint();
-		                }
-		                lineGraphPn.add(createMonthlyLineGraph());
-						System.out.println("Monthly");
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-				if(cbDMY.getSelectedItem().toString().equals("Yearly")) {
-					try {
-						Component[] components = lineGraphPn.getComponents();
-		                if (components.length > 0) {
-		                    Component lastComponent = components[components.length - 1];
-		                    lineGraphPn.remove(lastComponent);
-		                    lineGraphPn.revalidate();
-		                    lineGraphPn.repaint();
-		                }
-						lineGraphPn.add(createYearlyLineGraph());
-						System.out.println("yearly");
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-				
-			}
-		});
-		cbDMY.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		cbDMY.setModel(new DefaultComboBoxModel(new String[] {"Daily", "Monthly", "Yearly"}));
-		cbDMY.setBounds(23, 62, 138, 27);
-		salesReportContentPanel.add(cbDMY);
 
 		SalesReportPanel.setLayout(SalesReportPanelLayout);
 
@@ -873,7 +878,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 		setram((int) calculateSalesThisYear(InviFrame.table, 5));
 		setstoragedevice((int) calculateSalesThisYear(InviFrame.table, 6));
 
-		PieChartPanel.add(new CreatePieChart("Pie Chart Test",  "This Year Comparison"));
+		PieChartPanel.add(new CreatePieChart("Pie Chart Test", "This Year Comparison"));
 		repaint();
 		revalidate();
 	}
@@ -902,7 +907,12 @@ public class Dashboard2 extends javax.swing.JFrame {
 	}
 
 	private void OpenMenuMouseReleased(java.awt.event.MouseEvent evt) {
-
+		Component[] components = layeredPane.getComponents();
+		for (Component component : components) {
+			if (component instanceof JComponent) {
+				((JComponent) component).setEnabled(false);
+			}
+		}
 		Thread th = new Thread() {
 			public void run() {
 				try {
@@ -944,15 +954,15 @@ public class Dashboard2 extends javax.swing.JFrame {
 	}
 
 	private void StockSalesMouseEntered(java.awt.event.MouseEvent evt) {
-		StockSales.setBackground(new Color(102, 102, 102)); // TODO add your handling code here:
+		StockSales.setBackground(new Color(48, 62, 71)); // TODO add your handling code here:
 	}
 
 	private void StockSalesMouseExited(java.awt.event.MouseEvent evt) {
-		StockSales.setBackground(new Color(43, 52, 59));
+		StockSales.setBackground(new Color(36, 49, 55));
 	}
 
 	private void InventoryMouseEntered(java.awt.event.MouseEvent evt) {
-		Inventory.setBackground(new Color(102, 102, 102)); // TODO add your handling code here:
+		Inventory.setBackground(new Color(48, 62, 71)); // TODO add your handling code here:
 	}
 
 	private void InventoryMouseReleased(java.awt.event.MouseEvent evt) {
@@ -960,39 +970,39 @@ public class Dashboard2 extends javax.swing.JFrame {
 	}
 
 	private void InventoryMouseExited(java.awt.event.MouseEvent evt) {
-		Inventory.setBackground(new Color(43, 52, 59));
+		Inventory.setBackground(new Color(36, 49, 55));
 	}
 
 	private void StockInMouseEntered(java.awt.event.MouseEvent evt) {
-		StockIn.setBackground(new Color(102, 102, 102)); // TODO add your handling code here:
+		StockIn.setBackground(new Color(48, 62, 71)); // TODO add your handling code here:
 	}
 
 	private void StockInMouseExited(java.awt.event.MouseEvent evt) {
-		StockIn.setBackground(new Color(43, 52, 59));
+		StockIn.setBackground(new Color(36, 49, 55));
 	}
 
 	private void ActivityLogsMouseEntered(java.awt.event.MouseEvent evt) {
-		ActivityLogs.setBackground(new Color(102, 102, 102));
+		ActivityLogs.setBackground(new Color(48, 62, 71));
 	}
 
 	private void ActivityLogsMouseExited(java.awt.event.MouseEvent evt) {
-		ActivityLogs.setBackground(new Color(43, 52, 59));
+		ActivityLogs.setBackground(new Color(36, 49, 55));
 	}
 
 	private void ClientRecordsMouseEntered(java.awt.event.MouseEvent evt) {
-		ClientRecords.setBackground(new Color(102, 102, 102));
+		ClientRecords.setBackground(new Color(48, 62, 71));
 	}
 
 	private void ClientRecordsMouseExited(java.awt.event.MouseEvent evt) {
-		ClientRecords.setBackground(new Color(43, 52, 59));
+		ClientRecords.setBackground(new Color(36, 49, 55));
 	}
 
 	private void LogOutMouseEntered(java.awt.event.MouseEvent evt) {
-		LogOut.setBackground(new Color(102, 102, 102));
+		LogOut.setBackground(new Color(48, 62, 71));
 	}
 
 	private void LogOutMouseExited(java.awt.event.MouseEvent evt) {
-		LogOut.setBackground(new Color(43, 52, 59));
+		LogOut.setBackground(new Color(36, 49, 55));
 	}
 
 	private void StockSalesMouseReleased(java.awt.event.MouseEvent evt) {
@@ -1013,10 +1023,9 @@ public class Dashboard2 extends javax.swing.JFrame {
 
 	private void LogOutMouseReleased(java.awt.event.MouseEvent evt) {
 		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			LoginPage loginPage = new LoginPage();
-			
-		} catch (IOException | ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		dispose();
@@ -1025,13 +1034,13 @@ public class Dashboard2 extends javax.swing.JFrame {
 	public static void start() {
 
 	}
-	
-	public void search (String str) {
+
+	public void search(String str) {
 		model = (DefaultTableModel) inventoryTable.getModel();
-		TableRowSorter<DefaultTableModel> trs = new TableRowSorter(model);	
+		TableRowSorter<DefaultTableModel> trs = new TableRowSorter(model);
 		inventoryTable.setRowSorter(trs);
 		trs.setRowFilter(RowFilter.regexFilter(str));
-		
+
 	}
 
 	public void windowStart() {
@@ -1061,43 +1070,10 @@ public class Dashboard2 extends javax.swing.JFrame {
 	}
 
 	public ChartPanel createDailyLineGraph() throws Exception {
-			String query = "SELECT DATE_FORMAT(Date, '%b %e %Y') AS FormattedDate, Sales FROM salesdata";
-			JDBCCategoryDataset dataset = new JDBCCategoryDataset(databaseHandler.con,query);
-			JFreeChart chart = ChartFactory.createLineChart("Daily Sales Chart", "Date", "Sales (Php)", dataset, PlotOrientation.VERTICAL, false, true, true);
-			BarRenderer renderer = null;
-			CategoryPlot plot = null;
-			renderer = new BarRenderer();
-			ChartPanel chartpn = new ChartPanel(chart, true);
-			return chartpn;
-	}
-	
-	public ChartPanel createMonthlyLineGraph() throws Exception {
-		databaseHandler.pst = databaseHandler.con.prepareStatement("SELECT DATE_FORMAT(Date, '%b %Y') AS month, SUM(Sales) AS total_monthly_sales FROM salesdata GROUP BY DATE_FORMAT(Date, '%b %Y')");
-        ResultSet monthlyResult = databaseHandler.pst.executeQuery();
-        DefaultCategoryDataset monthlyDataset = new DefaultCategoryDataset();
-        while (monthlyResult.next()) {
-            String month = monthlyResult.getString("month");
-            double totalMonthlySales = monthlyResult.getDouble("total_monthly_sales");
-            monthlyDataset.addValue(totalMonthlySales, "Monthly Sales", month);
-        }
-		JFreeChart chart = ChartFactory.createLineChart("Monthly Sales Chart", "Date", "Sales (Php)", monthlyDataset, PlotOrientation.VERTICAL, false, true, true);
-		BarRenderer renderer = null;
-		CategoryPlot plot = null;
-		renderer = new BarRenderer();
-		ChartPanel chartpn = new ChartPanel(chart, true);
-		return chartpn;
-	}
-	
-	public ChartPanel createYearlyLineGraph() throws Exception {
-		 databaseHandler.pst = databaseHandler.con.prepareStatement("SELECT YEAR(Date) AS year, SUM(Sales) AS total_yearly_sales FROM salesdata GROUP BY YEAR(Date)");
-		 ResultSet yearlyResult = databaseHandler.pst.executeQuery();
-         DefaultCategoryDataset yearlyDataset = new DefaultCategoryDataset();
-         while (yearlyResult.next()) {
-             int year = yearlyResult.getInt("year");
-             double totalYearlySales = yearlyResult.getDouble("total_yearly_sales");
-             yearlyDataset.addValue(totalYearlySales, "Yearly Sales", Integer.toString(year));
-         }
-		JFreeChart chart = ChartFactory.createLineChart("Yearly Sales Chart", "Date", "Sales (Php)", yearlyDataset, PlotOrientation.VERTICAL, false, true, true);
+		String query = "SELECT DATE_FORMAT(Date, '%b %e %Y') AS FormattedDate, Sales FROM salesdata";
+		JDBCCategoryDataset dataset = new JDBCCategoryDataset(databaseHandler.con, query);
+		JFreeChart chart = ChartFactory.createLineChart("Daily Sales Chart", "Date", "Sales (Php)", dataset,
+				PlotOrientation.VERTICAL, false, true, true);
 		BarRenderer renderer = null;
 		CategoryPlot plot = null;
 		renderer = new BarRenderer();
@@ -1105,13 +1081,50 @@ public class Dashboard2 extends javax.swing.JFrame {
 		return chartpn;
 	}
 
-	
+	public ChartPanel createMonthlyLineGraph() throws Exception {
+		databaseHandler.pst = databaseHandler.con.prepareStatement(
+				"SELECT DATE_FORMAT(Date, '%b %Y') AS month, SUM(Sales) AS total_monthly_sales FROM salesdata GROUP BY DATE_FORMAT(Date, '%b %Y')");
+		ResultSet monthlyResult = databaseHandler.pst.executeQuery();
+		DefaultCategoryDataset monthlyDataset = new DefaultCategoryDataset();
+		while (monthlyResult.next()) {
+			String month = monthlyResult.getString("month");
+			double totalMonthlySales = monthlyResult.getDouble("total_monthly_sales");
+			monthlyDataset.addValue(totalMonthlySales, "Monthly Sales", month);
+		}
+		JFreeChart chart = ChartFactory.createLineChart("Monthly Sales Chart", "Date", "Sales (Php)", monthlyDataset,
+				PlotOrientation.VERTICAL, false, true, true);
+		BarRenderer renderer = null;
+		CategoryPlot plot = null;
+		renderer = new BarRenderer();
+		ChartPanel chartpn = new ChartPanel(chart, true);
+		return chartpn;
+	}
+
+	public ChartPanel createYearlyLineGraph() throws Exception {
+		databaseHandler.pst = databaseHandler.con.prepareStatement(
+				"SELECT YEAR(Date) AS year, SUM(Sales) AS total_yearly_sales FROM salesdata GROUP BY YEAR(Date)");
+		ResultSet yearlyResult = databaseHandler.pst.executeQuery();
+		DefaultCategoryDataset yearlyDataset = new DefaultCategoryDataset();
+		while (yearlyResult.next()) {
+			int year = yearlyResult.getInt("year");
+			double totalYearlySales = yearlyResult.getDouble("total_yearly_sales");
+			yearlyDataset.addValue(totalYearlySales, "Yearly Sales", Integer.toString(year));
+		}
+		JFreeChart chart = ChartFactory.createLineChart("Yearly Sales Chart", "Date", "Sales (Php)", yearlyDataset,
+				PlotOrientation.VERTICAL, false, true, true);
+		BarRenderer renderer = null;
+		CategoryPlot plot = null;
+		renderer = new BarRenderer();
+		ChartPanel chartpn = new ChartPanel(chart, true);
+		return chartpn;
+	}
+
 	public class CreatePieChart extends JPanel {
-		public CreatePieChart (String apptitle, String chartTitle) {
+		public CreatePieChart(String apptitle, String chartTitle) {
 			PieDataset dataset = createDataset();
 			JFreeChart chart = createChart(dataset, chartTitle);
 			ChartPanel chartPanel = new ChartPanel(chart);
-			chartPanel.setPreferredSize(new java.awt.Dimension(500, 300));
+			chartPanel.setPreferredSize(new java.awt.Dimension(600, 385));
 			add(chartPanel);
 
 		}
