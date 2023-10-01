@@ -16,8 +16,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -25,6 +29,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -48,6 +53,13 @@ import org.jfree.data.general.PieDataset;
 import org.jfree.data.jdbc.JDBCCategoryDataset;
 import org.jfree.util.Rotation;
 
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Phrase;
+import com.lowagie.text.pdf.PdfPCell;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
+
 import utils.ActivityLogs;
 import utils.DatabaseHandler;
 import utils.Product;
@@ -67,6 +79,8 @@ import java.awt.event.KeyEvent;
 import javax.swing.JTextArea;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import org.jfree.ui.ApplicationFrame;
@@ -135,13 +149,9 @@ public class Dashboard2 extends javax.swing.JFrame {
 		ActivityLogsPanel = new javax.swing.JPanel();
 		ClientRecordsPanel = new javax.swing.JPanel();
 		EmployeePanel = new javax.swing.JPanel();
-		SalesReportPanel = new javax.swing.JPanel() {
-			@Override
-			public boolean isOptimizedDrawingEnabled() {
-				return false;
-			}
-		};
-
+		SalesReportPanel = new javax.swing.JPanel();
+		
+		
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		setResizable(false);
 		addWindowListener(new java.awt.event.WindowAdapter() {
@@ -758,6 +768,58 @@ public class Dashboard2 extends javax.swing.JFrame {
 			});
 			cbDMY.setFont(new Font("Tahoma", Font.PLAIN, 14));
 			cbDMY.setModel(new DefaultComboBoxModel(new String[] { "Daily", "Monthly", "Yearly" }));
+			
+			JButton btn_printPdf = new JButton("Print as PDF");
+			btn_printPdf.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					
+				}
+			});
+			btn_printPdf.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					databaseHandler.table_load("salesdata", SalesDataTable);
+					String path="";
+					JFileChooser filechooser = new JFileChooser();
+					filechooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+					int savedialog = filechooser.showSaveDialog(getContentPane());
+					
+					if(savedialog == JFileChooser.APPROVE_OPTION) {
+						path = filechooser.getSelectedFile().getPath();
+					}
+					
+					Document doc = new Document();
+					LocalDate currentdate = LocalDate.now();
+					Month currentMonth = currentdate.getMonth();
+					int currentYear = currentdate.getYear();
+					try {
+						PdfWriter.getInstance(doc, new FileOutputStream(path+"\\SalesAsOf_"+currentMonth+"_"+currentYear+".pdf"));
+						doc.open();
+						PdfPTable tbl = new PdfPTable(2);
+						
+						tbl.addCell("Date");
+						tbl.addCell("Sales in Php");
+						System.out.println(path);
+						
+						for (int row = 0; row < SalesDataTable.getRowCount(); row++) {
+						    for (int column = 0; column < SalesDataTable.getColumnCount(); column++) {
+						        PdfPCell cell = new PdfPCell(new Phrase(SalesDataTable.getValueAt(row, column).toString()));
+						        tbl.addCell(cell);
+						        System.out.println(""+SalesDataTable.getValueAt(row, column).toString());
+						    }
+						}
+						doc.add(tbl);
+						
+					} catch (FileNotFoundException | DocumentException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					doc.close();
+					
+				}
+			});
+			lineGraphPn.add(btn_printPdf);
 			lineGraphPn.add(createDailyLineGraph());
 		} catch (Exception e1) {
 			e1.printStackTrace();
@@ -1364,4 +1426,5 @@ public class Dashboard2 extends javax.swing.JFrame {
 	private JLabel searchIcon;
 	private JComboBox cbDMY;
 	private JPanel salesReportContentPanel;
+	private JTable SalesDataTable = new JTable();
 }
