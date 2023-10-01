@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
@@ -33,6 +34,8 @@ import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -64,6 +67,7 @@ public class Dashboard extends DatabaseHandler {
 	private Cart cart;
 	private ClientRecords clientRec;
 	private String username, name, id;
+	static DefaultTableModel model = null;
 
 	public Dashboard(String username, String name, String id) {
 		this.username = username;
@@ -429,8 +433,9 @@ public class Dashboard extends DatabaseHandler {
 			public void mousePressed(MouseEvent e) {
 				try {
 					DefaultTableModel tbl = (DefaultTableModel) cartble.getModel();
+
 					int i = cartble.getSelectedRow();
-					
+
 
 //					String desc = cartble.getValueAt(i, 0).toString();
 //					String qty = cartble.getValueAt(i, 1).toString();
@@ -534,13 +539,12 @@ public class Dashboard extends DatabaseHandler {
 		searchField = new JTextField();
 		searchField.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyPressed(KeyEvent e) {
-				int code = e.getKeyCode();
-				if (code == KeyEvent.VK_ENTER) {
-					skuSearch(searchField);
-				}
+			public void keyReleased(KeyEvent e) {
+				String searchString = searchField.getText();
+				search(searchString);
 			}
 		});
+		
 		searchField.setBounds(15, 44, 313, 23);
 		searchField.setColumns(10);
 		JButton btnSearch = new JButton("");
@@ -572,7 +576,8 @@ public class Dashboard extends DatabaseHandler {
 			public void mouseClicked(MouseEvent e) {
 				try {
 
-					int row = prodTable.getSelectedRow();
+					int row = prodTable.convertRowIndexToModel(prodTable.getSelectedRow());
+					DefaultTableModel model = (DefaultTableModel) prodTable.getModel();
 					String Table_click = (prodTable.getModel().getValueAt(row, 0).toString());
 					pst = con.prepareStatement("select * from product where sku ='" + Table_click + "'  ");
 					rs = pst.executeQuery();
@@ -734,5 +739,13 @@ public class Dashboard extends DatabaseHandler {
 
 	public static JTable getProductTable() {
 		return prodTable;
+	}
+	
+	public void search (String str) {
+		model = (DefaultTableModel) prodTable.getModel();
+		TableRowSorter<DefaultTableModel> trs = new TableRowSorter(model);	
+		prodTable.setRowSorter(trs);
+		trs.setRowFilter(RowFilter.regexFilter(str));
+		
 	}
 }

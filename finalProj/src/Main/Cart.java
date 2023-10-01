@@ -140,6 +140,7 @@ public class Cart {
 					}
 
 					Dashboard.totalAmount.setText(Double.toString(sum));
+					
 					frmAddItems.dispose();
 
 				} else {

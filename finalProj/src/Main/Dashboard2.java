@@ -503,8 +503,8 @@ public class Dashboard2 extends javax.swing.JFrame {
 						RemoveWindow.setdescremField(desc);
 						RemoveWindow.setcurrQtyField(qty);
 
-					}
 
+					}
 				} catch (Exception f) {
 					JOptionPane.showMessageDialog(null, "Click table row");
 					f.printStackTrace();
@@ -1353,9 +1353,6 @@ public class Dashboard2 extends javax.swing.JFrame {
 	private JButton btn_AddProduct;
 	private JButton btn_StockIn;
 	private JButton btn_Remove;
-	public static String test1;
-	public static String test2;
-	public static String test3;
 	static StockInWindow stockinwindow = new StockInWindow();
 	static RemoveWindow removewindow = new RemoveWindow();
 
