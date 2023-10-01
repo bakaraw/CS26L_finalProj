@@ -33,7 +33,7 @@ public class LoginPage extends DatabaseHandler implements KeyListener {
 	private JPasswordField passwordField;
 	private JLabel messageLabel = new JLabel();
 	private JFrame frame = new JFrame();
-	private IDandPasswords idAndPass = new IDandPasswords();
+	private IDandPasswords idAndPass = new IDandPasswords();	
 
 	LoginPage() throws IOException {
 		Connect();

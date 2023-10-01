@@ -37,7 +37,6 @@ public class RegisterPage extends DatabaseHandler implements KeyListener {
 	private JTextField usernameField;
 	private JPasswordField password;
 	private JPasswordField confirmPassword;
-	// IDandPasswords loginCred = new IDandPasswords();
 	private WriteReadHandler userCredSaver = new WriteReadHandler();
 	private HashMap<String, String> logininfo = new HashMap<>();
 	private JTextField firstNameField;

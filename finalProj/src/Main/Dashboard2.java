@@ -472,7 +472,6 @@ public class Dashboard2 extends javax.swing.JFrame {
 						RemoveWindow.setinventorySF(sku);
 						RemoveWindow.setdescremField(desc);
 						RemoveWindow.setcurrQtyField(qty);
-						System.out.println(sku);
 						
 					}	
 					
@@ -1005,9 +1004,6 @@ public class Dashboard2 extends javax.swing.JFrame {
 	private JButton btn_AddProduct;
 	private JButton btn_StockIn;
 	private JButton btn_Remove;
-	public static String test1;
-	public static String test2;
-	public static String test3;
 	static StockInWindow stockinwindow = new StockInWindow();
 	static RemoveWindow removewindow = new RemoveWindow();
 	static DefaultTableModel model = null;
