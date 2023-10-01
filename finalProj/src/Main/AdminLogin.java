@@ -62,7 +62,7 @@ public class AdminLogin implements WindowListener{
 		
 		JPanel header = new JPanel();
 		header.setBorder(new EmptyBorder(0, 30, 0, 0));
-		header.setBackground(new Color(43, 52, 59));
+		header.setBackground(new Color(36, 49, 55));
 		header.setBounds(0, 0, 451, 62);
 		contentPane.add(header);
 		header.setLayout(null);
@@ -169,12 +169,10 @@ public class AdminLogin implements WindowListener{
 			if (adminLoginInfo.get(userID).equals(password)) {
 				frameDb.dispose();
 				frmAdminLogin.dispose();
-				java.awt.EventQueue.invokeLater(new Runnable() {
-					public void run() {
-
-						new Dashboard2().setVisible(true);
-					}
-				});
+				
+				Progressbar progressbar = new Progressbar();
+				
+				
 			} else {
 				JOptionPane.showMessageDialog(null,"Wrong password or username");
 			}

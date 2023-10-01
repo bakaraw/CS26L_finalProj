@@ -22,6 +22,7 @@ import java.util.HashMap;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import Main.RegisterPage;
 import utils.DatabaseHandler;
@@ -191,6 +192,7 @@ public class LoginPage extends DatabaseHandler implements KeyListener {
 
 	private void loginAccount() throws HeadlessException, FileNotFoundException, ClassNotFoundException, IOException {
 		String username = usernameField.getText();
+		String userID = usernameField.getText();
 		String password = String.valueOf(passwordField.getPassword());
 
 		String passwordFromDatabase = null;

@@ -62,7 +62,7 @@ public class Cart {
 		JFrame frmAddItems = new JFrame();
 		frmAddItems.setResizable(false);
 		frmAddItems.setTitle("Add Items");
-		frmAddItems.setBounds(100, 100, 450, 342);
+		frmAddItems.setBounds(100, 100, 443, 354);
 		frmAddItems.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmAddItems.getContentPane().setLayout(new BorderLayout(0, 0));
 
@@ -76,7 +76,7 @@ public class Cart {
 		top.setBounds(0, 0, 434, 64);
 		body.add(top);
 		top.setBorder(new EmptyBorder(0, 5, 0, 83));
-		top.setBackground(new Color(48, 62, 71));
+		top.setBackground(new Color(36, 49, 55));
 		top.setLayout(null);
 
 		JLabel lblNewLabel_3 = new JLabel("Add Items");
@@ -93,27 +93,28 @@ public class Cart {
 
 		JLabel lblPrice = new JLabel("Price:");
 		lblPrice.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblPrice.setBounds(74, 149, 40, 14);
+		lblPrice.setBounds(29, 150, 40, 14);
 		body.add(lblPrice);
 
 		JLabel lblQuanitity = new JLabel("Quantity:");
 		lblQuanitity.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblQuanitity.setBounds(48, 209, 66, 19);
+		lblQuanitity.setBounds(29, 209, 66, 19);
 		body.add(lblQuanitity);
 
 		descField = new JTextField();
 		descField.setEditable(false);
-		descField.setBounds(124, 119, 259, 20);
+		descField.setBounds(124, 116, 259, 23);
 		body.add(descField);
 		descField.setColumns(10);
 
 		priceField = new JTextField();
 		priceField.setEditable(false);
 		priceField.setColumns(10);
-		priceField.setBounds(124, 149, 259, 20);
+		priceField.setBounds(124, 146, 259, 23);
 		body.add(priceField);
 
 		JButton btnNewButton = new JButton("Add To Cart");
+		btnNewButton.setBackground(new Color(201, 242, 168));
 		btnNewButton.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -149,10 +150,11 @@ public class Cart {
 			}
 
 		});
-		btnNewButton.setBounds(125, 257, 96, 23);
+		btnNewButton.setBounds(101, 257, 120, 30);
 		body.add(btnNewButton);
 
 		JButton btnClose = new JButton("Close");
+		btnClose.setBackground(new Color(255, 255, 255));
 		btnClose.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		btnClose.addMouseListener(new MouseAdapter() {
 			@Override
@@ -160,18 +162,18 @@ public class Cart {
 				frmAddItems.dispose();
 			}
 		});
-		btnClose.setBounds(231, 257, 96, 23);
+		btnClose.setBounds(237, 257, 120, 30);
 		body.add(btnClose);
 
 		JLabel totalpriceLabel = new JLabel("Total Price:");
 		totalpriceLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		totalpriceLabel.setBounds(33, 176, 81, 14);
+		totalpriceLabel.setBounds(29, 175, 81, 14);
 		body.add(totalpriceLabel);
 
 		totpriceField = new JTextField();
 		totpriceField.setEditable(false);
 		totpriceField.setColumns(10);
-		totpriceField.setBounds(124, 176, 259, 20);
+		totpriceField.setBounds(124, 176, 259, 23);
 		body.add(totpriceField);
 
 		qtyField = new JSpinner();
@@ -192,13 +194,13 @@ public class Cart {
 
 		JLabel lblSku = new JLabel("SKU:");
 		lblSku.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblSku.setBounds(79, 95, 85, 14);
+		lblSku.setBounds(29, 95, 85, 14);
 		body.add(lblSku);
 
 		skuField = new JTextField();
 		skuField.setEditable(false);
 		skuField.setColumns(10);
-		skuField.setBounds(124, 88, 259, 20);
+		skuField.setBounds(124, 85, 259, 23);
 		body.add(skuField);
 		frmAddItems.setLocationRelativeTo(null);
 		frmAddItems.setVisible(true);
