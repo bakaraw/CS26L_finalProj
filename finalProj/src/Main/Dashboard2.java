@@ -55,9 +55,12 @@ import org.jfree.util.Rotation;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
+import com.lowagie.text.Element;
+import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfPage;
 import com.lowagie.text.pdf.PdfWriter;
 
 import utils.ActivityLogs;
@@ -104,10 +107,12 @@ import javax.swing.JPanel;
 public class Dashboard2 extends javax.swing.JFrame {
 
 	public Dashboard2() {
+
 		setTitle("Admin");
 		windowStart();
 		initComponents();
 		setLocationRelativeTo(null);
+
 	}
 
 	@SuppressWarnings("unchecked")
@@ -150,8 +155,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 		ClientRecordsPanel = new javax.swing.JPanel();
 		EmployeePanel = new javax.swing.JPanel();
 		SalesReportPanel = new javax.swing.JPanel();
-		
-		
+
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		setResizable(false);
 		addWindowListener(new java.awt.event.WindowAdapter() {
@@ -513,7 +517,6 @@ public class Dashboard2 extends javax.swing.JFrame {
 						RemoveWindow.setdescremField(desc);
 						RemoveWindow.setcurrQtyField(qty);
 
-
 					}
 				} catch (Exception f) {
 					JOptionPane.showMessageDialog(null, "Click table row");
@@ -725,7 +728,6 @@ public class Dashboard2 extends javax.swing.JFrame {
 								lineGraphPn.repaint();
 							}
 							lineGraphPn.add(createDailyLineGraph());
-							System.out.println("daily");
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -741,7 +743,6 @@ public class Dashboard2 extends javax.swing.JFrame {
 								lineGraphPn.repaint();
 							}
 							lineGraphPn.add(createMonthlyLineGraph());
-							System.out.println("Monthly");
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -757,7 +758,6 @@ public class Dashboard2 extends javax.swing.JFrame {
 								lineGraphPn.repaint();
 							}
 							lineGraphPn.add(createYearlyLineGraph());
-							System.out.println("yearly");
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -768,55 +768,97 @@ public class Dashboard2 extends javax.swing.JFrame {
 			});
 			cbDMY.setFont(new Font("Tahoma", Font.PLAIN, 14));
 			cbDMY.setModel(new DefaultComboBoxModel(new String[] { "Daily", "Monthly", "Yearly" }));
-			
+
 			JButton btn_printPdf = new JButton("Print as PDF");
 			btn_printPdf.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					
+
 				}
 			});
 			btn_printPdf.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					databaseHandler.table_load("salesdata", SalesDataTable);
-					String path="";
+					String path = "";
 					JFileChooser filechooser = new JFileChooser();
 					filechooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 					int savedialog = filechooser.showSaveDialog(getContentPane());
-					
-					if(savedialog == JFileChooser.APPROVE_OPTION) {
+
+					if (savedialog == JFileChooser.APPROVE_OPTION) {
 						path = filechooser.getSelectedFile().getPath();
 					}
-					
+
 					Document doc = new Document();
 					LocalDate currentdate = LocalDate.now();
 					Month currentMonth = currentdate.getMonth();
 					int currentYear = currentdate.getYear();
 					try {
-						PdfWriter.getInstance(doc, new FileOutputStream(path+"\\SalesAsOf_"+currentMonth+"_"+currentYear+".pdf"));
+						PdfWriter.getInstance(doc, new FileOutputStream(
+								path + "\\SalesAsOf_" + currentMonth + "_" + currentYear + ".pdf"));
 						doc.open();
-						PdfPTable tbl = new PdfPTable(2);
+						 Paragraph title = new Paragraph("***BitMonke Solution: Your PC parts Companion***"
+						 		+ "\nINVENTORY AND CHECK OUT SYSTEM WITH SALES REPORT"
+						 		+ "\n\n");
+						 title.setAlignment(Element.ALIGN_CENTER);
+						 
+						 Paragraph content1 = new Paragraph("Sales as of: "+currentMonth+" "+currentYear+"\n\n    ");
+				            doc.add(title);
+				            doc.add(content1);
 						
+						PdfPTable tbl = new PdfPTable(2);
+
 						tbl.addCell("Date");
 						tbl.addCell("Sales in Php");
-						System.out.println(path);
+
+						Date currentDate = new Date(System.currentTimeMillis());
+
+						// Create a SimpleDateFormat instance to format the date
+						SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
+
+						// Format the current date to get the year and month
+						String formattedDate = dateFormat.format(currentDate);
+
+						String sqlQuery = "SELECT Date, Sales " +
+				                  "FROM salesdata " +
+				                  "WHERE DATE_FORMAT(Date, '%Y-%m') = '" + formattedDate + "' ";
+
+//						databaseHandler.pst = databaseHandler.con.prepareStatement(sqlQuery);
+
+						ResultSet resultSet = databaseHandler.pst.executeQuery(sqlQuery);
 						
-						for (int row = 0; row < SalesDataTable.getRowCount(); row++) {
-						    for (int column = 0; column < SalesDataTable.getColumnCount(); column++) {
-						        PdfPCell cell = new PdfPCell(new Phrase(SalesDataTable.getValueAt(row, column).toString()));
-						        tbl.addCell(cell);
-						        System.out.println(""+SalesDataTable.getValueAt(row, column).toString());
-						    }
+						
+						while (resultSet.next()) {
+
+							String date = resultSet.getString("Date");
+							float sales = resultSet.getFloat("Sales");
+							
+							tbl.addCell(date);
+							tbl.addCell(sales + "");
+						}
+						String sqlQuery2 = "SELECT SUM(Sales) AS total_monthly_sales " +
+				                  "FROM salesdata " +
+				                  "WHERE DATE_FORMAT(Date, '%Y-%m') = '"+formattedDate+"'";
+						ResultSet rs = databaseHandler.pst.executeQuery(sqlQuery2);
+						float totalSalesThisMonth = 0;
+						if(rs.next()==true) {
+							totalSalesThisMonth = Float.parseFloat(rs.getString("total_monthly_sales"));
 						}
 						doc.add(tbl);
+						Paragraph totalSales = new Paragraph("\n\n\tTotal Sales this Month: Php "+totalSalesThisMonth+"\t\t\t");
+						totalSales.setAlignment(Element.ALIGN_RIGHT);
+						doc.add(totalSales);
 						
+						JOptionPane.showMessageDialog(null, "PDF saved in "+path);
+
 					} catch (FileNotFoundException | DocumentException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
+					} catch (SQLException e2) {
+						e2.printStackTrace();
 					}
 					
 					doc.close();
-					
+
 				}
 			});
 			lineGraphPn.add(btn_printPdf);
@@ -1098,6 +1140,7 @@ public class Dashboard2 extends javax.swing.JFrame {
 	}
 
 	public void search(String str) {
+
 		model = (DefaultTableModel) inventoryTable.getModel();
 		TableRowSorter<DefaultTableModel> trs = new TableRowSorter(model);
 		inventoryTable.setRowSorter(trs);
@@ -1428,3 +1471,5 @@ public class Dashboard2 extends javax.swing.JFrame {
 	private JPanel salesReportContentPanel;
 	private JTable SalesDataTable = new JTable();
 }
+
+

@@ -78,33 +78,6 @@ public class Dashboard extends DatabaseHandler {
 		table_load("product", prodTable);
 	}
 
-	public void stockReturn() {
-		try {
-			for (int row = 0; row < cartble.getRowCount(); row++) {
-
-				String desc = cartble.getValueAt(row, 0).toString();
-				String qty = cartble.getValueAt(row, 1).toString();
-				int cartQty = Integer.parseInt(qty);
-				int newCartQtyVal = cart.getQtyValue();
-
-				pst = con.prepareStatement("SELECT `Qty` FROM `product` WHERE `Description` = '" + desc + "'");
-				pst.setString(1, desc);
-				int currQty = rs.getInt("Qty") - newCartQtyVal;
-				int newQty = currQty + cartQty;
-				System.out.println(currQty);
-				System.out.println(cartQty);
-				System.out.println(newQty);
-
-				pst = con.prepareStatement(
-						"UPDATE `product` SET `Qty`='" + newQty + "' WHERE Description=" + "'" + desc + "'");
-				pst.execute();
-			}
-		} catch (SQLException e1) {
-
-			e1.printStackTrace();
-		}
-	}
-
 	public void checkOut() {
 		try {
 			double amtpy = Double.parseDouble(amountPay.getText());
@@ -114,12 +87,10 @@ public class Dashboard extends DatabaseHandler {
 
 				getbal();
 				makerec();
-				
 				for (int row = 0; row < cartble.getRowCount(); row++) {
 					String desc = cartble.getValueAt(row, 0).toString();
 					String qty = cartble.getValueAt(row, 1).toString();
 					int remQty = Integer.parseInt(qty);
-					System.out.println(remQty+" ");
 					pst = con.prepareStatement("SELECT `Qty`,`Category` FROM `product` WHERE `Description` = '" + desc + "'");
 					ResultSet rs = pst.executeQuery();
 					if (rs.next() == true) {
@@ -135,12 +106,14 @@ public class Dashboard extends DatabaseHandler {
 					}
 					
 				}
+				
 				DefaultTableModel prodTableModel = (DefaultTableModel) cartble.getModel();
 				prodTableModel.setRowCount(0);
-
+				
 				totalAmount.setText("");
 				changeField.setText("");
 				amountPay.setText("");
+				
 			} else {
 				JOptionPane.showMessageDialog(null, "Insufficient Payment");
 				table_load("product", prodTable);
@@ -153,7 +126,7 @@ public class Dashboard extends DatabaseHandler {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (ClassCastException f) {
-			System.out.println("mali");
+			billwin.dispose();
 			JOptionPane.showMessageDialog(null, "Stock not enough");
 		}
 	}
@@ -168,7 +141,6 @@ public class Dashboard extends DatabaseHandler {
 			ResultSet res = pst.executeQuery();
 			if (res.next() == true) {
 				currentCatValue = res.getInt(1);
-				System.out.println(category+" "+currentCatValue);
 				pst = con.prepareStatement("UPDATE `catcomparison` SET `" + category + "`='" + (currentCatValue + qty)
 						+ "' WHERE `Date`='" + currentDate + "'");
 				pst.execute();
@@ -400,7 +372,6 @@ public class Dashboard extends DatabaseHandler {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel tbl = (DefaultTableModel) cartble.getModel();
-				System.out.println("test");
 
 				tbl.setRowCount(0);
 				table_load("product", prodTable);
@@ -423,33 +394,22 @@ public class Dashboard extends DatabaseHandler {
 		buttonPn.add(btnNewButton);
 
 		JButton btnNewButton_1 = new JButton("Remove");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		btnNewButton_1.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		btnNewButton_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				try {
+					double sum = 0;
 					DefaultTableModel tbl = (DefaultTableModel) cartble.getModel();
 
 					int i = cartble.getSelectedRow();
-
-
-//					String desc = cartble.getValueAt(i, 0).toString();
-//					String qty = cartble.getValueAt(i, 1).toString();
-//					int cartQty = Integer.parseInt(qty);
-//
-//					pst = con.prepareStatement("SELECT `Qty` FROM `product` WHERE `Description` = '" + desc + "'");
-//					int currQty = rs.getInt("Qty") - cartQty;
-//					int newQty = currQty + cartQty;
-//
-//					pst = con.prepareStatement(
-//							"UPDATE `product` SET `Qty`='" + newQty + "' WHERE Description=" + "'" + desc + "'");
-//					pst.execute();
 					table_load("product", prodTable);
 					tbl.removeRow(i);
+					for(i = 0; i < cartble.getRowCount(); i++) {
+						double amount = Double.parseDouble(cartble.getValueAt(i, 3).toString());
+						sum+=amount;
+					}
+					totalAmount.setText(sum+"");
 
 				} catch (ArrayIndexOutOfBoundsException o) {
 					JOptionPane.showMessageDialog(null, "No Item Selected");
@@ -542,6 +502,9 @@ public class Dashboard extends DatabaseHandler {
 			public void keyReleased(KeyEvent e) {
 				String searchString = searchField.getText();
 				search(searchString);
+				if(e.getKeyCode()==KeyEvent.VK_ENTER) {
+					skuSearch(searchField);
+				}
 			}
 		});
 		
@@ -679,9 +642,9 @@ public class Dashboard extends DatabaseHandler {
 			billwin = new BillWindow();
 
 			billwin.getRec()
-					.setText("=========================================\n" + "	        **BITMONKE**				  \n"
+					.setText("===============================================\n" + "	        **BITMONKE**				  \n"
 							+"Inventory and Check out system with Sales Report\n"
-							+ "=========================================\n" + "\n" + "\n" + "Qty" + "\t" + "Price"
+							+ "===============================================\n" + "\nDate: "+new Date(System.currentTimeMillis()) + "\n" + "Qty" + "\t" + "Price"
 							+ "\t" + "Product\n");
 			String finalClientRec = "";
 			for (int i = 0; i < model.getRowCount(); i++) {
@@ -703,9 +666,9 @@ public class Dashboard extends DatabaseHandler {
 			billwin.getRec().setText(billwin.getRec().getText() + "\t\tChange: " + change + "\n");
 			billwin.getRec().setText(billwin.getRec().getText() + "\n");
 			billwin.getRec().setText(billwin.getRec().getText() + "\n");
-			billwin.getRec().setText(billwin.getRec().getText() + "=========================================\n");
-			billwin.getRec().setText(billwin.getRec().getText() + "THIS IS YOUR OFFICIAL RECEIPT, THANK YOU!\n");
-			billwin.getRec().setText(billwin.getRec().getText() + "=========================================\n");
+			billwin.getRec().setText(billwin.getRec().getText() + "===============================================\n");
+			billwin.getRec().setText(billwin.getRec().getText() + "   THIS IS YOUR OFFICIAL RECEIPT, THANK YOU!   \n");
+			billwin.getRec().setText(billwin.getRec().getText() + "===============================================\n");
 
 			saveToDatabase(clientRec);
 			updateSalesData(Float.parseFloat(totalSales));
@@ -733,7 +696,6 @@ public class Dashboard extends DatabaseHandler {
 			}
 		} catch (SQLException e1) {
 			e1.printStackTrace();
-			System.out.println("Problem sa updatSalesData method sa dashboard");
 		}
 	}
 
