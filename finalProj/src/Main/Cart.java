@@ -126,14 +126,29 @@ public class Cart {
 				int mess = Integer.parseInt(qtyField.getValue().toString());
 				int qtyChange = lol - mess;
 				if (lol >= mess) {
+					if(!(cartble.getRowCount()==0) && isCartItemAlreadyExist(cartble)) {
+						for(int i =0 ; i<cartble.getRowCount();i++) {
+							String desc = cartble.getValueAt(i, 0).toString();
+							int cartprodval = Integer.parseInt(cartble.getValueAt(i, 1).toString());
+							double carttotalamount = Double.parseDouble(cartble.getValueAt(i, 3).toString());
+							int orderqty = Integer.parseInt(qtyField.getValue().toString());
+							double addamount = Double.parseDouble(totpriceField.getText());
+							
+							if(descField.getText().equals(desc)) {
+								cartble.setValueAt(cartprodval+orderqty, i, 1);
+								cartble.setValueAt(carttotalamount+addamount, i, 3);
+								break;
+							}
+						}
+					}else {
+						model.addRow(new Object[] {
 
-					model.addRow(new Object[] {
+								descField.getText(), qtyField.getValue().toString(), priceField.getText(),
+								totpriceField.getText(),
 
-							descField.getText(), qtyField.getValue().toString(), priceField.getText(),
-							totpriceField.getText(),
-
-					});
-
+						});
+					}
+					
 					for (int i = 0; i < cartble.getRowCount(); i++) {
 						String val = cartble.getValueAt(i, 3).toString();
 						sum += Double.parseDouble(val);
@@ -210,7 +225,7 @@ public class Cart {
 		for (int row = 0; row < table.getRowCount(); row++) {
 			String cartDesc = table.getValueAt(row, 0).toString();
 			String newItemDesc = descField.getText();
-			if (cartDesc.contains(newItemDesc)) {
+			if (cartDesc.equals(newItemDesc)) {
 				return true;
 			}
 		}

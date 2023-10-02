@@ -46,7 +46,7 @@ import java.awt.GridLayout;
 
 
 
-public class BillWindow extends DatabaseHandler{
+public class BillWindow extends JFrame{
 	
 	private JTextArea receipt;
 	public BillWindow() {
@@ -58,34 +58,40 @@ public class BillWindow extends DatabaseHandler{
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		JFrame frmAddItems = new JFrame();
-		frmAddItems.setResizable(false);
-		frmAddItems.setTitle("Receipt");
-		frmAddItems.setBounds(100, 100, 582, 547);
-		frmAddItems.setLocationRelativeTo(null);
-		frmAddItems.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frmAddItems.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
+		
+		setResizable(false);
+		setTitle("Receipt");
+		setBounds(100, 100, 448, 547);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
 		
 		JPanel body = new JPanel();
 		body.setBackground(new Color(233, 233, 233));
 		body.setBorder(new EmptyBorder(5, 5, 5, 5));
-		frmAddItems.getContentPane().add(body);
+		getContentPane().add(body);
 		body.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel = new JPanel();
 		body.add(panel);
 		panel.setLayout(null);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(0, 0, 422, 498);
+		
+		
 		receipt = new JTextArea();
+		receipt.setLineWrap(true);
+		receipt.setWrapStyleWord(true);
 		receipt.setFont(new Font("Monospaced", Font.PLAIN, 14));
 		receipt.setEditable(false);
-		receipt.setBounds(0, 0, 798, 498);
-		panel.add(receipt);
+		receipt.setBounds(63, 271, 402, 498);
 		
-		frmAddItems.setVisible(true);	
+		scrollPane.setViewportView(receipt);
+		panel.add(scrollPane);
 		
-	
-	
+		
+		setVisible(true);	
 	}
 	
 	public JTextArea getRec() {
